@@ -19,7 +19,6 @@ public class FruitSalad {
         
         String[] fruitSalad = new String[12];
         
-        
         int berries = 0;
         int apples = 0;
         int oranges = 0;
@@ -48,6 +47,7 @@ public class FruitSalad {
                 j++;
             }
         }
+        
         for(int z = 0; z < fruitSalad.length; z++)
         {System.out.println(fruitSalad[z] + " ");}
         
