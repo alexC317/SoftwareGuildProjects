@@ -31,6 +31,7 @@ public class HealthyHearts {
             System.out.print("What is your age? ");
             if(!input.hasNextInt()){
                 System.out.println("That's not a valid number, please try again.");
+                input.nextLine();
             }
             else{
                 userAge = input.nextInt();

@@ -20,7 +20,6 @@ public class DogGenetics {
     public static void main(String[] args) {
         //Variable declaration
         int percentage = 0;
-        int currentPercent = 0;
         int counter = 0;
         String dogName;
         
