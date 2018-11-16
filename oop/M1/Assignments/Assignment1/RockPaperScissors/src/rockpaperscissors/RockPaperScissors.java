@@ -29,7 +29,7 @@ public class RockPaperScissors {
 
         String userName;      //saves the user's name
         String result;        //saves the result of a round
-        String continueGame;  //
+        String continueGame;  //saves if the user wants to continue or not
 
         boolean keepPlaying = true;    //will determine if the game is over or not
         boolean validChoice = false;   //flag to determine if the user input for their choice is valid
