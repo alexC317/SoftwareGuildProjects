@@ -27,6 +27,7 @@ public class HealthyHearts {
         //Special Objects declaration
         Scanner input = new Scanner(System.in);
         
+        //While loops to continously check if the user has input an integer value
         while(!validInput){
             System.out.print("What is your age? ");
             if(!input.hasNextInt()){
@@ -39,6 +40,7 @@ public class HealthyHearts {
             }
         }
         
+        //Calculates the maximum heart rate, the minimum and maximum target ranges for heart rate
         maxHR = 220 - userAge;
         minTarget = (int)Math.round(maxHR * .5);
         maxTarget = (int)Math.round(maxHR * .85);

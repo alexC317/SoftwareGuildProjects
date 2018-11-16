@@ -52,6 +52,8 @@ public class DogGenetics {
     public static int displayDNA(int counter, int percentage){
         int currentPercent;
         Random r = new Random();
+        
+        //Switch case to decide output depending on the value of the counter
         switch(counter){
                 case 0:
                     currentPercent = r.nextInt(101-percentage);
