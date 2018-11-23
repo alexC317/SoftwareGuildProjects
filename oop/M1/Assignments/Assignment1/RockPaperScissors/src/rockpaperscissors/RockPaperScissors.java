@@ -166,7 +166,7 @@ public class RockPaperScissors {
                         exitChoice = true;
                         break;
                     default:
-                        System.out.println("***Please type out only y or n***");
+                        System.out.println("*** Please type out only y or n ***");
                         exitChoice = false;
                 }
             } while (exitChoice == false);
