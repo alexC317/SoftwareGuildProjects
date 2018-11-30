@@ -6,6 +6,8 @@
 package statecapitals;
 
 import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Set;
 
 /**
  *
@@ -17,7 +19,9 @@ public class StateCapitals {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        int userChoice = 0;
         HashMap<String, String> stateCapitals = new HashMap<>();
+        Scanner input = new Scanner(System.in);        
         
         stateCapitals.put("Alabama", "Montgomery");
         stateCapitals.put("Alaska", "Juneau");
@@ -69,7 +73,24 @@ public class StateCapitals {
         stateCapitals.put("Wisconsin", "Madison");
         stateCapitals.put("Wyoming", "Cheyenne");
         
+        System.out.println("All states and their corresponding capitals have been loaded into the program.");
+        System.out.println("How should we proceed?");
+        System.out.println("1. Display all states.");
+        System.out.println("2. Display all capitals.");
+        System.out.println("3. Display all states with their capitals.");
+        System.out.println("Please enter your choice: ");
         
+        userChoice = Integer.parseInt(input.nextLine());
+        
+        switch(userChoice){
+            case 1:
+                Set<String> keys = stateCapitals.keySet();
+                
+                for(String k : keys){
+                    System.out.println(k);
+                }
+                
+        }
     }
     
 }
