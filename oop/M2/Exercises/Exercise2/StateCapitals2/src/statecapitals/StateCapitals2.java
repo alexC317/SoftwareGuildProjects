@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Alex
  */
-public class StateCapitals {
+public class StateCapitals2 {
 
     /**
      * @param args the command line arguments
