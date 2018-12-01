@@ -20,91 +20,69 @@ public class StateCapitals2 {
      */
     public static void main(String[] args) {
         int userChoice = 0;
-        HashMap<String, String> stateCapitals = new HashMap<>();
+        HashMap<String, Capital> stateCapitals = new HashMap<>();
         Scanner input = new Scanner(System.in);
 
-        stateCapitals.put("Alabama", "Montgomery");
-        stateCapitals.put("Alaska", "Juneau");
-        stateCapitals.put("Arizona", "Phoenix");
-        stateCapitals.put("Arkansas", "Little Rock");
-        stateCapitals.put("California", "Sacramento");
-        stateCapitals.put("Colorado", "Denver");
-        stateCapitals.put("Connecticut", "Hartford");
-        stateCapitals.put("Delaware", "Dover");
-        stateCapitals.put("Florida", "Tallahassee");
-        stateCapitals.put("Georgia", "Atlanta");
-        stateCapitals.put("Hawaii", "Honolulu");
-        stateCapitals.put("Illinois", "Springfield");
-        stateCapitals.put("Indiana", "Indianapolis");
-        stateCapitals.put("Iown", "Des Moines");
-        stateCapitals.put("Kansas", "Topeka");
-        stateCapitals.put("Kentucky", "Frankfort");
-        stateCapitals.put("Louisiana", "Baton Rouge");
-        stateCapitals.put("Maine", "Augusta");
-        stateCapitals.put("Maryland", "Annapolis");
-        stateCapitals.put("Massachusetts", "Boston");
-        stateCapitals.put("Michigan", "Topeka");
-        stateCapitals.put("Minnesota", "Saint Paul");
-        stateCapitals.put("Mississippi", "Jackson");
-        stateCapitals.put("Missouri", "Jefferson City");
-        stateCapitals.put("Montana", "Helena");
-        stateCapitals.put("Nebraska", "Lincoln");
-        stateCapitals.put("Nevada", "Carson City");
-        stateCapitals.put("New Hampshire", "Concord");
-        stateCapitals.put("New Jersey", "Trenton");
-        stateCapitals.put("New Mexico", "Santa Fe");
-        stateCapitals.put("New York", "Albany");
-        stateCapitals.put("North Carolina", "Raleigh");
-        stateCapitals.put("North Dakota", "Bismarck");
-        stateCapitals.put("Ohio", "Columbus");
-        stateCapitals.put("Oklahoma", "Oklahoma City");
-        stateCapitals.put("Oregon", "Salem");
-        stateCapitals.put("Pennsylvania", "Harrisburg");
-        stateCapitals.put("Rhode Island", "Providence");
-        stateCapitals.put("South Carolina", "Columbia");
-        stateCapitals.put("South Dakota", "Pierre");
-        stateCapitals.put("Tennessee", "Nashville");
-        stateCapitals.put("Texas", "Austin");
-        stateCapitals.put("Utah", "Salt Lake City");
-        stateCapitals.put("Vermont", "Montpelier");
-        stateCapitals.put("Virginia", "Richmond");
-        stateCapitals.put("Washington", "Olympia");
-        stateCapitals.put("West Virginia", "Charleston");
-        stateCapitals.put("Wisconsin", "Madison");
-        stateCapitals.put("Wyoming", "Cheyenne");
+        stateCapitals.put("Alabama", new Capital("Montgomery", 205764, 155.4));
+        stateCapitals.put("Alaska", new Capital("Juneau", 31275, 2716.7));
+        stateCapitals.put("Arizona", new Capital("Phoenix", 1445632, 474.9));
+        stateCapitals.put("Arkansas", new Capital("Little Rock", 193524, 116.2));
+        stateCapitals.put("California", new Capital("Sacramento", 466488, 97.2));
+        stateCapitals.put("Colorado", new Capital("Denver", 600158, 153.4));
+        stateCapitals.put("Connecticut", new Capital("Hartford", 124775, 17.3));
+        stateCapitals.put("Delaware", new Capital("Dover", 36047, 22.4));
+        stateCapitals.put("Florida", new Capital("Tallahassee", 181376, 95.7));
+        stateCapitals.put("Georgia", new Capital("Atlanta", 420003, 131.7));
+        stateCapitals.put("Hawaii", new Capital("Honolulu", 337256, 85.7));
+        stateCapitals.put("Idaho", new Capital("Boise", 205671, 63.8));
+        stateCapitals.put("Illinois", new Capital("Springfield", 116250, 54.0));
+        stateCapitals.put("Indiana", new Capital("Indianapolis", 802445, 361.5));
+        stateCapitals.put("Iown", new Capital("Des Moines", 203433, 75.8));
+        stateCapitals.put("Kansas", new Capital("Topeka", 127473, 56.0));
+        stateCapitals.put("Kentucky", new Capital("Frankfort", 25527, 14.7));
+        stateCapitals.put("Louisiana", new Capital("Baton Rouge", 229493, 76.8));
+        stateCapitals.put("Maine", new Capital("Augusta", 19136, 55.4));
+        stateCapitals.put("Maryland", new Capital("Annapolis", 38394, 6.73));
+        stateCapitals.put("Massachusetts", new Capital("Boston", 617594, 48.4));
+        stateCapitals.put("Michigan", new Capital("Lansing", 114294, 35.0));
+        stateCapitals.put("Minnesota", new Capital("Saint Paul", 285068, 52.8));
+        stateCapitals.put("Mississippi", new Capital("Jackson", 173514, 104.9));
+        stateCapitals.put("Missouri", new Capital("Jefferson City", 43079, 27.3));
+        stateCapitals.put("Montana", new Capital("Helena", 28190, 14.0));
+        stateCapitals.put("Nebraska", new Capital("Lincoln", 258379, 74.6));
+        stateCapitals.put("Nevada", new Capital("Carson City", 55274, 143.4));
+        stateCapitals.put("New Hampshire", new Capital("Concord", 42695, 64.3));
+        stateCapitals.put("New Jersey", new Capital("Trenton", 84913, 7.66));
+        stateCapitals.put("New Mexico", new Capital("Santa Fe", 75764, 37.3));
+        stateCapitals.put("New York", new Capital("Albany", 97856, 21.4));
+        stateCapitals.put("North Carolina", new Capital("Raleigh", 403892, 114.6));
+        stateCapitals.put("North Dakota", new Capital("Bismarck", 61272, 26.9));
+        stateCapitals.put("Ohio", new Capital("Columbus", 787033, 210.3));
+        stateCapitals.put("Oklahoma", new Capital("Oklahoma City", 579999, 607.0));
+        stateCapitals.put("Oregon", new Capital("Salem", 154637, 45.7));
+        stateCapitals.put("Pennsylvania", new Capital("Harrisburg", 49528, 8.11));
+        stateCapitals.put("Rhode Island", new Capital("Providence", 178042, 18.5));
+        stateCapitals.put("South Carolina", new Capital("Columbia", 129272, 125.2));
+        stateCapitals.put("South Dakota", new Capital("Pierre", 13646, 13.0));
+        stateCapitals.put("Tennessee", new Capital("Nashville", 601222, 473.3));
+        stateCapitals.put("Texas", new Capital("Austin", 790390, 251.5));
+        stateCapitals.put("Utah", new Capital("Salt Lake City", 186440, 109.1));
+        stateCapitals.put("Vermont", new Capital("Montpelier", 7855, 10.2));
+        stateCapitals.put("Virginia", new Capital("Richmond", 204214, 60.1));
+        stateCapitals.put("Washington", new Capital("Olympia", 46478, 16.7));
+        stateCapitals.put("West Virginia", new Capital("Charleston", 51400, 31.6));
+        stateCapitals.put("Wisconsin", new Capital("Madison", 233209, 68.7));
+        stateCapitals.put("Wyoming", new Capital("Cheyenne", 59466, 21.1));
 
         System.out.println("All states and their corresponding capitals have been loaded into the program.");
-        System.out.println("How should we proceed?");
-        System.out.println("1. Display all states.");
-        System.out.println("2. Display all capitals.");
-        System.out.println("3. Display all states with their capitals.");
-        System.out.print("Please enter your choice: ");
+        System.out.println("Let's proceed!");
 
-        userChoice = Integer.parseInt(input.nextLine());
         Set<String> keys = stateCapitals.keySet();
 
-        switch (userChoice) {
-            case 1:
-                System.out.println("STATES:");
-                System.out.println("=========");
-                for (String k : keys) {
-                    System.out.println(k);
-                }
-                break;
-            case 2:
-                System.out.println("CAPITALS:");
-                System.out.println("=========");
-                for (String k : keys) {
-                    System.out.println(stateCapitals.get(k));
-                }
-                break;
-            case 3:
-                System.out.println("STATES/CAPITAL PAIRS:");
-                System.out.println("=========");
-                for (String k : keys) {
-                    System.out.println(k + " - " + stateCapitals.get(k));
-                }
-                break;
+        System.out.println("STATE/CAPITAL PAIRS:");
+        System.out.println("=========");
+        for (String k : keys) {
+            System.out.println(k + " - " + stateCapitals.get(k).getCapitalName() + " | Pop: " + stateCapitals.get(k).getCapitalPop() + " | Area: " + stateCapitals.get(k).getSqMiles() + " sq mi");
         }
     }
 
