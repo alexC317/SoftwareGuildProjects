@@ -5,7 +5,6 @@
  */
 package SimpleCalculator;
 
-import UserIO.UserIO;
 import UserIO.UserIOImpl;
 import java.util.Scanner;
 

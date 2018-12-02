@@ -15,12 +15,12 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public void print(String message){
-        System.out.println(message);
+        System.out.print(message);
     }
     
     @Override
     public double readDouble(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         double input = Double.parseDouble(sc.nextLine());
         return input;
@@ -28,12 +28,12 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public double readDouble(String prompt, double min, double max){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         double input = Double.parseDouble(sc.nextLine());
         
         if(input < min || input > max){
-            return readDouble("Please enter a new number: ", min, max);
+            return readDouble("\n Please enter a new number: ", min, max);
         }
         
         return input;
@@ -41,7 +41,7 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public float readFloat(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         float input = Float.parseFloat(sc.nextLine());
         return input;
@@ -49,12 +49,12 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public float readFloat(String prompt, float min, float max){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         float input = Float.parseFloat(sc.nextLine());
         
         if(input < min || input > max){
-            return readFloat("Please input a new number: ", min, max);
+            return readFloat("\n Please input a new number: ", min, max);
         }
         
         return input;
@@ -62,7 +62,7 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public int readInt(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         int input = Integer.parseInt(sc.nextLine());
         return input;
@@ -70,7 +70,7 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public int readInt(String prompt, int min, int max){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         int input = Integer.parseInt(sc.nextLine());
         
@@ -83,7 +83,7 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public long readLong(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         long input = Long.parseLong(sc.nextLine());
         return input;        
@@ -91,12 +91,12 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public long readLong(String prompt, long min, long max){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         long input = Long.parseLong(sc.nextLine());
         
         if(input < min || input > max){
-            return readLong("Please input a new number: ", min, max);
+            return readLong("\n Please input a new number: ", min, max);
         }
         
         return input;
@@ -104,7 +104,7 @@ public class UserIOImpl implements UserIO{
     
     @Override
     public String readString(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         return input;
