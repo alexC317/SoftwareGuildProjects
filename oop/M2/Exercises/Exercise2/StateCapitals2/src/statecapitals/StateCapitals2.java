@@ -84,6 +84,17 @@ public class StateCapitals2 {
         for (String k : keys) {
             System.out.println(k + " - " + stateCapitals.get(k).getCapitalName() + " | Pop: " + stateCapitals.get(k).getCapitalPop() + " | Area: " + stateCapitals.get(k).getSqMiles() + " sq mi");
         }
+        
+        System.out.println();
+        System.out.print("Please enter a minimum population count: ");
+        userChoice = Integer.parseInt(input.nextLine());
+        System.out.println();
+        
+        for(String k : keys){
+            if(stateCapitals.get(k).getCapitalPop() >= userChoice){
+                System.out.println(k + " - " + stateCapitals.get(k).getCapitalName() + " | Pop: " + stateCapitals.get(k).getCapitalPop() + " | Area: " + stateCapitals.get(k).getSqMiles() + " sq mi");
+            }
+        }
     }
 
 }
