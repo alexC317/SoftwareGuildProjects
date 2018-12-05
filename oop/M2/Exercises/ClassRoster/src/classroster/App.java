@@ -5,6 +5,8 @@
  */
 package classroster;
 
+import classroster.controller.ClassRosterController;
+
 /**
  *
  * @author Alex
@@ -15,7 +17,8 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        ClassRosterController controller = new ClassRosterController();
+        controller.run();
     }
-    
+
 }
