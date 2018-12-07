@@ -16,7 +16,7 @@ public class Student {
     private String studentId;
     private String cohort;
 
-    public Student(String studentID) {
+    public Student(String studentId) {
         this.studentId = studentId;
     }
 

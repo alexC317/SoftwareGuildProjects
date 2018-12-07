@@ -6,6 +6,7 @@
 package classroster.ui;
 
 import classroster.dto.Student;
+import java.util.List;
 
 /**
  *
@@ -33,18 +34,32 @@ public class ClassRosterView {
         String cohort = io.readString("Please enter Cohort");
 
         Student currentStudent = new Student(studentId);
+        //System.out.println(currentStudent.getStudentId());
         currentStudent.setFirstName(firstName);
         currentStudent.setLastName(lastName);
         currentStudent.setCohort(cohort);
 
         return currentStudent;
     }
-    
-    public void displayCreateStudentBanner(){
+
+    public void displayCreateStudentBanner() {
         io.print("=== Create Student ===");
     }
-    
-    public void displayCreateSuccessBanner(){
-        io.readString("Student sccessfully created. Please hit enter to continue.");
+
+    public void displayCreateSuccessBanner() {
+        io.readString("Student successfully created. Please hit enter to continue.");
+    }
+
+    public void displayCurrentStudentList(List<Student> studentList) {
+        for (Student currentStudent : studentList) {
+            io.print(currentStudent.getStudentId() + ": "
+                    + currentStudent.getFirstName() + " "
+                    + currentStudent.getLastName());
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All Students ===");
     }
 }

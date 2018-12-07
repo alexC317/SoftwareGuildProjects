@@ -6,6 +6,7 @@ import classroster.dto.Student;
 import classroster.ui.ClassRosterView;
 import classroster.ui.UserIO;
 import classroster.ui.UserIOConsoleImpl;
+import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,21 +18,21 @@ import classroster.ui.UserIOConsoleImpl;
  * @author Alex
  */
 public class ClassRosterController {
-
+    
     ClassRosterView view = new ClassRosterView();
     ClassRosterDao dao = new ClassRosterDaoFileImpl();
     private UserIO io = new UserIOConsoleImpl();
-
+    
     public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
         while (keepGoing) {
-
+            
             menuSelection = getMenuSelection();
-
+            
             switch (menuSelection) {
                 case 1:
-                    io.print("LIST STUDENTS");
+                    listStudents();
                     break;
                 case 2:
                     createStudent();
@@ -51,15 +52,21 @@ public class ClassRosterController {
         }
         io.print("GOOD BYE");
     }
-
+    
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
-
+    
     private void createStudent() {
         view.displayCreateStudentBanner();
         Student newStudent = view.getNewStudentinfo();
         dao.addStudent(newStudent.getStudentId(), newStudent);
         view.displayCreateSuccessBanner();
+    }
+    
+    private void listStudents() {
+        view.displayDisplayAllBanner();
+        List<Student> studentList = dao.getAllStudents();
+        view.displayCurrentStudentList(studentList);
     }
 }

@@ -33,7 +33,7 @@ public class UserIOConsoleImpl implements UserIO {
         double input = Double.parseDouble(sc.nextLine());
 
         if (input < min || input > max) {
-            return readDouble("\n Please enter a new number: ", min, max);
+            return readDouble("Please enter a new number: ", min, max);
         }
 
         return input;
@@ -54,7 +54,7 @@ public class UserIOConsoleImpl implements UserIO {
         float input = Float.parseFloat(sc.nextLine());
 
         if (input < min || input > max) {
-            return readFloat("\n Please input a new number: ", min, max);
+            return readFloat("Please input a new number: ", min, max);
         }
 
         return input;
@@ -75,7 +75,7 @@ public class UserIOConsoleImpl implements UserIO {
         int input = Integer.parseInt(sc.nextLine());
 
         if (input < min || input > max) {
-            return readInt("Please input a new number: ", min, max);
+            input = readInt("Please enter another number.", min, max);
         }
 
         return input;
@@ -96,7 +96,7 @@ public class UserIOConsoleImpl implements UserIO {
         long input = Long.parseLong(sc.nextLine());
 
         if (input < min || input > max) {
-            return readLong("\n Please input a new number: ", min, max);
+            return readLong("Please input a new number: ", min, max);
         }
 
         return input;
