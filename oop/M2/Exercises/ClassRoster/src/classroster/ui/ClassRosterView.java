@@ -5,6 +5,8 @@
  */
 package classroster.ui;
 
+import classroster.dto.Student;
+
 /**
  *
  * @author Alex
@@ -22,5 +24,27 @@ public class ClassRosterView {
         io.print("5. Exit");
 
         return io.readInt("Please select from the above choice.", 1, 5);
+    }
+
+    public Student getNewStudentinfo() {
+        String studentId = io.readString("Please enter Student ID");
+        String firstName = io.readString("Please enter First Name");
+        String lastName = io.readString("Please enter Last Name");
+        String cohort = io.readString("Please enter Cohort");
+
+        Student currentStudent = new Student(studentId);
+        currentStudent.setFirstName(firstName);
+        currentStudent.setLastName(lastName);
+        currentStudent.setCohort(cohort);
+
+        return currentStudent;
+    }
+    
+    public void displayCreateStudentBanner(){
+        io.print("=== Create Student ===");
+    }
+    
+    public void displayCreateSuccessBanner(){
+        io.readString("Student sccessfully created. Please hit enter to continue.");
     }
 }

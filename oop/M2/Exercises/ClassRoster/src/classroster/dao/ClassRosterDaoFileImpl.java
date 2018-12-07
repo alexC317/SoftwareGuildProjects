@@ -5,10 +5,38 @@
  */
 package classroster.dao;
 
+import classroster.dto.Student;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author Alex
  */
-public class ClassRosterDaoFileImpl {
-    
+public class ClassRosterDaoFileImpl implements ClassRosterDao {
+
+    private Map<String, Student> students = new HashMap<>();
+
+    @Override
+    public Student addStudent(String studentId, Student student) {
+        Student newStudent = students.put(studentId, student);
+        return newStudent;
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Student getStudent(String studentId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Student removeStudent(String studentId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
