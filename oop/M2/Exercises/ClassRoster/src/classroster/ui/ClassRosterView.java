@@ -34,7 +34,6 @@ public class ClassRosterView {
         String cohort = io.readString("Please enter Cohort");
 
         Student currentStudent = new Student(studentId);
-        //System.out.println(currentStudent.getStudentId());
         currentStudent.setFirstName(firstName);
         currentStudent.setLastName(lastName);
         currentStudent.setCohort(cohort);
@@ -50,6 +49,10 @@ public class ClassRosterView {
         io.readString("Student successfully created. Please hit enter to continue.");
     }
 
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All Students ===");
+    }
+
     public void displayCurrentStudentList(List<Student> studentList) {
         for (Student currentStudent : studentList) {
             io.print(currentStudent.getStudentId() + ": "
@@ -59,7 +62,23 @@ public class ClassRosterView {
         io.readString("Please hit enter to continue.");
     }
 
-    public void displayDisplayAllBanner() {
-        io.print("=== Display All Students ===");
+    public void displayDisplayStudentBanner() {
+        io.print("=== Display Student ===");
+    }
+
+    public String getStudentIdChoice() {
+        return io.readString("Please enter the Student ID.");
+    }
+
+    public void displayStudent(Student student) {
+        if (student != null) {
+            io.print(student.getStudentId());
+            io.print(student.getFirstName() + " " + student.getLastName());
+            io.print(student.getCohort());
+            io.print("");
+        } else {
+            io.print("No such student.");
+        }
+        io.readString("Please hit enter to continue.");
     }
 }

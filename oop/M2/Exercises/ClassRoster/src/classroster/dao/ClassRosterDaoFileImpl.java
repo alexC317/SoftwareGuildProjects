@@ -32,7 +32,7 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
 
     @Override
     public Student getStudent(String studentId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return students.get(studentId);
     }
 
     @Override
