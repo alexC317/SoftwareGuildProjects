@@ -18,18 +18,18 @@ import java.util.List;
  * @author Alex
  */
 public class ClassRosterController {
-    
+
     ClassRosterView view = new ClassRosterView();
     ClassRosterDao dao = new ClassRosterDaoFileImpl();
     private UserIO io = new UserIOConsoleImpl();
-    
+
     public void run() {
         boolean keepGoing = true;
         int menuSelection = 0;
         while (keepGoing) {
-            
+
             menuSelection = getMenuSelection();
-            
+
             switch (menuSelection) {
                 case 1:
                     listStudents();
@@ -41,7 +41,7 @@ public class ClassRosterController {
                     viewStudent();
                     break;
                 case 4:
-                    io.print("REMOVE STUDENT");
+                    removeStudent();
                     break;
                 case 5:
                     keepGoing = false;
@@ -52,28 +52,35 @@ public class ClassRosterController {
         }
         io.print("GOOD BYE");
     }
-    
+
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
-    
+
     private void createStudent() {
         view.displayCreateStudentBanner();
         Student newStudent = view.getNewStudentinfo();
         dao.addStudent(newStudent.getStudentId(), newStudent);
         view.displayCreateSuccessBanner();
     }
-    
+
     private void listStudents() {
         view.displayDisplayAllBanner();
         List<Student> studentList = dao.getAllStudents();
         view.displayCurrentStudentList(studentList);
     }
-    
-    private void viewStudent(){
+
+    private void viewStudent() {
         view.displayDisplayStudentBanner();
         String studentId = view.getStudentIdChoice();
         Student student = dao.getStudent(studentId);
         view.displayStudent(student);
+    }
+
+    private void removeStudent() {
+        view.displayRemoveStudentBanner();
+        String studentId = view.getStudentIdChoice();
+        dao.removeStudent(studentId);
+        view.displayRemoveSuccessBanner();
     }
 }
