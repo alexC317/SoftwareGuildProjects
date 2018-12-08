@@ -6,6 +6,11 @@
 package classroster;
 
 import classroster.controller.ClassRosterController;
+import classroster.dao.ClassRosterDao;
+import classroster.dao.ClassRosterDaoFileImpl;
+import classroster.ui.ClassRosterView;
+import classroster.ui.UserIO;
+import classroster.ui.UserIOConsoleImpl;
 
 /**
  *
@@ -17,7 +22,10 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ClassRosterController controller = new ClassRosterController();
+        UserIO myIo = new UserIOConsoleImpl();
+        ClassRosterView myView = new ClassRosterView(myIo);
+        ClassRosterDao myDao = new ClassRosterDaoFileImpl();
+        ClassRosterController controller = new ClassRosterController(myDao, myView);
         controller.run();
     }
 

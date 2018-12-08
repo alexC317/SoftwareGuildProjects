@@ -1,7 +1,6 @@
 package classroster.controller;
 
 import classroster.dao.ClassRosterDao;
-import classroster.dao.ClassRosterDaoFileImpl;
 import classroster.dto.Student;
 import classroster.ui.ClassRosterView;
 import java.util.List;
@@ -17,8 +16,8 @@ import java.util.List;
  */
 public class ClassRosterController {
 
-    ClassRosterView view = new ClassRosterView();
-    ClassRosterDao dao = new ClassRosterDaoFileImpl();
+    ClassRosterView view;
+    ClassRosterDao dao;
 
     public void run() {
         boolean keepGoing = true;
@@ -48,6 +47,11 @@ public class ClassRosterController {
             }
         }
         exitMessage();
+    }
+
+    public ClassRosterController(ClassRosterDao dao, ClassRosterView view) {
+        this.dao = dao;
+        this.view = view;
     }
 
     private int getMenuSelection() {
