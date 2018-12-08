@@ -16,6 +16,9 @@ import java.util.Map;
  * @author Alex
  */
 public class ClassRosterDaoFileImpl implements ClassRosterDao {
+    
+    public static final String ROSTER_FILE = "roster.txt";
+    public static final String DELIMITER = "::";
 
     private Map<String, Student> students = new HashMap<>();
 
