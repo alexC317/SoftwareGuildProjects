@@ -12,8 +12,9 @@ import java.util.Scanner;
  * @author Alex
  */
 public class UserIOConsoleImpl implements UserIO {
+
     private Scanner sc = new Scanner(System.in);
-;
+
     @Override
     public void print(String message) {
         System.out.println(message);
