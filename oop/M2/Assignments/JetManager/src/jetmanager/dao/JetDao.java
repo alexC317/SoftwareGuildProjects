@@ -5,10 +5,27 @@
  */
 package jetmanager.dao;
 
+import java.util.List;
+import jetmanager.dto.Jet;
+
 /**
  *
  * @author Alex
  */
-public interface JetManagerDao {
-    
+public interface JetDao {
+
+    //Create
+    public Jet create(Jet jet);
+
+    //ReadAll
+    public List<Jet> readAll();
+
+    //ReadById
+    public Jet readById(int id);
+
+    //Update
+    public void update(int id, Jet jet);
+
+    //Delete
+    public void delete(int id);
 }

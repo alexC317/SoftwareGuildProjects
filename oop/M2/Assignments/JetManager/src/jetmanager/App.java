@@ -5,6 +5,13 @@
  */
 package jetmanager;
 
+import jetmanager.controller.JetController;
+import jetmanager.dao.JetDao;
+import jetmanager.dao.JetDaoImpl;
+import jetmanager.view.JetView;
+import jetmanager.view.UserIO;
+import jetmanager.view.UserIOConsoleImpl;
+
 /**
  *
  * @author Alex
@@ -15,7 +22,12 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        UserIO io = new UserIOConsoleImpl();
+        JetDao dao = new JetDaoImpl();
+        JetView view = new JetView(io);
+        JetController controller = new JetController(dao, view);
+        
+        controller.run();
     }
     
 }
