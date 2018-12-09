@@ -48,12 +48,14 @@ public class JetView {
         String jetModel = io.readString("Please enter the model.");
         int jetMissleCount = io.readInt("Please how many missles the jet is carrying.");
         double jetFuel = io.readDouble("Please enter the fuel capacity of the plane.");
+        double currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, jetFuel);
         String jetPilot = io.readString("Please enter the name of the pilot.");
 
         Jet currentJet = new Jet(jetId);
         currentJet.setModel(jetModel);
         currentJet.setMissleCount(jetMissleCount);
         currentJet.setFuelCapacity(jetFuel);
+        currentJet.setCurrentFuel(currentFuel);
         currentJet.setPilot(jetPilot);
 
         return currentJet;
@@ -68,7 +70,16 @@ public class JetView {
     }
 
     public void displayCurrentJetList(List<Jet> currentJets) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        io.print("--------");
+        for(Jet currentJet : currentJets){
+            io.print("Id: " + currentJet.getId());
+            io.print("Model: " + currentJet.getModel());
+            io.print("Pilot: " + currentJet.getPilot());
+            io.print("Current Missles: " + currentJet.getMissleCount());
+            io.print("Fuel: " + currentJet.getCurrentFuel() + "/" + currentJet.getFuelCapacity());
+            io.print("--------");
+        }
+        io.print("");
     }
 
 }
