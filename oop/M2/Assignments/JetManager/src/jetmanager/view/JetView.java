@@ -19,13 +19,13 @@ public class JetView {
     public JetView(UserIO io) {
         this.io = io;
     }
-    
-    public void displayIntroduction(){
+
+    public void displayIntroduction() {
         io.print("Hello and welcome Commander.");
         io.print("This is the Jet Manager program, developed by Macmillan Heavy Industries.");
         io.print("This program will help manage the various planes in your hangar. Please select from the following options below.");
     }
-    
+
     public int displayMenuAndGetChoice() {
         io.print("Main Menu");
         io.print("1. Create new Jet");
@@ -46,7 +46,7 @@ public class JetView {
     public Jet getNewJetInfo() {
         int jetId = io.readInt("Please enter the ID.");
         String jetModel = io.readString("Please enter the model.");
-        int jetMissleCount = io.readInt("Please how many missles the jet is carrying.");
+        int jetMissleCount = io.readInt("Please enter how many missles the jet is carrying.");
         double jetFuel = io.readDouble("Please enter the fuel capacity of the plane.");
         double currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, jetFuel);
         String jetPilot = io.readString("Please enter the name of the pilot.");
@@ -70,15 +70,33 @@ public class JetView {
     }
 
     public void displayCurrentJetList(List<Jet> currentJets) {
-        io.print("--------");
-        for(Jet currentJet : currentJets){
-            io.print("Id: " + currentJet.getId());
-            io.print("Model: " + currentJet.getModel());
-            io.print("Pilot: " + currentJet.getPilot());
-            io.print("Current Missles: " + currentJet.getMissleCount());
-            io.print("Fuel: " + currentJet.getCurrentFuel() + "/" + currentJet.getFuelCapacity());
-            io.print("--------");
+        for (Jet currentJet : currentJets) {
+            io.print(currentJet.getId() + ": " + currentJet.getModel());
         }
+        io.print("");
+    }
+
+    public void displayDisplayJetBanner() {
+        io.print("=== Display Jet ===");
+    }
+
+    public int getJetIdChoice() {
+        return io.readInt("Please enter the id of the jet you wish to view.");
+    }
+
+    public void displayJet(Jet jet) {
+        io.print("-----------");
+        if (jet != null) {
+            io.print("-----------");
+            io.print("Id: " + jet.getId());
+            io.print("Model: " + jet.getModel());
+            io.print("Pilot: " + jet.getPilot());
+            io.print("Current Missles: " + jet.getMissleCount());
+            io.print("Fuel: " + jet.getCurrentFuel() + "/" + jet.getFuelCapacity());
+        } else {
+            io.print("No such plane in the hangar.");
+        }
+        io.print("-----------");
         io.print("");
     }
 

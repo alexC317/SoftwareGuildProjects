@@ -46,7 +46,7 @@ public class JetController {
                     listJets();
                     break;
                 case 3:
-                    //ReadById
+                    viewJet();
                     break;
                 case 4:
                     //Update
@@ -87,7 +87,13 @@ public class JetController {
         List<Jet> currentJets = dao.readAll();
         view.displayCurrentJetList(currentJets);
     }
-    //private Jet readById
+
+    private void viewJet() {
+        view.displayDisplayJetBanner();
+        int id = view.getJetIdChoice();
+        Jet newJet = dao.readById(id);
+        view.displayJet(newJet);
+    }
     //private void updateJet
     //private Jet deleteJet
     //private List searchByPilot
