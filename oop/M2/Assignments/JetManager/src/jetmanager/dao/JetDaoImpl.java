@@ -33,14 +33,26 @@ public class JetDaoImpl implements JetDao {
 
     @Override
     public void update(int id, Jet updateJet) {
-        hangar.get(id).setMissleCount(updateJet.getMissleCount());
-        hangar.get(id).setCurrentFuel(updateJet.getCurrentFuel());
-        hangar.get(id).setPilot(updateJet.getPilot());
+        Jet currentJet = hangar.get(id);
+
+        if (updateJet.getMissleCount() != currentJet.getMissleCount() && updateJet.getMissleCount() != -1) {
+            hangar.get(id).setMissleCount(updateJet.getMissleCount());
+        }
+
+        if (updateJet.getCurrentFuel() != currentJet.getCurrentFuel() && updateJet.getCurrentFuel() != -1) {
+            hangar.get(id).setCurrentFuel(updateJet.getCurrentFuel());
+        }
+
+        if (updateJet.getPilot() != currentJet.getPilot()) {
+            if (updateJet.getPilot() != null) {
+                hangar.get(id).setPilot(updateJet.getPilot());
+            }
+        }
     }
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        hangar.remove(id);
     }
 
 }

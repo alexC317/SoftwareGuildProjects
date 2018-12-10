@@ -52,7 +52,7 @@ public class JetController {
                     updateJet();
                     break;
                 case 5:
-                    //Delete
+                    deleteJet();
                     break;
                 case 6:
                     //Search by pilot
@@ -94,8 +94,8 @@ public class JetController {
         Jet newJet = dao.readById(id);
         view.displayJet(newJet);
     }
-    
-    private void updateJet(){
+
+    private void updateJet() {
         view.displayUpdateJetBanner();
         int id = view.getJetIdChoice();
         double fuelCap = dao.readById(id).getFuelCapacity();
@@ -103,6 +103,12 @@ public class JetController {
         dao.update(id, newJet);
         view.displayUpdateSuccessBanner();
     }
-    //private Jet deleteJet
-    //private List searchByPilot
-}
+
+    private void deleteJet() {
+        view.displayDeleteJetBanner();
+        int id = view.getJetIdChoice();
+        dao.delete(id);
+        view.displayDeleteSuccessBanner();
+    }
+        //private List searchByPilot
+    }

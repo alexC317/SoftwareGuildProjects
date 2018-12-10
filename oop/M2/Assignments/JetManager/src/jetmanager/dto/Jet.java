@@ -14,10 +14,10 @@ public class Jet {
     //Private class fields
     private int id;
     private String model;
-    private int missleCount;
-    private double fuelCapacity;
-    private double currentFuel;
-    private String pilot;
+    private int missleCount = -1;
+    private double fuelCapacity = -1;
+    private double currentFuel = -1;
+    private String pilot = null;
 
     //Constructor
     public Jet(int id) {

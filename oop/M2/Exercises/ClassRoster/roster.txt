@@ -1,3 +1,0 @@
-0002::Christy::Tropila::Java
-0003::Kevin::Yeung::Java
-0001::Alex::Cepeda::Java

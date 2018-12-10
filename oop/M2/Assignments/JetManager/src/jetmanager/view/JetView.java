@@ -104,20 +104,52 @@ public class JetView {
     }
 
     public Jet getUpdateJetInfo(double fuelCap) {
-        int jetMissleCount = io.readInt("Please enter how many missles the jet is carrying.");
-        double currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, fuelCap);
-        String jetPilot = io.readString("Please enter the name of the pilot.");
-        
+        boolean quit = false;
+        int choice;
+        int jetMissleCount = 0;
+        double currentFuel = 0;
+        String jetPilot = "";
         Jet updateJet = new Jet(0);
-        updateJet.setMissleCount(jetMissleCount);
-        updateJet.setCurrentFuel(currentFuel);
-        updateJet.setPilot(jetPilot);
-        
+
+        io.print("Change Menu");
+        while (!quit) {
+            io.print("1. Missle Count");
+            io.print("2. Current Fuel");
+            io.print("3. Pilot");
+            io.print("4. Exit");
+            choice = io.readInt("Please select which attribute you wish to update:", 1, 4);
+            switch (choice) {
+                case 1:
+                    jetMissleCount = io.readInt("Please enter how many missles the jet is now carrying.");
+                    updateJet.setMissleCount(jetMissleCount);
+                    break;
+                case 2:
+                    currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, fuelCap);
+                    updateJet.setCurrentFuel(currentFuel);
+                    break;
+                case 3:
+                    jetPilot = io.readString("Please enter the name of the pilot.");
+                    updateJet.setPilot(jetPilot);
+                    break;
+                case 4:
+                    quit = true;
+                    break;
+            }
+        }
+
         return updateJet;
     }
 
     public void displayUpdateSuccessBanner() {
         io.print("Jet successfully updated.");
+    }
+
+    public void displayDeleteJetBanner() {
+        io.print("=== Delete Jet ===");
+    }
+
+    public void displayDeleteSuccessBanner() {
+        io.print("Jet successfully deleted.");
     }
 
 }
