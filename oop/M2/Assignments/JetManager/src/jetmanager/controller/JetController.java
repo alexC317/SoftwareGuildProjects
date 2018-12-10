@@ -33,14 +33,13 @@ public class JetController {
      *
      * @throws JetDaoException
      */
-    public void run() throws JetDaoException {
+    public void run() {
         //Variable declaration
         boolean quit = false; //Used to keep the program running
         int choice = 0; //Stores what the menu choice is
 
-        intro(); //Calls the controller's intro function
-
         try {
+            intro(); //Calls the controller's intro function
             //Loops the program until the user quits using option 7
             while (!quit) {
                 choice = getMenuSelection();
@@ -74,7 +73,7 @@ public class JetController {
             exitMessage();
         } catch (JetDaoException e) {
             view.displayErrorMessage(e.getMessage());
-        }
+        }//finally and use run() again
     }
 
     /**
