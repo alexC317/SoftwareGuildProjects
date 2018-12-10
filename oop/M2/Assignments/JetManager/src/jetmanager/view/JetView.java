@@ -200,7 +200,7 @@ public class JetView {
      * Displays a banner once the Jet has been successfully updated.
      */
     public void displayUpdateSuccessBanner() {
-        io.print("Jet successfully updated.");
+        io.print("Jet successfully updated. Press enter to continue.");
     }
 
     /**
@@ -214,7 +214,7 @@ public class JetView {
      * Displays a banner once the Jet has been successfully deleted.
      */
     public void displayDeleteSuccessBanner() {
-        io.print("Jet successfully deleted.");
+        io.readString("Jet successfully deleted. Press enter to continue.");
     }
 
     /**
