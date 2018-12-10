@@ -32,8 +32,10 @@ public class JetDaoImpl implements JetDao {
     }
 
     @Override
-    public void update(int id, Jet jet) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(int id, Jet updateJet) {
+        hangar.get(id).setMissleCount(updateJet.getMissleCount());
+        hangar.get(id).setCurrentFuel(updateJet.getCurrentFuel());
+        hangar.get(id).setPilot(updateJet.getPilot());
     }
 
     @Override

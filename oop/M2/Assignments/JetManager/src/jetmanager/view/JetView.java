@@ -81,13 +81,12 @@ public class JetView {
     }
 
     public int getJetIdChoice() {
-        return io.readInt("Please enter the id of the jet you wish to view.");
+        return io.readInt("Please enter the id of the jet.");
     }
 
     public void displayJet(Jet jet) {
         io.print("-----------");
         if (jet != null) {
-            io.print("-----------");
             io.print("Id: " + jet.getId());
             io.print("Model: " + jet.getModel());
             io.print("Pilot: " + jet.getPilot());
@@ -98,6 +97,27 @@ public class JetView {
         }
         io.print("-----------");
         io.print("");
+    }
+
+    public void displayUpdateJetBanner() {
+        io.print("=== Update Jet ===");
+    }
+
+    public Jet getUpdateJetInfo(double fuelCap) {
+        int jetMissleCount = io.readInt("Please enter how many missles the jet is carrying.");
+        double currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, fuelCap);
+        String jetPilot = io.readString("Please enter the name of the pilot.");
+        
+        Jet updateJet = new Jet(0);
+        updateJet.setMissleCount(jetMissleCount);
+        updateJet.setCurrentFuel(currentFuel);
+        updateJet.setPilot(jetPilot);
+        
+        return updateJet;
+    }
+
+    public void displayUpdateSuccessBanner() {
+        io.print("Jet successfully updated.");
     }
 
 }
