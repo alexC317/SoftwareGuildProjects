@@ -10,6 +10,7 @@ package jetmanager.view;
  * @author Alex
  */
 public interface UserIO {
+
     void print(String msg);
 
     double readDouble(String prompt);

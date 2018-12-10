@@ -7,10 +7,9 @@ package jetmanager.controller;
 
 import java.util.List;
 import jetmanager.dao.JetDao;
+import jetmanager.dao.JetDaoException;
 import jetmanager.dto.Jet;
 import jetmanager.view.JetView;
-import jetmanager.view.UserIO;
-import jetmanager.view.UserIOConsoleImpl;
 
 /**
  *
@@ -18,63 +17,86 @@ import jetmanager.view.UserIOConsoleImpl;
  */
 public class JetController {
 
+    //Member fields
     private JetDao dao;
     private JetView view;
 
+    //Constructor
     public JetController(JetDao dao, JetView view) {
         this.dao = dao;
         this.view = view;
     }
 
-    public void run() {
-        boolean quit = false;
-        int choice;
+    /**
+     * Runs the program. This will continously display the menu, take in a user
+     * choice, and then act on that choice.
+     *
+     * @throws JetDaoException
+     */
+    public void run() throws JetDaoException {
+        //Variable declaration
+        boolean quit = false; //Used to keep the program running
+        int choice = 0; //Stores what the menu choice is
 
-        UserIO io = new UserIOConsoleImpl();
-        view = new JetView(io);
+        intro(); //Calls the controller's intro function
 
-        intro();
+        try {
+            //Loops the program until the user quits using option 7
+            while (!quit) {
+                choice = getMenuSelection();
 
-        while (!quit) {
-            choice = getMenuSelection();
-
-            switch (choice) {
-                case 1:
-                    createJet();
-                    break;
-                case 2:
-                    listJets();
-                    break;
-                case 3:
-                    viewJet();
-                    break;
-                case 4:
-                    updateJet();
-                    break;
-                case 5:
-                    deleteJet();
-                    break;
-                case 6:
-                    searchByPilot();
-                    break;
-                case 7:
-                    quit = true;
-                    break;
-                default:
-                    unknownCommand();
+                switch (choice) {
+                    case 1:
+                        createJet();
+                        break;
+                    case 2:
+                        listJets();
+                        break;
+                    case 3:
+                        viewJet();
+                        break;
+                    case 4:
+                        updateJet();
+                        break;
+                    case 5:
+                        deleteJet();
+                        break;
+                    case 6:
+                        searchByPilot();
+                        break;
+                    case 7:
+                        quit = true;
+                        break;
+                    default:
+                        unknownCommand();
+                }
             }
+            exitMessage();
+        } catch (JetDaoException e) {
+            view.displayErrorMessage(e.getMessage());
         }
-        exitMessage();
     }
 
-    private void intro() {
+    /**
+     * Calls the View Layer's introduction method.
+     */
+    private void intro() throws JetDaoException {
+        dao.initialLoad();
         view.displayIntroduction();
     }
 
-    private int getMenuSelection() {
+    /**
+     * Calls the View Layer's menu display and returns their choice.
+     *
+     * @return the menu option selected by the user
+     */
+    private int getMenuSelection() throws JetDaoException {
         return view.displayMenuAndGetChoice();
     }
 
+    /**
+     * Creates a new instance of the Jet class.
+     */
     private void createJet() {
         view.displayCreateJetBanner();
         Jet newJet = view.getNewJetInfo();
@@ -82,12 +104,18 @@ public class JetController {
         view.displayCreateSuccessBanner();
     }
 
+    /**
+     * Displays all the Jets currently in the system.
+     */
     private void listJets() {
         view.displayListJetBanner();
         List<Jet> currentJets = dao.readAll();
         view.displayCurrentJetList(currentJets);
     }
 
+    /**
+     * Displays information for a single Jet.
+     */
     private void viewJet() {
         view.displayDisplayJetBanner();
         int id = view.getJetIdChoice();
@@ -95,15 +123,21 @@ public class JetController {
         view.displayJet(newJet);
     }
 
-    private void updateJet() {
+    /**
+     * Updates the information for a single Jet.
+     */
+    private void updateJet() throws JetDaoException {
         view.displayUpdateJetBanner();
         int id = view.getJetIdChoice();
-        double fuelCap = dao.readById(id).getFuelCapacity();
-        Jet newJet = view.getUpdateJetInfo(fuelCap);
-        dao.update(id, newJet);
+        Jet currentJet = dao.readById(id);
+        Jet updateJet = view.getUpdateJetInfo(currentJet);
+        dao.update(id, updateJet);
         view.displayUpdateSuccessBanner();
     }
 
+    /**
+     * Deletes a Jet from the system.
+     */
     private void deleteJet() {
         view.displayDeleteJetBanner();
         int id = view.getJetIdChoice();
@@ -111,6 +145,9 @@ public class JetController {
         view.displayDeleteSuccessBanner();
     }
 
+    /**
+     * Allows the user to search for a pilot and displays all the Jets they fly.
+     */
     private void searchByPilot() {
         view.displaySearchPilotBanner();
         String name = view.getPilotName();
@@ -118,11 +155,18 @@ public class JetController {
         view.displayPilotList(jets);
     }
 
+    /**
+     * Calls the View Layer's unknown command method.
+     */
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }
 
-    private void exitMessage() {
+    /**
+     * Calls the View Layer's exit message method.
+     */
+    private void exitMessage() throws JetDaoException {
+        dao.exitProgram();
         view.displayExitMessageBanner();
     }
 }

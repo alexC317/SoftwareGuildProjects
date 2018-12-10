@@ -27,7 +27,6 @@ public class UserIOConsoleImpl implements UserIO {
     public double readDouble(String prompt, double min, double max) {
         System.out.println(prompt);
         double input = Double.parseDouble(sc.nextLine());
-
         if (input < min || input > max) {
             return readDouble("Please enter a new number: ", min, max);
         }

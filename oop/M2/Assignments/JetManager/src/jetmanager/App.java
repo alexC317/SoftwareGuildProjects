@@ -7,7 +7,8 @@ package jetmanager;
 
 import jetmanager.controller.JetController;
 import jetmanager.dao.JetDao;
-import jetmanager.dao.JetDaoImpl;
+import jetmanager.dao.JetDaoException;
+import jetmanager.dao.JetDaoFileImpl;
 import jetmanager.view.JetView;
 import jetmanager.view.UserIO;
 import jetmanager.view.UserIOConsoleImpl;
@@ -17,17 +18,21 @@ import jetmanager.view.UserIOConsoleImpl;
  * @author Alex
  */
 public class App {
-
+    
     /**
-     * @param args the command line arguments
+     * 
+     * @param args
+     * @throws JetDaoException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JetDaoException {
+        //Object declaration for Dependency Injection
         UserIO io = new UserIOConsoleImpl();
-        JetDao dao = new JetDaoImpl();
+        JetDao dao = new JetDaoFileImpl();
         JetView view = new JetView(io);
         JetController controller = new JetController(dao, view);
-        
+
+        //Run the program
         controller.run();
     }
-    
+
 }
