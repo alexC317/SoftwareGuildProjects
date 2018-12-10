@@ -97,7 +97,7 @@ public class JetController {
     /**
      * Creates a new instance of the Jet class.
      */
-    private void createJet() {
+    private void createJet() throws JetDaoException {
         view.displayCreateJetBanner();
         Jet newJet = view.getNewJetInfo();
         dao.create(newJet);
@@ -125,6 +125,8 @@ public class JetController {
 
     /**
      * Updates the information for a single Jet.
+     *
+     * @throws JetDaoException
      */
     private void updateJet() throws JetDaoException {
         view.displayUpdateJetBanner();
@@ -137,8 +139,10 @@ public class JetController {
 
     /**
      * Deletes a Jet from the system.
+     *
+     * @throws JetDaoException
      */
-    private void deleteJet() {
+    private void deleteJet() throws JetDaoException {
         view.displayDeleteJetBanner();
         int id = view.getJetIdChoice();
         dao.delete(id);

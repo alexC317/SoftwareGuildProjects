@@ -18,11 +18,11 @@ import jetmanager.view.UserIOConsoleImpl;
  * @author Alex
  */
 public class App {
-    
+
     /**
-     * 
+     *
      * @param args
-     * @throws JetDaoException 
+     * @throws JetDaoException
      */
     public static void main(String[] args) throws JetDaoException {
         //Object declaration for Dependency Injection

@@ -20,7 +20,7 @@ public interface JetDao {
      * @param jet The jet we are storing in the hangar.
      * @return The newly inserted Jet object.
      */
-    public Jet create(Jet jet);
+    public Jet create(Jet jet) throws JetDaoException;
 
     /**
      * Returns all the Jets in the system.
@@ -42,6 +42,7 @@ public interface JetDao {
      *
      * @param id The id of the Jet we are wanting to update.
      * @param jet A temporary Jet that holds the changes we want to make.
+     * @throws JetDaoException
      */
     public void update(int id, Jet jet) throws JetDaoException;
 
@@ -49,8 +50,9 @@ public interface JetDao {
      * Removes a Jet from the system.
      *
      * @param id The id associated with the Jet we want to remove.
+     * @throws JetDaoException
      */
-    public void delete(int id);
+    public void delete(int id) throws JetDaoException;
 
     /**
      * Finds a specific pilot in the system.

@@ -141,75 +141,105 @@ public class JetView {
         io.print("");
     }
 
+    /**
+     * Displays a banner once the user has selected to update a particular Jet.
+     */
     public void displayUpdateJetBanner() {
         io.print("=== Update Jet ===");
     }
 
-    public Jet getUpdateJetInfo(Jet jet) throws JetDaoException {
+    /**
+     * Prompts the user for new information in order to update a particular Jet.
+     * The user selects what information they want to provide. Not all fields
+     * are subject to change (such as the ID, the Model and the Fuel Capacity).
+     *
+     * @param jet The Jet that will be changed is passed along only to get the
+     * Fuel Capacity.
+     * @return A Jet object containing the changes the user indicated.
+     */
+    public Jet getUpdateJetInfo(Jet jet) {
         boolean quit = false;
         int choice;
-        int jetMissleCount = 0;
-        double currentFuel = 0;
-        String jetPilot = "";
+        int jetMissleCount = -1;
+        double currentFuel = -1;
+        String jetPilot = null;
         Jet updateJet = new Jet(0);
 
-        try {
-            if (jet != null) {
-                io.print("Change Menu");
-                while (!quit) {
-                    io.print("1. Missle Count");
-                    io.print("2. Current Fuel");
-                    io.print("3. Pilot");
-                    io.print("4. Exit");
-                    choice = io.readInt("Please select which attribute you wish to update:", 1, 4);
-                    switch (choice) {
-                        case 1:
-                            jetMissleCount = io.readInt("Please enter how many missles the jet is now carrying.");
-                            updateJet.setMissleCount(jetMissleCount);
-                            break;
-                        case 2:
-                            currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, jet.getFuelCapacity());
-                            updateJet.setCurrentFuel(currentFuel);
-                            break;
-                        case 3:
-                            jetPilot = io.readString("Please enter the name of the pilot.");
-                            updateJet.setPilot(jetPilot);
-                            break;
-                        case 4:
-                            quit = true;
-                            break;
-                    }
+        if (jet != null) {
+            io.print("Change Menu");
+            while (!quit) {
+                io.print("1. Missle Count");
+                io.print("2. Current Fuel");
+                io.print("3. Pilot");
+                io.print("4. Exit");
+                choice = io.readInt("Please select which attribute you wish to update:", 1, 4);
+                switch (choice) {
+                    case 1:
+                        jetMissleCount = io.readInt("Please enter how many missles the jet is now carrying.");
+                        updateJet.setMissleCount(jetMissleCount);
+                        break;
+                    case 2:
+                        currentFuel = io.readDouble("Please enter the current fuel the plane has.", 0, jet.getFuelCapacity());
+                        updateJet.setCurrentFuel(currentFuel);
+                        break;
+                    case 3:
+                        jetPilot = io.readString("Please enter the name of the pilot.");
+                        updateJet.setPilot(jetPilot);
+                        break;
+                    case 4:
+                        quit = true;
+                        break;
                 }
-                return updateJet;
-            } else {
-                io.print("No such jet in the hangar.");
             }
-            return jet;
-        } catch (NullPointerException e) {
-            throw new JetDaoException("No such jet in the hangar.", e);
+            return updateJet;
         }
+        return jet;
     }
 
+    /**
+     * Displays a banner once the Jet has been successfully updated.
+     */
     public void displayUpdateSuccessBanner() {
         io.print("Jet successfully updated.");
     }
 
+    /**
+     * Displays a banner once the user has selected to update a particular Jet.
+     */
     public void displayDeleteJetBanner() {
         io.print("=== Delete Jet ===");
     }
 
+    /**
+     * Displays a banner once the Jet has been successfully deleted.
+     */
     public void displayDeleteSuccessBanner() {
         io.print("Jet successfully deleted.");
     }
 
+    /**
+     * Displays a banner once the user has selected to search for a particular
+     * Jet.
+     */
     public void displaySearchPilotBanner() {
         io.print("=== Search for Pilot ===");
     }
 
+    /**
+     * Prompts the user to enter the name of the pilot they want to find.
+     *
+     * @return The String containing the pilot's name.
+     */
     public String getPilotName() {
         return io.readString("Please enter the pilot's name.");
     }
 
+    /**
+     * Displays the pilot the user was searching for, as well as what Jets they
+     * fly.
+     *
+     * @param jets The list of Jets associated with that pilot.
+     */
     public void displayPilotList(List<Jet> jets) {
         io.print("-----------");
         if (!jets.isEmpty()) {
@@ -224,14 +254,25 @@ public class JetView {
         io.print("-----------");
     }
 
+    /**
+     * Displays a banner if there is an unknown command.
+     */
     public void displayUnknownCommandBanner() {
         io.print("Unknown command.");
     }
 
+    /**
+     * Displays once the user has selected to exit the program.
+     */
     public void displayExitMessageBanner() {
         io.print("Goodbye, Commander.");
     }
 
+    /**
+     * Displays a banner and error message if an exception has been reached.
+     *
+     * @param errorMsg
+     */
     public void displayErrorMessage(String errorMsg) {
         io.print("=== ERROR ===");
         io.print(errorMsg);

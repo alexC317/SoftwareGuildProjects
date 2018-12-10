@@ -27,7 +27,10 @@ public class JetDaoFileImpl implements JetDao {
     public static final String DELIMITER = "::"; //Delimiter for parsing through the text file
 
     @Override
-    public Jet create(Jet jet) {
+    public Jet create(Jet jet) throws JetDaoException {
+        if (hangar.containsKey(jet.getId())) {
+            throw new JetDaoException("Id already in use");
+        }
         Jet newJet = hangar.put(jet.getId(), jet);
         return newJet;
     }
@@ -47,6 +50,8 @@ public class JetDaoFileImpl implements JetDao {
         Jet currentJet = hangar.get(id);
 
         try {
+            //If the new value is different from the old value and not set to the default value,
+            //then the changes will take place
             if (updateJet.getMissleCount() != currentJet.getMissleCount() && updateJet.getMissleCount() != -1) {
                 hangar.get(id).setMissleCount(updateJet.getMissleCount());
             }
@@ -67,14 +72,17 @@ public class JetDaoFileImpl implements JetDao {
     }
 
     @Override
-    public void delete(int id
-    ) {
-        hangar.remove(id);
+    public void delete(int id) throws JetDaoException {
+        //If the hangar contains a Jet with the specified id, then remove it
+        if (hangar.containsKey(id)) {
+            hangar.remove(id);
+        } else {
+            throw new JetDaoException("Id not found");
+        }
     }
 
     @Override
-    public List<Jet> findPilot(String name
-    ) {
+    public List<Jet> findPilot(String name) {
         Set<Integer> jets = hangar.keySet();
         ArrayList<Jet> pilotJets = new ArrayList<>();
         Jet currentJet;
