@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import jetmanager.dto.Jet;
 
 public class JetDaoImpl implements JetDao {
@@ -53,6 +54,20 @@ public class JetDaoImpl implements JetDao {
     @Override
     public void delete(int id) {
         hangar.remove(id);
+    }
+
+    @Override
+    public List<Jet> findPilot(String name) {
+        Set<Integer> jets = hangar.keySet();
+        ArrayList<Jet> pilotJets = new ArrayList<>();
+        Jet currentJet;
+        for (Integer i : jets) {
+            currentJet = hangar.get(i);
+            if (currentJet.getPilot().equals(name)) {
+                pilotJets.add(currentJet);
+            }
+        }
+        return pilotJets;
     }
 
 }

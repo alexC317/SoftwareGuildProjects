@@ -152,4 +152,34 @@ public class JetView {
         io.print("Jet successfully deleted.");
     }
 
+    public void displaySearchPilotBanner() {
+        io.print("=== Search for Pilot ===");
+    }
+
+    public String getPilotName() {
+        return io.readString("Please enter the pilot's name.");
+    }
+
+    public void displayPilotList(List<Jet> jets) {
+        io.print("-----------");
+        if (jets.size() != 0) {
+            io.print("Pilot: " + jets.get(0).getPilot() + " flies the following: ");
+            for (Jet j : jets) {
+                io.print(j.getId() + ": " + j.getModel());
+            }
+
+        } else {
+            io.print("No such pilot found.");
+        }
+        io.print("-----------");
+    }
+
+    public void displayUnknownCommandBanner() {
+        io.print("Unknown command.");
+    }
+
+    public void displayExitMessageBanner() {
+        io.print("Goodbye, Commander.");
+    }
+
 }

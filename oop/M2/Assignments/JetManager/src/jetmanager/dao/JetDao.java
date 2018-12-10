@@ -28,4 +28,6 @@ public interface JetDao {
 
     //Delete
     public void delete(int id);
+    
+    public List<Jet> findPilot(String name);
 }

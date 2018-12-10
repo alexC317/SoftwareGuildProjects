@@ -55,16 +55,16 @@ public class JetController {
                     deleteJet();
                     break;
                 case 6:
-                    //Search by pilot
+                    searchByPilot();
                     break;
                 case 7:
                     quit = true;
                     break;
                 default:
-                    io.print("Unknown command");
+                    unknownCommand();
             }
         }
-        io.print("Goodbye");
+        exitMessage();
     }
 
     private void intro() {
@@ -110,5 +110,19 @@ public class JetController {
         dao.delete(id);
         view.displayDeleteSuccessBanner();
     }
-        //private List searchByPilot
+
+    private void searchByPilot() {
+        view.displaySearchPilotBanner();
+        String name = view.getPilotName();
+        List<Jet> jets = dao.findPilot(name);
+        view.displayPilotList(jets);
     }
+
+    private void unknownCommand() {
+        view.displayUnknownCommandBanner();
+    }
+
+    private void exitMessage() {
+        view.displayExitMessageBanner();
+    }
+}
