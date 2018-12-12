@@ -19,6 +19,7 @@ public interface JetDao {
      *
      * @param jet The jet we are storing in the hangar.
      * @return The newly inserted Jet object.
+     * @throws jetmanager.dao.JetDaoException
      */
     public Jet create(Jet jet) throws JetDaoException;
 
