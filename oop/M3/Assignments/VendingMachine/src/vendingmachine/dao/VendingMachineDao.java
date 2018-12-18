@@ -13,35 +13,23 @@ import vendingmachine.dto.VendingMachineItem;
  * @author Alex
  */
 public interface VendingMachineDao {
+
     /**
-     * 
-     * @param item
-     * @return 
-     */
-    public VendingMachineItem create(VendingMachineItem item);
-    
-    /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List<VendingMachineItem> readAll();
-    
+
     /**
-     * 
+     *
      * @param itemId
-     * @return 
+     * @return
      */
     public VendingMachineItem readByID(int itemId);
-    
+
     /**
-     * 
-     * @param itemId 
+     *
+     * @param itemId
      */
     public void update(int itemId);
-    
-    /**
-     * 
-     * @param itemId 
-     */
-    public void delete(int itemId);
 }

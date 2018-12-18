@@ -13,17 +13,11 @@ import vendingmachine.dto.VendingMachineItem;
 public class VendingMachineDaoFileImpl implements VendingMachineDao {
 
     private Map<Integer, VendingMachineItem> items = new HashMap<>();
-    
+
     public static final String INVENTORY_FILE = "inventory.txt";
     public static final String DELIMITER = "::";
-    
+
     // LOAD THE FILE INTO MEMORY IN THE CONSTRUCTOR
-
-    @Override
-    public VendingMachineItem create(VendingMachineItem item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public List<VendingMachineItem> readAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -39,11 +33,6 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void delete(int itemId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     private void loadInventory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
