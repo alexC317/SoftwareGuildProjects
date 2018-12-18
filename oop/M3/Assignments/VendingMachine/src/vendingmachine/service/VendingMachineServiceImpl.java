@@ -12,7 +12,7 @@ import vendingmachine.dto.VendingMachineItem;
 
 
 public class VendingMachineServiceImpl implements VendingMachineService {
-    BigDecimal balance;
+    private BigDecimal balance;
 
     @Override
     public List<VendingMachineItem> getAvailableItems() {

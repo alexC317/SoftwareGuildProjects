@@ -16,7 +16,7 @@ import vendingmachine.dto.VendingMachineItem;
  */
 public class VendingMachineView {
 
-    UserIO io;
+    private UserIO io;
 
     public VendingMachineView(UserIO io) {
         this.io = io;
