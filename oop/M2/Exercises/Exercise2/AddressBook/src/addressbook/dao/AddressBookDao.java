@@ -14,15 +14,15 @@ import java.util.List;
  */
 public interface AddressBookDao {
 
-    public void create(Address address);
+    public void create(Address address) throws AddressBookDaoException;
 
-    public List<Address> readAll();
+    public List<Address> readAll() throws AddressBookDaoException;
 
-    public Address readByLastName(String lastName);
+    public Address readByLastName(String lastName) throws AddressBookDaoException;
 
-    public void delete(String lastName);
+    public void delete(String lastName) throws AddressBookDaoException;
     
-    public int addressCount();
+    public int addressCount() throws AddressBookDaoException;
     
-    public void editAddress(String lastName, Address newAddress);
+    public void editAddress(String lastName, Address newAddress) throws AddressBookDaoException;
 }

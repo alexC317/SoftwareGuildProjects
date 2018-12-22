@@ -32,7 +32,7 @@ public class AddressBookView {
         io.print("          6. Edit an Address.");
         io.print("          7. Exit");
 
-        return io.readInt("Please enter your selection: ", 1, 6);
+        return io.readInt("Please enter your selection: ", 1, 7);
     }
 
     public Address getNewAddressInfo() {

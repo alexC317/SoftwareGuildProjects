@@ -26,23 +26,27 @@ public class AddressBookDaoImpl implements AddressBookDao {
     Map<String, Address> addresses = new HashMap<>();
 
     @Override
-    public void create(Address address) {
+    public void create(Address address) throws AddressBookDaoException {
         addresses.put(address.getLastName(), address);
+        writeAddresses();
     }
 
     @Override
-    public List<Address> readAll() {
+    public List<Address> readAll() throws AddressBookDaoException {
+        loadAddresses();
         return new ArrayList<Address>(addresses.values());
     }
 
     @Override
-    public Address readByLastName(String lastName) {
+    public Address readByLastName(String lastName) throws AddressBookDaoException {
+        loadAddresses();
         return addresses.get(lastName);
     }
 
     @Override
-    public void delete(String lastName) {
+    public void delete(String lastName) throws AddressBookDaoException {
         addresses.remove(lastName);
+        writeAddresses();
     }
 
     @Override
@@ -51,13 +55,14 @@ public class AddressBookDaoImpl implements AddressBookDao {
     }
 
     @Override
-    public void editAddress(String lastName, Address newAddress) {
+    public void editAddress(String lastName, Address newAddress) throws AddressBookDaoException {
         Address currentAddress = addresses.get(lastName);
         String oldFirstName = currentAddress.getFirstName();
 
         newAddress.setFirstName(oldFirstName);
         newAddress.setLastName(lastName);
         addresses.put(lastName, newAddress);
+        writeAddresses();
     }
 
     private void loadAddresses() throws AddressBookDaoException {
@@ -71,33 +76,14 @@ public class AddressBookDaoImpl implements AddressBookDao {
         }
         // currentLine holds the most recent line read from the file
         String currentLine;
-        // currentTokens holds each of the parts of the currentLine after it has been split on our DELIMITER.
-        // NOTE FOR APPRENTICES: In our case we use :: as our delimiter. If
-        // cuurentLine looks like this:
-        // 1234::Joe::Smith::Java-September2013
-        // then currentTokens wlll be a String array that looks like this:
-        // 
-        // ___________________________________
-        // |    |   |     |                  |
-        // |1234|Joe|Smith|Java-September2013|
-        // |    |   |     |                  |
-        // -----------------------------------
-        //  [0]  [1]  [2]           [3]
         String[] currentTokens;
-        // Go through ROSTER_FILE line by line, decoding each line into a Student object
-        // Process while we have more lines in the file
         while (scanner.hasNextLine()) {
             // get the next line in the file
             currentLine = scanner.nextLine();
             // break up the line into tokens
             currentTokens = currentLine.split(DELIMITER);
-            // Create a new Studen object and put it into the map of students 
-            // NOTE FOR APPRENTICES: We are going to use the student id
-            // Which is currentTokens[0] as the map key for out student object.
-            // We also have to pass the student id into the Student constructor
             Address currentAddress = new Address(currentTokens[0], currentTokens[1], currentTokens[2],
                     currentTokens[3], currentTokens[4], Integer.parseInt(currentTokens[5]));
-            //Put currentStudent into the map using studentId as the key
             addresses.put(currentAddress.getLastName(), currentAddress);
         }
         // close scanner
@@ -112,11 +98,6 @@ public class AddressBookDaoImpl implements AddressBookDao {
      * file
      */
     private void writeAddresses() throws AddressBookDaoException {
-        // NOTE FOR APPRENTICES: We are not handling the IOException - but
-        // we are translating it to an application specific exception and 
-        // then simple throwing it (i.e. 'reporting' it) to the code that 
-        // called us. It is the responsibility of the calling code to
-        // handle any errors that occur.
         PrintWriter out;
 
         try {
@@ -124,22 +105,14 @@ public class AddressBookDaoImpl implements AddressBookDao {
         } catch (IOException e) {
             throw new AddressBookDaoException("Could not save address data.", e);
         }
-
-        // Write out the Student objects to the roster file.
-        // NOTE TO THE APPRENTICES: We could just grab the student map,
-        // get the Collection of Students and iterate over them, but we've
-        // already created a method that gets a List of Students so
-        // we'll reuse it.
         List<Address> addressList = this.readAll();
         for (Address currentAddress : addressList) {
-            // write the Student object to the file
             out.println(currentAddress.getFirstName() + DELIMITER
                     + currentAddress.getLastName() + DELIMITER
                     + currentAddress.getStreetAddress() + DELIMITER
                     + currentAddress.getCity() + DELIMITER
                     + currentAddress.getState() + DELIMITER
                     + currentAddress.getZipCode());
-            // force PrintWriter to write line to the file
             out.flush();
         }
         //Clean up

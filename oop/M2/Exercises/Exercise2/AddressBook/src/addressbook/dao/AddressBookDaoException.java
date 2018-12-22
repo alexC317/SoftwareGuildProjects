@@ -9,7 +9,7 @@ package addressbook.dao;
  *
  * @author Alex
  */
-class AddressBookDaoException extends Exception {
+public class AddressBookDaoException extends Exception {
 
     public AddressBookDaoException(String message) {
         super(message);
