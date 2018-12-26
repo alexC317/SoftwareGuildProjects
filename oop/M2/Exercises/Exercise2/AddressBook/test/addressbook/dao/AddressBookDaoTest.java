@@ -104,7 +104,14 @@ public class AddressBookDaoTest {
      * Test of editAddress method, of class AddressBookDao.
      */
     @Test
-    public void testEditAddress() {
+    public void testEditAddress() throws Exception {
+        Address address = new Address("John", "Smith", "123 Main Street", "Springfield", "IL", 00001);
+        dao.create(address);
+        
+        Address address2 = new Address("Peter", "Capaldi", "The TARDIS", "Space", "Galifrey", 00002);
+        dao.editAddress("Smith", address2);
+        
+        assertEquals(address2, dao.readByLastName("Capaldi"));
         
     }
 

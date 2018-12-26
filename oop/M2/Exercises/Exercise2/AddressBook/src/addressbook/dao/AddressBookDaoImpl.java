@@ -62,7 +62,6 @@ public class AddressBookDaoImpl implements AddressBookDao {
         newAddress.setFirstName(oldFirstName);
         newAddress.setLastName(lastName);
         addresses.put(lastName, newAddress);
-        writeAddresses();
     }
 
     private void loadAddresses() throws AddressBookDaoException {
