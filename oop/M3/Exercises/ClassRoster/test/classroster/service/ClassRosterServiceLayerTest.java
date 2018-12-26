@@ -121,7 +121,7 @@ public class ClassRosterServiceLayerTest {
     public void testRemoveStudent() throws Exception {
         Student student = service.removeStudent("0001");
         assertNotNull(student);
-        student = service.removeStudent("9999");
+        student = service.removeStudent("0002");
         assertNull(student);
     }
 
