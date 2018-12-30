@@ -5,6 +5,7 @@
  */
 package jetmanager.dto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -20,6 +21,7 @@ public class Jet {
     private double fuelCapacity = -1;
     private double currentFuel = -1;
     private String pilot = null;
+    private LocalDate dateIssued;
 
     //Constructor
     public Jet(int id) {
@@ -71,6 +73,14 @@ public class Jet {
         this.pilot = pilot;
     }
 
+    public LocalDate getDateIssued() {
+        return dateIssued;
+    }
+
+    public void setDateIssued(LocalDate dateIssued) {
+        this.dateIssued = dateIssued;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -115,6 +125,5 @@ public class Jet {
         }
         return true;
     }
-    
-    
+
 }

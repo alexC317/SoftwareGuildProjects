@@ -5,6 +5,8 @@
  */
 package jetmanager.view;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import jetmanager.dao.JetDaoException;
 import jetmanager.dto.Jet;
@@ -75,6 +77,7 @@ public class JetView {
         currentJet.setFuelCapacity(jetFuel);
         currentJet.setCurrentFuel(currentFuel);
         currentJet.setPilot(jetPilot);
+        currentJet.setDateIssued(LocalDate.now());
 
         return currentJet;
     }
@@ -134,6 +137,7 @@ public class JetView {
             io.print("Pilot: " + jet.getPilot());
             io.print("Current Missles: " + jet.getMissleCount());
             io.print("Fuel: " + jet.getCurrentFuel() + "/" + jet.getFuelCapacity());
+            io.print("Date Issued: " + jet.getDateIssued().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         } else {
             io.print("No such plane in the hangar.");
         }

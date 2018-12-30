@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,6 +138,7 @@ public class JetDaoFileImpl implements JetDao {
             currentJet.setFuelCapacity(Double.parseDouble(currentTokens[3]));
             currentJet.setCurrentFuel(Double.parseDouble(currentTokens[4]));
             currentJet.setPilot(currentTokens[5]);
+            currentJet.setDateIssued(LocalDate.parse(currentTokens[6]));
 
             hangar.put(currentJet.getId(), currentJet);
         }
@@ -166,7 +168,8 @@ public class JetDaoFileImpl implements JetDao {
                     + currentJet.getMissleCount() + DELIMITER
                     + currentJet.getFuelCapacity() + DELIMITER
                     + currentJet.getCurrentFuel() + DELIMITER
-                    + currentJet.getPilot());
+                    + currentJet.getPilot() + DELIMITER
+                    + currentJet.getDateIssued());
             out.flush();
         }
         out.close();
