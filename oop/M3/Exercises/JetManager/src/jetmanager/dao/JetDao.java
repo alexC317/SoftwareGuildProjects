@@ -73,6 +73,14 @@ public interface JetDao {
     public List<Jet> getAllJetsFromLastXYears(int years);
 
     /**
+     * Gets all Jets of a particular model.
+     *
+     * @param model
+     * @return A list of Jets matching the specified model.
+     */
+    public List<Jet> getJetsByModel(String model);
+
+    /**
      * Loads the text file that represents the hangar.
      *
      * @throws JetDaoException

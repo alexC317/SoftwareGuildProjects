@@ -8,7 +8,6 @@ package jetmanager.view;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import jetmanager.dao.JetDaoException;
 import jetmanager.dto.Jet;
 
 /**
@@ -47,9 +46,10 @@ public class JetView {
         io.print("5. Delete an individual Jet");
         io.print("6. Search for a pilot");
         io.print("7. View all the Jets from released in the past X years.");
-        io.print("8. Exit");
+        io.print("8. Find all Jets of a particular model.");
+        io.print("9. Exit");
 
-        return io.readInt("Please select one from the above choices.", 1, 8);
+        return io.readInt("Please select one from the above choices.", 1, 9);
     }
 
     /**
@@ -259,12 +259,37 @@ public class JetView {
         io.print("-----------");
     }
 
+    /**
+     * Displays a banner once the user has selected to find Jets issued within X
+     * years.
+     */
     public void displayGetJetsByYearRangeBanner() {
         io.print("=== Get Jets By Year ===");
     }
 
+    /**
+     * Prompts the user to enter a number of years to look from.
+     *
+     * @return The int containing the number of years.
+     */
     public int getNumOfYears() {
         return io.readInt("Please enter the number of years to look through.");
+    }
+
+    /**
+     * Displays a banner once the user has selected to find Jets by the model.
+     */
+    public void displayGetJetsByModelBanner() {
+        io.print("=== Get Jets By Model ===");
+    }
+
+    /**
+     * Prompts the user to enter the model to match.
+     *
+     * @return A String containing the model to match.
+     */
+    public String getModel() {
+        return io.readString("Please enter the model to find.");
     }
 
     /**

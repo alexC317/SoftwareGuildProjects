@@ -67,6 +67,9 @@ public class JetController {
                         getAllJetsFromXYears();
                         break;
                     case 8:
+                        getAllJetsByModel();
+                        break;
+                    case 9:
                         quit = true;
                         break;
                     default:
@@ -161,6 +164,9 @@ public class JetController {
         view.displayPilotList(jets);
     }
     
+    /**
+     * Allows the user to get a List of all Jets issues within X amount of years.
+     */
     private void getAllJetsFromXYears() {
         view.displayGetJetsByYearRangeBanner();
         int years = view.getNumOfYears();
@@ -168,6 +174,12 @@ public class JetController {
         view.displayCurrentJetList(jets);
     }
 
+    private void getAllJetsByModel() {
+        view.displayGetJetsByModelBanner();
+        String model = view.getModel();
+        List<Jet> jets = dao.getJetsByModel(model);
+        view.displayCurrentJetList(jets);
+    }
     /**
      * Calls the View Layer's unknown command method.
      */
