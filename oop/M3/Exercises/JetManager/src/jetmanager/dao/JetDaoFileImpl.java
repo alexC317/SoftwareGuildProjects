@@ -85,16 +85,10 @@ public class JetDaoFileImpl implements JetDao {
 
     @Override
     public List<Jet> findPilot(String name) {
-        Set<Integer> jets = hangar.keySet();
-        ArrayList<Jet> pilotJets = new ArrayList<>();
-        Jet currentJet;
-        for (Integer i : jets) {
-            currentJet = hangar.get(i);
-            if (currentJet.getPilot().equals(name)) {
-                pilotJets.add(currentJet);
-            }
-        }
-        return pilotJets;
+        return hangar.values()
+                .stream()
+                .filter(j -> j.getPilot().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
     }
 
     @Override
