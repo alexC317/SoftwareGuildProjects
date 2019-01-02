@@ -5,6 +5,7 @@
  */
 package jetmanager.view;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -47,9 +48,10 @@ public class JetView {
         io.print("6. Search for a pilot");
         io.print("7. View all the Jets from released in the past X years.");
         io.print("8. Find all Jets of a particular model.");
-        io.print("9. Exit");
+        io.print("9. Display the average age of the Jets in the hangar.");
+        io.print("10. Exit");
 
-        return io.readInt("Please select one from the above choices.", 1, 9);
+        return io.readInt("Please select one from the above choices.", 1, 10);
     }
 
     /**
@@ -290,6 +292,24 @@ public class JetView {
      */
     public String getModel() {
         return io.readString("Please enter the model to find.");
+    }
+
+    /**
+     * Displays a banner once the user has selected to get the average age of
+     * the jets in the hangar.
+     */
+    public void displayGetAverageAgeBanner() {
+        io.print("=== Average Age of Jets in Hangar ===");
+    }
+
+    /**
+     * Displays the average age of the jets in the hangar.
+     *
+     * @param avgAge
+     */
+    public void displayAverageAge(float avgAge) {
+        DecimalFormat avg = new DecimalFormat("#.##");
+        io.print("The average age of the jets in the hangar is: " + avg.format(avgAge) + " years.");
     }
 
     /**

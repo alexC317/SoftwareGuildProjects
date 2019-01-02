@@ -81,6 +81,11 @@ public interface JetDao {
     public List<Jet> getJetsByModel(String model);
 
     /**
+     * Gets the average of the Jets in the hangar.
+     */
+    public double getAverageJetAge();
+
+    /**
      * Loads the text file that represents the hangar.
      *
      * @throws JetDaoException

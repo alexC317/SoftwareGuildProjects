@@ -70,6 +70,9 @@ public class JetController {
                         getAllJetsByModel();
                         break;
                     case 9:
+                        getJetAverageAge();
+                        break;
+                    case 10:
                         quit = true;
                         break;
                     default:
@@ -163,9 +166,10 @@ public class JetController {
         List<Jet> jets = dao.findPilot(name);
         view.displayPilotList(jets);
     }
-    
+
     /**
-     * Allows the user to get a List of all Jets issues within X amount of years.
+     * Allows the user to get a List of all Jets issues within X amount of
+     * years.
      */
     private void getAllJetsFromXYears() {
         view.displayGetJetsByYearRangeBanner();
@@ -174,12 +178,25 @@ public class JetController {
         view.displayCurrentJetList(jets);
     }
 
+    /**
+     * Allows the user to get a List of all Jets by a particular model.
+     */
     private void getAllJetsByModel() {
         view.displayGetJetsByModelBanner();
         String model = view.getModel();
         List<Jet> jets = dao.getJetsByModel(model);
         view.displayCurrentJetList(jets);
     }
+
+    /**
+     * Allows the user to get the average age of all the Jets in the hangar.
+     */
+    private void getJetAverageAge() {
+        view.displayGetAverageAgeBanner();
+        float avgAge = (float) dao.getAverageJetAge();
+        view.displayAverageAge(avgAge);
+    }
+
     /**
      * Calls the View Layer's unknown command method.
      */
@@ -194,4 +211,5 @@ public class JetController {
         dao.exitProgram();
         view.displayExitMessageBanner();
     }
+
 }

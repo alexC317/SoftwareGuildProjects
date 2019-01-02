@@ -98,13 +98,22 @@ public class JetDaoFileImpl implements JetDao {
                 .filter(j -> j.getYearsInService() <= yearRange)
                 .collect(Collectors.toList());
     }
-    
+
     @Override
     public List<Jet> getJetsByModel(String model) {
         return hangar.values()
                 .stream()
                 .filter(j -> j.getModel().equalsIgnoreCase(model))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public double getAverageJetAge() {
+        return hangar.values()
+                .stream()
+                .mapToLong(j -> j.getYearsInService())
+                .average()
+                .getAsDouble();
     }
 
     @Override

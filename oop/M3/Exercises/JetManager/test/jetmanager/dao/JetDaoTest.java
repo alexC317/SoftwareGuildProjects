@@ -8,6 +8,7 @@ package jetmanager.dao;
 import java.time.LocalDate;
 import java.util.List;
 import jetmanager.dto.Jet;
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -225,5 +226,31 @@ public class JetDaoTest {
         dao.create(jet2);
         
         assertEquals(1, dao.getJetsByModel("F-14D Super Tomcat").size());
+    }
+    
+    @Test
+    public void testGetAverageAge() throws Exception {
+        Jet jet = new Jet(1);
+
+        jet.setModel("F-14D Super Tomcat");
+        jet.setPilot("Kei Nagase");
+        jet.setFuelCapacity(100);
+        jet.setCurrentFuel(75);
+        jet.setMissleCount(4);
+        jet.setDateIssued(LocalDate.now());
+
+        dao.create(jet);
+        
+        Jet jet2 = new Jet(2);
+        jet2.setModel("F-15C Eagle");
+        jet2.setPilot("Larry Foulke");
+        jet2.setFuelCapacity(150);
+        jet2.setCurrentFuel(100);
+        jet2.setMissleCount(6);
+        jet2.setDateIssued(LocalDate.now().minusYears(10));
+
+        dao.create(jet2);
+        
+        assertEquals(5, dao.getAverageJetAge(), 0);
     }
 }
