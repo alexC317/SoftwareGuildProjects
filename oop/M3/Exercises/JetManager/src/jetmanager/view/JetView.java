@@ -46,9 +46,10 @@ public class JetView {
         io.print("4. Update an individual Jet");
         io.print("5. Delete an individual Jet");
         io.print("6. Search for a pilot");
-        io.print("7. Exit");
+        io.print("7. View all the Jets from released in the past X years.");
+        io.print("8. Exit");
 
-        return io.readInt("Please select one from the above choices.", 1, 7);
+        return io.readInt("Please select one from the above choices.", 1, 8);
     }
 
     /**
@@ -256,6 +257,14 @@ public class JetView {
             io.print("No such pilot found.");
         }
         io.print("-----------");
+    }
+
+    public void displayGetJetsByYearRangeBanner() {
+        io.print("=== Get Jets By Year ===");
+    }
+
+    public int getNumOfYears() {
+        return io.readInt("Please enter the number of years to look through.");
     }
 
     /**

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 import jetmanager.dto.Jet;
 
 public class JetDaoFileImpl implements JetDao {
@@ -94,6 +95,14 @@ public class JetDaoFileImpl implements JetDao {
             }
         }
         return pilotJets;
+    }
+
+    @Override
+    public List<Jet> getAllJetsFromLastXYears(int yearRange) {
+        return hangar.values()
+                .stream()
+                .filter(j -> j.getYearsInService() <= yearRange)
+                .collect(Collectors.toList());
     }
 
     @Override

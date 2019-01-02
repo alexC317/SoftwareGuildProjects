@@ -6,6 +6,7 @@
 package jetmanager.dto;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ public class Jet {
     private double fuelCapacity = -1;
     private double currentFuel = -1;
     private String pilot = null;
-    private LocalDate dateIssued;
+    private LocalDate dateIssued = null;
 
     //Constructor
     public Jet(int id) {
@@ -79,6 +80,11 @@ public class Jet {
 
     public void setDateIssued(LocalDate dateIssued) {
         this.dateIssued = dateIssued;
+    }
+    
+    public long getYearsInService() {
+        Period p = dateIssued.until((LocalDate.now()));
+        return p.getYears();
     }
 
     @Override

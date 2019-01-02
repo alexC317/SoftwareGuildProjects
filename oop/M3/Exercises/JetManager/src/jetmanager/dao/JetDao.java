@@ -5,6 +5,7 @@
  */
 package jetmanager.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import jetmanager.dto.Jet;
 
@@ -62,6 +63,14 @@ public interface JetDao {
      * @return A list of all the Jets that pilot is associated with.
      */
     public List<Jet> findPilot(String name);
+
+    /**
+     * Gets all Jets from the past user-indicated years
+     *
+     * @param years
+     * @return A list of Jets that were issued from now to the specified year.
+     */
+    public List<Jet> getAllJetsFromLastXYears(int years);
 
     /**
      * Loads the text file that represents the hangar.

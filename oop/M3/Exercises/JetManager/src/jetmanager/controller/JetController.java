@@ -64,6 +64,9 @@ public class JetController {
                         searchByPilot();
                         break;
                     case 7:
+                        getAllJetsFromXYears();
+                        break;
+                    case 8:
                         quit = true;
                         break;
                     default:
@@ -156,6 +159,13 @@ public class JetController {
         String name = view.getPilotName();
         List<Jet> jets = dao.findPilot(name);
         view.displayPilotList(jets);
+    }
+    
+    private void getAllJetsFromXYears() {
+        view.displayGetJetsByYearRangeBanner();
+        int years = view.getNumOfYears();
+        List<Jet> jets = dao.getAllJetsFromLastXYears(years);
+        view.displayCurrentJetList(jets);
     }
 
     /**
