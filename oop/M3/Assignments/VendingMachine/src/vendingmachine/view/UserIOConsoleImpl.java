@@ -6,68 +6,147 @@
 package vendingmachine.view;
 
 import java.math.BigDecimal;
-
+import java.util.Scanner;
 
 public class UserIOConsoleImpl implements UserIO {
 
+    private Scanner input = new Scanner(System.in);
+
     @Override
     public void print(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(msg);
     }
 
     @Override
     public double readDouble(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        double value;
+        try {
+            value = Double.parseDouble(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readDouble("Please enter a valid number: ");
+        }
+        return value;
     }
 
     @Override
     public double readDouble(String prompt, double min, double max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        double value;
+        try {
+            value = Double.parseDouble(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readDouble("Please enter a valid number: ", min, max);
+        }
+        if (value > max || value < min) {
+            return readDouble("Please enter a number between the range of " + min + " and " + max + ".", min, max);
+        }
+        return value;
     }
 
     @Override
     public float readFloat(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        float value;
+        try {
+            value = Float.parseFloat(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readFloat("Please enter a valid number: ");
+        }
+        return value;
     }
 
     @Override
     public float readFloat(String prompt, float min, float max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(prompt);
+        float value;
+        try {
+            value = Float.parseFloat(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readFloat("Please enter a valid number: ", min, max);
+        }
+        if (value < min || value > max) {
+            return readFloat("Please enter a number between the range of " + min + " and " + max + ".", min, max);
+        }
+        return value;
     }
 
     @Override
     public int readInt(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        int value;
+        try {
+            value = Integer.parseInt(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readInt("Please enter a valid number: ");
+        }
+        return value;
     }
 
     @Override
     public int readInt(String prompt, int min, int max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        int value;
+        try {
+            value = Integer.parseInt(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readInt("Please enter a valid number: ", min, max);
+        }
+        if (value < min || value > max) {
+            return readInt("Please enter a number between the range of " + min + " and " + max + ".", min, max);
+        }
+        return value;
     }
 
     @Override
     public long readLong(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        long value;
+        try {
+            value = Long.parseLong(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readLong("Please enter a valid number: ");
+        }
+        return value;
     }
 
     @Override
     public long readLong(String prompt, long min, long max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        long value;
+        try {
+            value = Long.parseLong(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readLong("Please enter a valid number: ", min, max);
+        }
+
+        if (value < min || value > max) {
+            return readLong("Please enter a number between the range of " + min + " and " + max + ".", min, max);
+        }
+        return value;
     }
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        BigDecimal value = new BigDecimal(input.nextLine());
+        return value;
     }
 
     @Override
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(prompt);
+        BigDecimal value = new BigDecimal(input.nextLine());
+        if (value.compareTo(min) == -1 || value.compareTo(max) == 1) {
+            return readBigDecimal("Please enter a number between the range of " + min.toString() + " and " + max.toString() + ".", min, max);
+        }
+        return value;
     }
 
     @Override
     public String readString(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(prompt);
+        return input.nextLine();
     }
-    
+
 }
