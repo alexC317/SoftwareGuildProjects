@@ -31,5 +31,5 @@ public interface VendingMachineDao {
      *
      * @param itemId
      */
-    public void update(int itemId);
+    public void update(int itemId, VendingMachineItem item);
 }

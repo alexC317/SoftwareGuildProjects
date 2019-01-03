@@ -8,7 +8,6 @@ package jetmanager.dao;
 import java.time.LocalDate;
 import java.util.List;
 import jetmanager.dto.Jet;
-import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
