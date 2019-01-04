@@ -5,7 +5,7 @@
  */
 package vendingmachine.dao;
 
-import java.util.List;
+import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,15 +19,14 @@ import vendingmachine.dto.VendingMachineItem;
  * @author Alex
  */
 public class VendingMachineDaoTest {
-    
-    private VendingMachineDao dao = new VendingMachineDaoFileImpl();
+
+    private VendingMachineDao dao = new VendingMachineDaoStubImpl();
 
     public VendingMachineDaoTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-        
     }
 
     @AfterClass
@@ -35,8 +34,7 @@ public class VendingMachineDaoTest {
     }
 
     @Before
-    public void setUp() throws Exception {
-        
+    public void setUp() {
     }
 
     @After
@@ -48,8 +46,7 @@ public class VendingMachineDaoTest {
      */
     @Test
     public void testReadAll() {
-        List<VendingMachineItem> items = dao.readAll();
-        assertEquals(1, items.size());
+        assertEquals(1, dao.readAll().size());
     }
 
     /**
@@ -57,7 +54,8 @@ public class VendingMachineDaoTest {
      */
     @Test
     public void testReadByID() {
-        
+        assertEquals(1, dao.readByID(1).getItemId());
+        assertNull(dao.readByID(2));
     }
 
     /**
@@ -65,6 +63,22 @@ public class VendingMachineDaoTest {
      */
     @Test
     public void testUpdate() {
+        VendingMachineItem item = new VendingMachineItem(1);
+        item.setItemName("Coca-Cola");
+        item.setItemCount(2);
+        item.setItemPrice(new BigDecimal("1.50"));
+
+        dao.update(1, item);
+
+        assertEquals(item.getItemId(), dao.readByID(1).getItemId());
+        
+        assertNotEquals("Sprite", dao.readByID(1).getItemName());
+        assertNotEquals(1, dao.readByID(1).getItemCount());
+        assertNotEquals("1.00", dao.readByID(1).getItemPrice().toString());
+
+        assertEquals("Coca-Cola", dao.readByID(1).getItemName());
+        assertEquals(2, dao.readByID(1).getItemCount());
+        assertEquals("1.50", dao.readByID(1).getItemPrice().toString());
     }
 
 }

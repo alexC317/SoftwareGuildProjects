@@ -5,6 +5,7 @@
  */
 package vendingmachine.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,17 +21,36 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     // LOAD THE FILE INTO MEMORY IN THE CONSTRUCTOR
     @Override
     public List<VendingMachineItem> readAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<>(items.values());
     }
 
     @Override
     public VendingMachineItem readByID(int itemId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (items.containsKey(itemId)) {
+            return items.get(itemId);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void update(int itemId, VendingMachineItem item) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (items.containsKey(itemId)) {
+            if (items.get(itemId).getItemName().equals(item.getItemName())) {
+            } else {
+                items.get(itemId).setItemName(item.getItemName());
+            }
+
+            if (items.get(itemId).getItemCount() == item.getItemCount()) {
+            } else {
+                items.get(itemId).setItemCount(item.getItemCount());
+            }
+
+            if (items.get(itemId).getItemPrice().equals(item.getItemPrice())) {
+            } else {
+                items.get(itemId).setItemPrice(item.getItemPrice());
+            }
+        }
     }
 
     private void loadInventory() {

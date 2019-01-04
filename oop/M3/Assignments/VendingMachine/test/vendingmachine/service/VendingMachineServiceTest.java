@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
@@ -21,22 +22,25 @@ import vendingmachine.dto.VendingMachineItem;
  * @author Alex
  */
 public class VendingMachineServiceTest {
+
+    private VendingMachineService service;
     
     public VendingMachineServiceTest() {
+        
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -69,21 +73,4 @@ public class VendingMachineServiceTest {
     public void testCalculateChange() {
     }
 
-    public class VendingMachineServiceImpl implements VendingMachineService {
-
-        public List<VendingMachineItem> getAvailableItems() {
-            return null;
-        }
-
-        public void setBalance(BigDecimal balance) {
-        }
-
-        public void vend(int itemId) {
-        }
-
-        public Change calculateChange(BigDecimal change) {
-            return null;
-        }
-    }
-    
 }

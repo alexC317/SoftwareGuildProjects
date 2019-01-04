@@ -7,12 +7,18 @@ package vendingmachine.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import vendingmachine.dao.VendingMachineDao;
+import vendingmachine.dao.VendingMachineDaoFileImpl;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
 
 public class VendingMachineServiceImpl implements VendingMachineService {
     private BigDecimal balance;
+    
+    public VendingMachineServiceImpl(VendingMachineDao dao){
+        dao = new VendingMachineDaoFileImpl();
+    }
 
     @Override
     public List<VendingMachineItem> getAvailableItems() {

@@ -5,14 +5,24 @@
  */
 package vendingmachine.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+import vendingmachine.dto.VendingMachineItem;
+import vendingmachine.service.VendingMachineService;
+import vendingmachine.view.VendingMachineView;
+
 /**
  *
  * @author Alex
  */
 public class VendingMachineController {
-
-    public VendingMachineController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    private VendingMachineView view;
+    private VendingMachineService service;
+    
+    public VendingMachineController(VendingMachineView view, VendingMachineService service) {
+        this.view = view;
+        this.service = service;
     }
 
     /**
@@ -27,7 +37,7 @@ public class VendingMachineController {
      */
     private void intro() {
         // Display an intro message from the View layer
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        view.introMessage();
     }
 
     /**
@@ -36,8 +46,9 @@ public class VendingMachineController {
      */
     private void displayMenu() {
         // Fetch what items are available from the Service layer
+        List<VendingMachineItem> items = service.getAvailableItems();
         // Send that List to the View for it to display
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        view.displayMenu(items);
     }
 
     /**
@@ -46,16 +57,17 @@ public class VendingMachineController {
     private void enterBalance() {
         // From the View layer, prompt the user to enter a balance
         // Send that balance to the Service layer
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BigDecimal balance = view.getBalance();
+        service.setBalance(balance);
     }
 
     /**
      * Prompts the user to enter what item they want to purchase.
      */
-    private void getMenuChoice() {
+    private int getMenuChoice() {
         // From the View layer, prompt the user to enter what they want to buy.
         // Controller will then make a decision from this in run()
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return view.getMenuChoice();
     }
 
     /**
@@ -67,7 +79,7 @@ public class VendingMachineController {
         // Passes along the itemId of the user selection to the Service Layer
         // If successful, View layer should display a message that the purchase
         // went through, and a message indicating what the change is.
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        service.vend(itemId);
     }
 
     /**
