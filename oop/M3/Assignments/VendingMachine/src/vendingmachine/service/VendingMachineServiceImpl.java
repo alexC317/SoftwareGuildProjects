@@ -9,14 +9,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachineDaoFileImpl;
+import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
-
 public class VendingMachineServiceImpl implements VendingMachineService {
+
     private BigDecimal balance;
-    
-    public VendingMachineServiceImpl(VendingMachineDao dao){
+
+    public VendingMachineServiceImpl(VendingMachineDao dao) throws VendingMachinePersistenceException {
         dao = new VendingMachineDaoFileImpl();
     }
 
@@ -31,6 +32,11 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     @Override
     public void setBalance(BigDecimal balance) {
         //Sets the balance here from what the Controller passed along
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public BigDecimal getBalance() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -51,5 +57,4 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         // getting back. Save all those in a Change object.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

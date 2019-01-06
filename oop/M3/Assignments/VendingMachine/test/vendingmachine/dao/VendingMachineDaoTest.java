@@ -46,7 +46,7 @@ public class VendingMachineDaoTest {
      */
     @Test
     public void testReadAll() {
-        assertEquals(1, dao.readAll().size());
+        assertEquals(2, dao.readAll().size());
     }
 
     /**
@@ -54,8 +54,9 @@ public class VendingMachineDaoTest {
      */
     @Test
     public void testReadByID() {
-        assertNotNull(dao.readByID(1).getItemId());
-        assertNull(dao.readByID(2));
+        assertNotNull(dao.readByID(1));
+        assertNotNull(dao.readByID(2));
+        assertNull(dao.readByID(3));
     }
 
     /**

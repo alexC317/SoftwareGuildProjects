@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import vendingmachine.dao.VendingMachineDao;
+import vendingmachine.dao.VendingMachineDaoStubImpl;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
@@ -24,9 +25,10 @@ import vendingmachine.dto.VendingMachineItem;
 public class VendingMachineServiceTest {
 
     private VendingMachineService service;
-    
-    public VendingMachineServiceTest() {
-        
+
+    public VendingMachineServiceTest() throws Exception {
+        VendingMachineDao dao = new VendingMachineDaoStubImpl();
+        service = new VendingMachineServiceImpl(dao);
     }
 
     @BeforeClass
@@ -50,13 +52,18 @@ public class VendingMachineServiceTest {
      */
     @Test
     public void testGetAvailableItems() {
+        List<VendingMachineItem> itemList = service.getAvailableItems();
+        assertEquals(1, itemList.size());
     }
 
     /**
      * Test of setBalance method, of class VendingMachineService.
      */
     @Test
-    public void testSetBalance() {
+    public void testSetAndGetBalance() {
+        BigDecimal balance = new BigDecimal("1.00");
+        service.setBalance(balance);
+        assertEquals(balance.toString(), service.getBalance().toString());
     }
 
     /**

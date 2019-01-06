@@ -14,16 +14,25 @@ import vendingmachine.dto.VendingMachineItem;
 
 public class VendingMachineDaoStubImpl implements VendingMachineDao {
 
-    private VendingMachineItem onlyItem;
+    private VendingMachineItem onlyValidItem;
+    private VendingMachineItem invalidItem;
     private Map<Integer, VendingMachineItem> itemList = new HashMap<>();
 
     public VendingMachineDaoStubImpl() {
-        onlyItem = new VendingMachineItem(1);
-        onlyItem.setItemName("Sprite");
-        onlyItem.setItemCount(1);
-        onlyItem.setItemPrice(new BigDecimal("1.00"));
+        onlyValidItem = new VendingMachineItem(1);
+        onlyValidItem.setItemName("Sprite");
+        onlyValidItem.setItemCount(1);
+        onlyValidItem.setItemPrice(new BigDecimal("1.00"));
 
-        itemList.put(onlyItem.getItemId(), onlyItem);
+        itemList.put(onlyValidItem.getItemId(), onlyValidItem);
+        
+        invalidItem = new VendingMachineItem(2);
+        invalidItem.setItemName("Dr. Pepper");
+        invalidItem.setItemCount(0);
+        invalidItem.setItemPrice(new BigDecimal("1.50"));
+        
+        itemList.put(2, invalidItem);
+        
     }
 
     @Override
@@ -33,8 +42,8 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
 
     @Override
     public VendingMachineItem readByID(int itemId) {
-        if (itemId == onlyItem.getItemId()) {
-            return onlyItem;
+        if (itemList.containsKey(itemId)) {
+            return itemList.get(itemId);
         } else {
             return null;
         }
@@ -42,20 +51,20 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
 
     @Override
     public void update(int itemId, VendingMachineItem item) {
-        if (itemId == onlyItem.getItemId()) {
-            if (onlyItem.getItemName().equals(item.getItemName())) {
+        if (itemId == onlyValidItem.getItemId()) {
+            if (onlyValidItem.getItemName().equals(item.getItemName())) {
             } else {
-                onlyItem.setItemName(item.getItemName());
+                onlyValidItem.setItemName(item.getItemName());
             }
 
-            if (onlyItem.getItemCount() == item.getItemCount()) {
+            if (onlyValidItem.getItemCount() == item.getItemCount()) {
             } else {
-                onlyItem.setItemCount(item.getItemCount());
+                onlyValidItem.setItemCount(item.getItemCount());
             }
 
-            if (onlyItem.getItemPrice().equals(item.getItemPrice())) {
+            if (onlyValidItem.getItemPrice().equals(item.getItemPrice())) {
             } else {
-                onlyItem.setItemPrice(item.getItemPrice());
+                onlyValidItem.setItemPrice(item.getItemPrice());
             }
         }
     }

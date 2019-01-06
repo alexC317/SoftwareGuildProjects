@@ -32,6 +32,14 @@ public interface VendingMachineService {
     public void setBalance(BigDecimal balance);
 
     /**
+     * Takes the balance stored in the Service Layer and returns it to the
+     * caller.
+     *
+     * @return The balance stored in the Service Layer.
+     */
+    public BigDecimal getBalance();
+
+    /**
      * Do all the necessary functions related to vending an item.
      *
      * @param itemId
