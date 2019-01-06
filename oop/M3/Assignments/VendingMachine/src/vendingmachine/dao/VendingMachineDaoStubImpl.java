@@ -21,7 +21,7 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     public VendingMachineDaoStubImpl() {
         onlyValidItem = new VendingMachineItem(1);
         onlyValidItem.setItemName("Sprite");
-        onlyValidItem.setItemCount(2);
+        onlyValidItem.setItemCount(1);
         onlyValidItem.setItemPrice(new BigDecimal("1.00"));
 
         itemList.put(onlyValidItem.getItemId(), onlyValidItem);

@@ -78,10 +78,23 @@ public class VendingMachineServiceTest {
         List<VendingMachineItem> itemList = service.getAvailableItems();
         assertEquals(1, itemList.get(0).getItemCount());
         assertNull(service.getBalance());
-        
+    }
+    
+    @Test
+    public void testVendIfNoChange() {
         
     }
-
+    
+    @Test
+    public void testVendIfChange() {
+        
+    }
+    
+    @Test
+    public void testVendIfNoEnoughBalance() {
+        
+    }
+    
     /**
      * Test of calculateChange method, of class VendingMachineService.
      */
