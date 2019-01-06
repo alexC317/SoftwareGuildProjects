@@ -70,9 +70,20 @@ public class VendingMachineServiceTest {
      * Test of vend method, of class VendingMachineService.
      */
     @Test
-    public void testVend() {
+    public void testVendIfNoChange() {
+        
     }
-
+    
+    @Test
+    public void testVendIfChange() {
+        
+    }
+    
+    @Test
+    public void testVendIfNoEnoughBalance() {
+        
+    }
+    
     /**
      * Test of calculateChange method, of class VendingMachineService.
      */
