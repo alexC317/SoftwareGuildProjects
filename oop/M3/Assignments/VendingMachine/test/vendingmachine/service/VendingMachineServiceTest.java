@@ -63,14 +63,23 @@ public class VendingMachineServiceTest {
     public void testSetAndGetBalance() {
         BigDecimal balance = new BigDecimal("1.00");
         service.setBalance(balance);
-        assertEquals(balance.toString(), service.getBalance().toString());
+        assertEquals(0, balance.compareTo(service.getBalance()));
     }
 
     /**
      * Test of vend method, of class VendingMachineService.
      */
     @Test
-    public void testVend() {
+    public void testVend() throws InsufficientFundsException {
+        BigDecimal balance = new BigDecimal("1.00");
+        service.setBalance(balance);
+        service.vend(1);
+        
+        List<VendingMachineItem> itemList = service.getAvailableItems();
+        assertEquals(1, itemList.get(0).getItemCount());
+        assertNull(service.getBalance());
+        
+        
     }
 
     /**

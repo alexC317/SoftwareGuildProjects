@@ -14,7 +14,7 @@ public class Change {
     private int dimes;
     private int nickels;
     private int pennies;
-
+    
     public int getQuarters() {
         return quarters;
     }

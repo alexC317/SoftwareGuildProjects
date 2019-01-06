@@ -43,8 +43,10 @@ public interface VendingMachineService {
      * Do all the necessary functions related to vending an item.
      *
      * @param itemId
+     * @return The change being returned back to the user.
+     * @throws vendingmachine.service.InsufficientFundsException
      */
-    public void vend(int itemId);
+    public Change vend(int itemId) throws InsufficientFundsException;
 
     /**
      * Calculates how much of each denomination the User is getting back and

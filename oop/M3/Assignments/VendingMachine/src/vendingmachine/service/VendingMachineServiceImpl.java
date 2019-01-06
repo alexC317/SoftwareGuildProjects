@@ -7,6 +7,8 @@ package vendingmachine.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachineDaoFileImpl;
 import vendingmachine.dao.VendingMachinePersistenceException;
@@ -16,9 +18,10 @@ import vendingmachine.dto.VendingMachineItem;
 public class VendingMachineServiceImpl implements VendingMachineService {
 
     private BigDecimal balance;
+    private VendingMachineDao dao;
 
     public VendingMachineServiceImpl(VendingMachineDao dao) throws VendingMachinePersistenceException {
-        dao = new VendingMachineDaoFileImpl();
+        this.dao = dao;
     }
 
     @Override
@@ -26,28 +29,44 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         // Get the List of all items in the Dao
         // Parse through the list and create a new list based on what does not
         // have an inventory of 0
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dao.readAll().stream()
+                .filter(i -> i.getItemCount() > 0)
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public void setBalance(BigDecimal balance) {
         //Sets the balance here from what the Controller passed along
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.balance = balance;
     }
 
     @Override
     public BigDecimal getBalance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return balance;
     }
 
     @Override
-    public void vend(int itemId) {
+    public Change vend(int itemId) throws InsufficientFundsException {
         // Search the Dao for the item specified (using its itemId)
         // Get the price of that item
         // If the balance > price, subtract 1 from the inventory of that item,
         // calculate change, and set balance to 0
         // If balance < price, throw an exception
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        VendingMachineItem item = dao.readByID(itemId);
+        BigDecimal price = item.getItemPrice();
+        Change change;
+
+        if (balance.compareTo(price) != -1) {
+            item.setItemCount(item.getItemCount() - 1);
+            dao.update(itemId, item);
+            change = calculateChange(balance.subtract(price));
+        } else {
+            throw new InsufficientFundsException("Not enough funds.");
+        }
+        balance = null;
+        
+        return change;
     }
 
     @Override
