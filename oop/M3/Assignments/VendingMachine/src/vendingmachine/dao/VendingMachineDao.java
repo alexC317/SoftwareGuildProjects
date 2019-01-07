@@ -31,6 +31,7 @@ public interface VendingMachineDao {
      *
      * @param itemId
      * @param item
+     * @throws VendingMachinePersistenceException
      */
     public void update(int itemId, VendingMachineItem item) throws VendingMachinePersistenceException;
 }

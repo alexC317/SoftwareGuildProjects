@@ -84,4 +84,8 @@ public class VendingMachineView {
     public void displayExitMessage() {
         io.print("Thanks for shopping with us! \n");
     }
+
+    public void displayBalance(BigDecimal balance) {
+        io.print("Your balance: $" + balance.toString() + "\n");
+    }
 }

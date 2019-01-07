@@ -51,8 +51,12 @@ public class VendingMachineController {
                     vend(menuSelection);
                 }
             }
-        } catch (InsufficientFundsException | VendingMachinePersistenceException e) {
+        } catch (VendingMachinePersistenceException e) {
             view.displayErrorMessage(e.getMessage());
+        } catch (InsufficientFundsException e) {
+            BigDecimal balance = service.getBalance();
+            view.displayErrorMessage(e.getMessage());
+            view.displayBalance(balance);
         }
     }
 
