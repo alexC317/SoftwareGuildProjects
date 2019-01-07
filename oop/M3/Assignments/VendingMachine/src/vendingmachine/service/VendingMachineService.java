@@ -47,6 +47,7 @@ public interface VendingMachineService {
      * @return The change being returned back to the user.
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
+     * @throws vendingmachine.service.NoItemInventoryException
      */
     public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException;
 

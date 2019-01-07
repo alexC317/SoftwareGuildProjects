@@ -45,7 +45,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
-    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException,NoItemInventoryException {
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
         // Search the Dao for the item specified (using its itemId)
         // Get the price of that item
         // If the balance >= price, subtract 1 from the inventory of that item,
@@ -54,7 +54,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         VendingMachineItem item = dao.readByID(itemId);
         BigDecimal price = item.getItemPrice();
         Change change;
-        
+
         if (item.getItemCount() == 0) {
             String message = "Item not in stock.";
             auditDao.writeAuditEntry(message);

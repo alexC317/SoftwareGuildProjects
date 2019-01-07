@@ -5,8 +5,6 @@
  */
 package vendingmachine.dao;
 
-import java.io.FileNotFoundException;
-
 /**
  *
  * @author Alex

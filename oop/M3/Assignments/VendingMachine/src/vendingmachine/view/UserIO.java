@@ -30,9 +30,9 @@ public interface UserIO {
     public long readLong(String prompt);
 
     public long readLong(String prompt, long min, long max);
-    
+
     public BigDecimal readBigDecimal(String prompt);
-    
+
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max);
 
     public String readString(String prompt);

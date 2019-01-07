@@ -10,10 +10,11 @@ package vendingmachine.dao;
  * @author Alex
  */
 public interface VendingMachineAuditDao {
+
     /**
-     * 
+     *
      * @param entry
-     * @throws VendingMachinePersistenceException 
+     * @throws VendingMachinePersistenceException
      */
     public void writeAuditEntry(String entry) throws VendingMachinePersistenceException;
 }

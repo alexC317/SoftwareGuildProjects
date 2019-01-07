@@ -25,14 +25,14 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
         onlyValidItem.setItemPrice(new BigDecimal("1.00"));
 
         itemList.put(onlyValidItem.getItemId(), onlyValidItem);
-        
+
         invalidItem = new VendingMachineItem(2);
         invalidItem.setItemName("Dr. Pepper");
         invalidItem.setItemCount(0);
         invalidItem.setItemPrice(new BigDecimal("1.50"));
-        
+
         itemList.put(2, invalidItem);
-        
+
     }
 
     @Override
