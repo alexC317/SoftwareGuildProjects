@@ -129,14 +129,24 @@ public class UserIOConsoleImpl implements UserIO {
     @Override
     public BigDecimal readBigDecimal(String prompt) {
         System.out.print(prompt);
-        BigDecimal value = new BigDecimal(input.nextLine());
+        BigDecimal value;
+        try {
+            value = new BigDecimal(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readBigDecimal("Please enter a valid number: ");
+        }
         return value;
     }
 
     @Override
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
         System.out.print(prompt);
-        BigDecimal value = new BigDecimal(input.nextLine());
+        BigDecimal value;
+        try {
+            value = new BigDecimal(input.nextLine());
+        } catch (NumberFormatException e) {
+            return readBigDecimal("Please enter a valid number: ", min, max);
+        }
         if (value.compareTo(min) == -1 || value.compareTo(max) == 1) {
             return readBigDecimal("Please enter a number between the range of " + min.toString() + " and " + max.toString() + ".", min, max);
         }

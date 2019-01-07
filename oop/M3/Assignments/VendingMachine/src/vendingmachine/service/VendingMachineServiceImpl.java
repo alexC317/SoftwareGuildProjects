@@ -8,10 +8,8 @@ package vendingmachine.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import vendingmachine.dao.VendingMachineDao;
-import vendingmachine.dao.VendingMachineDaoFileImpl;
 import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
@@ -48,7 +46,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
-    public Change vend(int itemId) throws InsufficientFundsException {
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException {
         // Search the Dao for the item specified (using its itemId)
         // Get the price of that item
         // If the balance >= price, subtract 1 from the inventory of that item,

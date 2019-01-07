@@ -7,6 +7,7 @@ package vendingmachine.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
@@ -45,8 +46,9 @@ public interface VendingMachineService {
      * @param itemId
      * @return The change being returned back to the user.
      * @throws vendingmachine.service.InsufficientFundsException
+     * @throws vendingmachine.dao.VendingMachinePersistenceException
      */
-    public Change vend(int itemId) throws InsufficientFundsException;
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException;
 
     /**
      * Calculates how much of each denomination the User is getting back and

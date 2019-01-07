@@ -7,7 +7,10 @@ package vendingmachine.controller;
 
 import java.math.BigDecimal;
 import java.util.List;
+import vendingmachine.dao.VendingMachinePersistenceException;
+import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
+import vendingmachine.service.InsufficientFundsException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.view.VendingMachineView;
 
@@ -16,10 +19,10 @@ import vendingmachine.view.VendingMachineView;
  * @author Alex
  */
 public class VendingMachineController {
-    
+
     private VendingMachineView view;
     private VendingMachineService service;
-    
+
     public VendingMachineController(VendingMachineView view, VendingMachineService service) {
         this.view = view;
         this.service = service;
@@ -27,9 +30,30 @@ public class VendingMachineController {
 
     /**
      * Runs the program
+     *
+     * @throws vendingmachine.service.InsufficientFundsException
+     * @throws vendingmachine.dao.VendingMachinePersistenceException
      */
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void run() throws InsufficientFundsException, VendingMachinePersistenceException {
+        boolean quit = false;
+        int menuSelection;
+
+        try {
+            while (!quit) {
+                displayMenu();
+                enterBalance();
+                menuSelection = getMenuChoice();
+
+                if (menuSelection == 0) {
+                    exit();
+                    quit = true;
+                } else {
+                    vend(menuSelection);
+                }
+            }
+        } catch (InsufficientFundsException | VendingMachinePersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
     }
 
     /**
@@ -67,7 +91,8 @@ public class VendingMachineController {
     private int getMenuChoice() {
         // From the View layer, prompt the user to enter what they want to buy.
         // Controller will then make a decision from this in run()
-        return view.getMenuChoice();
+        List<VendingMachineItem> items = service.getAvailableItems();
+        return view.getMenuChoice(items);
     }
 
     /**
@@ -75,11 +100,12 @@ public class VendingMachineController {
      *
      * @param itemId
      */
-    private void vend(int itemId) {
+    private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException {
         // Passes along the itemId of the user selection to the Service Layer
         // If successful, View layer should display a message that the purchase
         // went through, and a message indicating what the change is.
-        service.vend(itemId);
+        Change change = service.vend(itemId);
+        view.displayChange(change);
     }
 
     /**
@@ -87,10 +113,6 @@ public class VendingMachineController {
      */
     private void exit() {
         // Exits the program
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void unknownCommand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        view.displayExitMessage();
     }
 }

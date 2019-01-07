@@ -12,7 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,7 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     }
 
     @Override
-    public void update(int itemId, VendingMachineItem item) {
+    public void update(int itemId, VendingMachineItem item) throws VendingMachinePersistenceException {
         if (items.containsKey(itemId)) {
             if (items.get(itemId).getItemName().equals(item.getItemName())) {
             } else {
@@ -64,6 +63,8 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
                 items.get(itemId).setItemPrice(item.getItemPrice());
             }
         }
+
+        writeInventory();
     }
 
     private void loadInventory() throws VendingMachinePersistenceException {

@@ -21,46 +21,67 @@ public class VendingMachineView {
     public VendingMachineView(UserIO io) {
         this.io = io;
     }
-    
+
     /**
      * Displays an intro message to the user.
      */
     public void introMessage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        io.print("Welcome! Please check our goods for sale!");
     }
 
     /**
      * Displays the menu items available to the user.
+     *
      * @param items Takes in a list of items that are available to vend.
      */
     public void displayMenu(List<VendingMachineItem> items) {
         // Parse through the list and print out the name and price of each item.
         // Each line should start with the next number and be formatted like so:
         //  1. Sprite - $2.50
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int counter = 2;
+
+        io.print("1. Quit vending. \n");
+        for (VendingMachineItem item : items) {
+            io.print(counter + ". " + item.getItemName() + " - $" + item.getItemPrice() + "\n");
+            counter++;
+        }
+
     }
-    
+
     public BigDecimal getBalance() {
         // Prompt the user to enter a balance
         // Send that balance to the Controller
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return io.readBigDecimal("Please enter how much you're putting in: ");
     }
-    
-    public int getMenuChoice() {
+
+    public int getMenuChoice(List<VendingMachineItem> items) {
         // Prompt the user to enter their menu choice
         // Send that decision to the Controller
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int max = items.size();
+        int choice = io.readInt("Please enter your selection: ", 1, max + 1);
+
+        if (choice == 1) {
+            return 0;
+        } else {
+            return (items.get(choice - 2).getItemId());
+        }
     }
-    
-    public void vendSuccess() {
-        // Displays that the purchase went through
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+
     public void displayChange(Change change) {
         // Prints out how much change the user is getting in various denominations
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        io.print("Your change: \n");
+        io.print("- " + change.getQuarters() + " quarters \n");
+        io.print("- " + change.getDimes() + " dimes \n");
+        io.print("- " + change.getNickels() + " nickels \n");
+        io.print("- " + change.getPennies() + " pennies \n");
     }
-    
 
+    public void displayErrorMessage(String message) {
+        io.print("=== ERROR === \n");
+        io.print(message + "\n");
+    }
+
+    public void displayExitMessage() {
+        io.print("Thanks for shopping with us! \n");
+    }
 }
