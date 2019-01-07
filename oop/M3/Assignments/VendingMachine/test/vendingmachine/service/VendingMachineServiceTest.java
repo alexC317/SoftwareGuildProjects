@@ -17,6 +17,7 @@ import vendingmachine.dao.VendingMachineAuditDao;
 import vendingmachine.dao.VendingMachineAuditDaoFileImpl;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachineDaoStubImpl;
+import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 
@@ -228,6 +229,14 @@ public class VendingMachineServiceTest {
         assertEquals(0, change4.getDimes());
         assertEquals(1, change4.getNickels());
         assertEquals(2, change4.getPennies());
+    }
+    
+    @Test
+    public void testRestock() throws Exception{
+        List<VendingMachineItem> itemList = service.getAvailableItems();
+        service.restock(1, 3);
+        
+        assertEquals(4, itemList.get(0).getItemCount());
     }
 
 }

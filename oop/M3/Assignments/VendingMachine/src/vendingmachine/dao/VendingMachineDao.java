@@ -13,21 +13,24 @@ import vendingmachine.dto.VendingMachineItem;
  * @author Alex
  */
 public interface VendingMachineDao {
-    
+
     /**
+     * Creates a new item to place into memory.
      *
-     * @param item
+     * @param item The item to be saved into memory.
+     * @throws VendingMachinePersistenceException
      */
     public void create(VendingMachineItem item) throws VendingMachinePersistenceException;
-    
-    
+
     /**
+     * Returns a list of all VendingMachineItems saved in the DAO.
      *
-     * @return
+     * @return A list of type VendingMachineItem/
      */
     public List<VendingMachineItem> readAll();
 
     /**
+     * Returns an object saved in the HashMap, referenced by its id.
      *
      * @param itemId
      * @return
@@ -35,6 +38,7 @@ public interface VendingMachineDao {
     public VendingMachineItem readByID(int itemId);
 
     /**
+     * Updates an item using the VendingMachineItem passed into it as reference.
      *
      * @param itemId
      * @param item

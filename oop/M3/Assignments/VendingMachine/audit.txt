@@ -20,3 +20,12 @@
 2019-01-07T14:06:12.306 : ID already in use.
 2019-01-07T14:57:50.046 : ID already in use.
 2019-01-07T14:59:32.880 : Diet Coke added to the Vending Machine.
+2019-01-07T15:27:48.190 : Not enough funds.
+2019-01-07T15:27:48.228 : Powerade added to the Vending Machine.
+2019-01-07T15:27:48.230 : Powerade added to the Vending Machine.
+2019-01-07T15:27:48.230 : ID already in use.
+2019-01-07T15:33:59.550 : Not enough funds.
+2019-01-07T15:33:59.586 : Powerade added to the Vending Machine.
+2019-01-07T15:33:59.588 : Powerade added to the Vending Machine.
+2019-01-07T15:33:59.588 : ID already in use.
+2019-01-07T15:53:37.726 : 4 added to the Vending Machine.

@@ -13,6 +13,7 @@ import vendingmachine.dao.VendingMachineDaoFileImpl;
 import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.service.InsufficientFundsException;
 import vendingmachine.service.ItemOutOfStockException;
+import vendingmachine.service.VendingMachineItemOverCapacityException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.service.VendingMachineServiceImpl;
 import vendingmachine.view.UserIO;
@@ -30,8 +31,13 @@ public class App {
      * @throws vendingmachine.dao.VendingMachinePersistenceException
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.service.ItemOutOfStockException
+     * @throws vendingmachine.service.VendingMachineItemOverCapacityException
      */
-    public static void main(String[] args) throws VendingMachinePersistenceException, InsufficientFundsException, ItemOutOfStockException {
+    public static void main(String[] args) throws 
+            VendingMachinePersistenceException, 
+            InsufficientFundsException, 
+            ItemOutOfStockException, 
+            VendingMachineItemOverCapacityException {
         UserIO myIo = new UserIOConsoleImpl();
         VendingMachineView myView = new VendingMachineView(myIo);
         VendingMachineDao myDao = new VendingMachineDaoFileImpl();

@@ -41,15 +41,11 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Override
     public List<VendingMachineItem> getAvailableItems() {
-        // Get the List of all items in the Dao
-        // Parse through the list and create a new list based on what does not
-        // have an inventory of 0
         return dao.readAll();
     }
 
     @Override
     public void setBalance(BigDecimal balance) {
-        //Sets the balance here from what the Controller passed along
         this.balance = balance.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -60,11 +56,6 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Override
     public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
-        // Search the Dao for the item specified (using its itemId)
-        // Get the price of that item
-        // If the balance >= price, subtract 1 from the inventory of that item,
-        // calculate change, and set balance to 0
-        // If balance < price, throw an exception
         VendingMachineItem item = dao.readByID(itemId);
         BigDecimal price = item.getItemPrice();
         Change change;
@@ -90,9 +81,6 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Override
     public Change calculateChange(BigDecimal changeToCalculate) {
-        // Take the change (in pennies), start with the biggest denominations 
-        // and start calcuating how many quarters/dimes/nickels/pennies they're
-        // getting back. Save all those in a Change object.
         Change change = new Change();
         BigDecimal quarterValue = new BigDecimal(".25");
         BigDecimal dimeValue = new BigDecimal(".10");
@@ -133,5 +121,16 @@ public class VendingMachineServiceImpl implements VendingMachineService {
                 || item.getItemPrice().compareTo(new BigDecimal("0.00")) != 1) {
             throw new VendingMachineDataValidationException("ERROR: All fields [Item Name, Item Count, Item Price] must be valid.");
         }
+    }
+
+    @Override
+    public void restock(int itemId, int resupplyAmount) throws VendingMachinePersistenceException, VendingMachineItemOverCapacityException {
+        VendingMachineItem item = dao.readByID(itemId);
+        int currentCount = item.getItemCount();
+        if (resupplyAmount + currentCount > 10) {
+            throw new VendingMachineItemOverCapacityException("More than 10 of this item in the machine.");
+        }
+        item.setItemCount(resupplyAmount + currentCount);
+        dao.update(itemId, item);
     }
 }

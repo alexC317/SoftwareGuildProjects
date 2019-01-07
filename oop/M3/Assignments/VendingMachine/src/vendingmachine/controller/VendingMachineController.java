@@ -14,6 +14,7 @@ import vendingmachine.service.InsufficientFundsException;
 import vendingmachine.service.ItemOutOfStockException;
 import vendingmachine.service.VendingMachineDataValidationException;
 import vendingmachine.service.VendingMachineDuplicateIDException;
+import vendingmachine.service.VendingMachineItemOverCapacityException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.view.VendingMachineView;
 
@@ -34,13 +35,14 @@ public class VendingMachineController {
     /**
      * Runs the program
      *
-     * @throws vendingmachine.service.InsufficientFundsException
-     * @throws vendingmachine.dao.VendingMachinePersistenceException
-     * @throws vendingmachine.service.ItemOutOfStockException
+     * @throws InsufficientFundsException
+     * @throws VendingMachinePersistenceException
+     * @throws ItemOutOfStockException
      */
-    public void run() throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
+    public void run() throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException, VendingMachineItemOverCapacityException {
         boolean quit = false;
         int menuSelection;
+        int secretMenuSelection;
 
         try {
             while (!quit) {
@@ -52,9 +54,15 @@ public class VendingMachineController {
                     exit();
                     quit = true;
                 } else if (menuSelection == -1) {
-                    addNewItem();
-                } else if (menuSelection == -2) {
-                    restock();
+                    displaySecretMenu();
+                    secretMenuSelection = getSecretMenuChoice();
+                    if (secretMenuSelection == 1) {
+                        addNewItem();
+                    } else if (secretMenuSelection == 2) {
+                        restock();
+                    } else if (secretMenuSelection == 3) {
+                        break;
+                    }
                 } else {
                     vend(menuSelection);
                 }
@@ -62,7 +70,8 @@ public class VendingMachineController {
         } catch (VendingMachinePersistenceException
                 | ItemOutOfStockException
                 | VendingMachineDuplicateIDException
-                | VendingMachineDataValidationException e) {
+                | VendingMachineDataValidationException
+                | VendingMachineItemOverCapacityException e) {
             view.displayErrorMessage(e.getMessage());
         } catch (InsufficientFundsException e) {
             BigDecimal balance = service.getBalance();
@@ -75,7 +84,6 @@ public class VendingMachineController {
      * Calls a function in the View layer to display an intro message.
      */
     private void intro() {
-        // Display an intro message from the View layer
         view.introMessage();
     }
 
@@ -84,18 +92,18 @@ public class VendingMachineController {
      * machine.
      */
     private void displayMenu() {
-        // Fetch what items are available from the Service layer
         List<VendingMachineItem> items = service.getAvailableItems();
-        // Send that List to the View for it to display
         view.displayMenu(items);
+    }
+
+    private void displaySecretMenu() {
+        view.displaySecretMenu();
     }
 
     /**
      * Prompt the user to enter a balance to put into the machine.
      */
     private void enterBalance() {
-        // From the View layer, prompt the user to enter a balance
-        // Send that balance to the Service layer
         BigDecimal balance = view.getBalance();
         service.setBalance(balance);
     }
@@ -104,15 +112,35 @@ public class VendingMachineController {
      * Prompts the user to enter what item they want to purchase.
      */
     private int getMenuChoice() {
-        // From the View layer, prompt the user to enter what they want to buy.
-        // Controller will then make a decision from this in run()
         List<VendingMachineItem> items = service.getAvailableItems();
         return view.getMenuChoice(items);
     }
 
+    private int getSecretMenuChoice() {
+        return view.getSecretMenuChoice();
+    }
+
+    /**
+     * Prompts the user to enter information to create a new VendingMachineItem
+     * and then sends to the Service Layer.
+     *
+     * @throws VendingMachineDuplicateIDException
+     * @throws VendingMachinePersistenceException
+     * @throws VendingMachineDataValidationException
+     */
     private void addNewItem() throws VendingMachineDuplicateIDException, VendingMachinePersistenceException, VendingMachineDataValidationException {
         VendingMachineItem newItem = view.getNewItem();
         service.addNewItem(newItem);
+    }
+
+    /**
+     * Resupplies an item in the Vending Machine by a particular amount.
+     */
+    private void restock() throws VendingMachinePersistenceException, VendingMachineItemOverCapacityException {
+        List<VendingMachineItem> items = service.getAvailableItems();
+        int itemId = view.getMenuChoice(items);
+        int resupplyAmount = view.getResupplyAmount();
+        service.restock(itemId, resupplyAmount);
     }
 
     /**
@@ -121,9 +149,6 @@ public class VendingMachineController {
      * @param itemId
      */
     private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
-        // Passes along the itemId of the user selection to the Service Layer
-        // If successful, View layer should display a message that the purchase
-        // went through, and a message indicating what the change is.
         Change change = service.vend(itemId);
         view.displayChange(change);
     }
@@ -132,11 +157,7 @@ public class VendingMachineController {
      * Exits the program.
      */
     private void exit() {
-        // Exits the program
         view.displayExitMessage();
     }
 
-    private void restock() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

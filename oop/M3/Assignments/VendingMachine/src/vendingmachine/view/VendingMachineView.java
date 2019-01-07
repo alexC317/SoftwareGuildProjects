@@ -35,9 +35,6 @@ public class VendingMachineView {
      * @param items Takes in a list of items that are available to vend.
      */
     public void displayMenu(List<VendingMachineItem> items) {
-        // Parse through the list and print out the name and price of each item.
-        // Each line should start with the next number and be formatted like so:
-        //  1. Sprite - $2.50
         int counter = 2;
 
         io.print("1. Quit vending. \n");
@@ -45,34 +42,56 @@ public class VendingMachineView {
             io.print(counter + ". " + item.getItemName() + " - $" + item.getItemPrice() + "\n");
             counter++;
         }
+    }
+
+    public void displaySecretMenu() {
+        io.print("Wow, you've found our secret menu! \n");
+        io.print("Here you have the option to restock an item or add a new one to the machine. \n");
+        io.print("1. Add an item. \n");
+        io.print("2. Restock an item. \n");
 
     }
 
     public BigDecimal getBalance() {
-        // Prompt the user to enter a balance
-        // Send that balance to the Controller
         return io.readBigDecimal("Please enter how much you're putting in: ");
     }
 
     public int getMenuChoice(List<VendingMachineItem> items) {
-        // Prompt the user to enter their menu choice
-        // Send that decision to the Controller
         int max = items.size();
-        int choice = io.readInt("Please enter your selection: ", -2, max + 1);
+        int choice = io.readInt("Please enter your selection: ", -1, max + 1);
 
         if (choice == 1) {
             return 0;
         } else if (choice == -1) {
             return -1;
-        } else if (choice == -2) {
-            return -2;
         } else {
             return (items.get(choice - 2).getItemId());
         }
     }
 
+    public int getSecretMenuChoice() {
+        return io.readInt("Please enter your choice: ", 1, 3);
+    }
+
+    public VendingMachineItem getNewItem() {
+        int itemId = io.readInt("Please enter the item id: ");
+        String itemName = io.readString("Please enter the item name: ");
+        int itemCount = io.readInt("Please enter how many of this item exists: ");
+        BigDecimal itemPrice = io.readBigDecimal("Please enter the price of this item: ");
+
+        VendingMachineItem newItem = new VendingMachineItem(itemId);
+        newItem.setItemName(itemName);
+        newItem.setItemCount(itemCount);
+        newItem.setItemPrice(itemPrice);
+
+        return newItem;
+    }
+
+    public int getResupplyAmount() {
+        return io.readInt("Please enter how many you want to add: ", 1, 10);
+    }
+
     public void displayChange(Change change) {
-        // Prints out how much change the user is getting in various denominations
         io.print("Your change: \n");
         io.print("- " + change.getQuarters() + " quarters \n");
         io.print("- " + change.getDimes() + " dimes \n");
@@ -94,17 +113,4 @@ public class VendingMachineView {
         io.print("Your balance: $" + balance.toString() + "\n");
     }
 
-    public VendingMachineItem getNewItem() {
-        int itemId = io.readInt("Please enter the item id: ");
-        String itemName = io.readString("Please enter the item name: ");
-        int itemCount = io.readInt("Please enter how many of this item exists: ");
-        BigDecimal itemPrice = io.readBigDecimal("Please enter the price of this item: ");
-
-        VendingMachineItem newItem = new VendingMachineItem(itemId);
-        newItem.setItemName(itemName);
-        newItem.setItemCount(itemCount);
-        newItem.setItemPrice(itemPrice);
-
-        return newItem;
-    }
 }

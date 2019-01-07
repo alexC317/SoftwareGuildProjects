@@ -20,13 +20,14 @@ public interface VendingMachineService {
     /**
      * Adds a new item to the Vending Machine. Should only be accessible through
      * the secret menu.
+     *
      * @param item
      * @throws vendingmachine.service.VendingMachineDuplicateIDException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
      * @throws vendingmachine.service.VendingMachineDataValidationException
      */
-    public void addNewItem(VendingMachineItem item) throws 
-            VendingMachineDuplicateIDException, 
+    public void addNewItem(VendingMachineItem item) throws
+            VendingMachineDuplicateIDException,
             VendingMachinePersistenceException,
             VendingMachineDataValidationException;
 
@@ -74,4 +75,13 @@ public interface VendingMachineService {
      * is getting back.
      */
     public Change calculateChange(BigDecimal change);
+
+    /**
+     *
+     * @param itemId
+     * @param resupplyAmount
+     * @throws VendingMachinePersistenceException
+     * @throws VendingMachineItemOverCapacityException
+     */
+    public void restock(int itemId, int resupplyAmount) throws VendingMachinePersistenceException, VendingMachineItemOverCapacityException;
 }
