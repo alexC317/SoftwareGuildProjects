@@ -13,7 +13,14 @@ import vendingmachine.dto.VendingMachineItem;
  * @author Alex
  */
 public interface VendingMachineDao {
-
+    
+    /**
+     *
+     * @param item
+     */
+    public void create(VendingMachineItem item) throws VendingMachinePersistenceException;
+    
+    
     /**
      *
      * @return

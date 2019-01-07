@@ -58,10 +58,14 @@ public class VendingMachineView {
         // Prompt the user to enter their menu choice
         // Send that decision to the Controller
         int max = items.size();
-        int choice = io.readInt("Please enter your selection: ", 1, max + 1);
+        int choice = io.readInt("Please enter your selection: ", -2, max + 1);
 
         if (choice == 1) {
             return 0;
+        } else if (choice == -1) {
+            return -1;
+        } else if (choice == -2) {
+            return -2;
         } else {
             return (items.get(choice - 2).getItemId());
         }
@@ -74,6 +78,7 @@ public class VendingMachineView {
         io.print("- " + change.getDimes() + " dimes \n");
         io.print("- " + change.getNickels() + " nickels \n");
         io.print("- " + change.getPennies() + " pennies \n");
+        io.print("\n");
     }
 
     public void displayErrorMessage(String message) {
@@ -87,5 +92,19 @@ public class VendingMachineView {
 
     public void displayBalance(BigDecimal balance) {
         io.print("Your balance: $" + balance.toString() + "\n");
+    }
+
+    public VendingMachineItem getNewItem() {
+        int itemId = io.readInt("Please enter the item id: ");
+        String itemName = io.readString("Please enter the item name: ");
+        int itemCount = io.readInt("Please enter how many of this item exists: ");
+        BigDecimal itemPrice = io.readBigDecimal("Please enter the price of this item: ");
+
+        VendingMachineItem newItem = new VendingMachineItem(itemId);
+        newItem.setItemName(itemName);
+        newItem.setItemCount(itemCount);
+        newItem.setItemPrice(itemPrice);
+
+        return newItem;
     }
 }

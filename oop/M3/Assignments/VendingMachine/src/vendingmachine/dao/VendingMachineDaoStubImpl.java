@@ -36,6 +36,11 @@ public class VendingMachineDaoStubImpl implements VendingMachineDao {
     }
 
     @Override
+    public void create(VendingMachineItem item) {
+        itemList.put(item.getItemId(), item);
+    }
+
+    @Override
     public List<VendingMachineItem> readAll() {
         return new ArrayList<>(itemList.values());
     }

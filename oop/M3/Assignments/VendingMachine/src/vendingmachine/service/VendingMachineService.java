@@ -18,6 +18,19 @@ import vendingmachine.dto.VendingMachineItem;
 public interface VendingMachineService {
 
     /**
+     * Adds a new item to the Vending Machine. Should only be accessible through
+     * the secret menu.
+     * @param item
+     * @throws vendingmachine.service.VendingMachineDuplicateIDException
+     * @throws vendingmachine.dao.VendingMachinePersistenceException
+     * @throws vendingmachine.service.VendingMachineDataValidationException
+     */
+    public void addNewItem(VendingMachineItem item) throws 
+            VendingMachineDuplicateIDException, 
+            VendingMachinePersistenceException,
+            VendingMachineDataValidationException;
+
+    /**
      * Get a list of all items from the Dao layer.
      *
      * @return A list of items that do not have an inventory of 0.
@@ -47,9 +60,9 @@ public interface VendingMachineService {
      * @return The change being returned back to the user.
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
-     * @throws vendingmachine.service.NoItemInventoryException
+     * @throws vendingmachine.service.ItemOutOfStockException
      */
-    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException;
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException;
 
     /**
      * Calculates how much of each denomination the User is getting back and

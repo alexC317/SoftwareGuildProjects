@@ -32,6 +32,13 @@ public class VendingMachineDaoFileImpl implements VendingMachineDao {
     }
 
     @Override
+    public void create(VendingMachineItem item) throws VendingMachinePersistenceException {
+        items.put(item.getItemId(), item);
+        
+        writeInventory();
+    }
+
+    @Override
     public List<VendingMachineItem> readAll() {
         return new ArrayList<>(items.values());
     }

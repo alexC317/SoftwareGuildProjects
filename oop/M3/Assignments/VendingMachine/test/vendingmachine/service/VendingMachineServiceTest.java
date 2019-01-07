@@ -50,6 +50,56 @@ public class VendingMachineServiceTest {
     public void tearDown() {
     }
 
+    @Test
+    public void testAddNewItem() throws Exception {
+        VendingMachineItem newItem = new VendingMachineItem(3);
+        newItem.setItemName("Powerade");
+        newItem.setItemCount(6);
+        newItem.setItemPrice(new BigDecimal("1.50"));
+
+        service.addNewItem(newItem);
+        List<VendingMachineItem> itemList = service.getAvailableItems();
+
+        assertNotNull(itemList.get(2));
+        assertEquals("Powerade", itemList.get(2).getItemName());
+    }
+
+    @Test
+    public void testAddNewItemWithDuplicateId() throws Exception {
+        VendingMachineItem newItem = new VendingMachineItem(3);
+        newItem.setItemName("Powerade");
+        newItem.setItemCount(6);
+        newItem.setItemPrice(new BigDecimal("1.50"));
+
+        service.addNewItem(newItem);
+
+        VendingMachineItem newItem2 = new VendingMachineItem(3);
+        newItem.setItemName("Brawndo");
+        newItem.setItemCount(6);
+        newItem.setItemPrice(new BigDecimal("1.40"));
+
+        try {
+            service.addNewItem(newItem2);
+            fail("Expected VendingMachineDuplicateIDException was not thrown.");
+        } catch (VendingMachineDuplicateIDException e) {
+            return;
+        }
+    }
+    
+    @Test
+    public void testAddNewItemWithInvalidData() throws Exception {
+        VendingMachineItem newItem2 = new VendingMachineItem(3);
+        newItem2.setItemName("Brawndo");
+        newItem2.setItemCount(6);
+
+        try {
+            service.addNewItem(newItem2);
+            fail("Expected VendingMachineDataValidationException was not thrown.");
+        } catch (VendingMachineDataValidationException e) {
+            return;
+        }
+    }
+
     /**
      * Test of getAvailableItems method, of class VendingMachineService.
      */

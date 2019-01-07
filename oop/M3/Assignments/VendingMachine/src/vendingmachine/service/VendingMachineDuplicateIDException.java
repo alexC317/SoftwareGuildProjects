@@ -9,13 +9,13 @@ package vendingmachine.service;
  *
  * @author Alex
  */
-public class NoItemInventoryException extends Exception {
+public class VendingMachineDuplicateIDException extends Exception {
 
-    public NoItemInventoryException(String message) {
+    public VendingMachineDuplicateIDException(String message) {
         super(message);
     }
 
-    public NoItemInventoryException(String message, Throwable cause) {
+    public VendingMachineDuplicateIDException(String message, Throwable cause) {
         super(message, cause);
     }
 

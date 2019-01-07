@@ -2,3 +2,21 @@
 2019-01-07T10:39:03.922 : Item not in stock.
 2019-01-07T10:40:47.255 : Not enough funds.
 2019-01-07T10:53:25.723 : Not enough funds.
+2019-01-07T11:05:14.517 : Not enough funds.
+2019-01-07T11:05:29.881 : Not enough funds.
+2019-01-07T13:20:58.476 : Not enough funds.
+2019-01-07T13:35:49.246 : Not enough funds.
+2019-01-07T13:35:49.285 : Powerade added to the Vending Machine.
+2019-01-07T13:37:21.370 : Not enough funds.
+2019-01-07T13:37:21.408 : Powerade added to the Vending Machine.
+2019-01-07T13:58:38.939 : Not enough funds.
+2019-01-07T13:59:39.852 : Not enough funds.
+2019-01-07T13:59:39.890 : Powerade added to the Vending Machine.
+2019-01-07T13:59:39.891 : Powerade added to the Vending Machine.
+2019-01-07T13:59:39.891 : ID already in use.
+2019-01-07T14:06:12.266 : Not enough funds.
+2019-01-07T14:06:12.304 : Powerade added to the Vending Machine.
+2019-01-07T14:06:12.306 : Powerade added to the Vending Machine.
+2019-01-07T14:06:12.306 : ID already in use.
+2019-01-07T14:57:50.046 : ID already in use.
+2019-01-07T14:59:32.880 : Diet Coke added to the Vending Machine.

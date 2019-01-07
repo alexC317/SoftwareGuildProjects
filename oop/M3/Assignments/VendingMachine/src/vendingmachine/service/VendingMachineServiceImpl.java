@@ -26,6 +26,20 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
+    public void addNewItem(VendingMachineItem item) throws
+            VendingMachineDuplicateIDException,
+            VendingMachinePersistenceException,
+            VendingMachineDataValidationException {
+        if (dao.readByID(item.getItemId()) != null) {
+            auditDao.writeAuditEntry("ID already in use.");
+            throw new VendingMachineDuplicateIDException("This ID is already in use. Please select another and try again.");
+        }
+        validateItem(item);
+        dao.create(item);
+        auditDao.writeAuditEntry(item.getItemName() + " added to the Vending Machine.");
+    }
+
+    @Override
     public List<VendingMachineItem> getAvailableItems() {
         // Get the List of all items in the Dao
         // Parse through the list and create a new list based on what does not
@@ -36,7 +50,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     @Override
     public void setBalance(BigDecimal balance) {
         //Sets the balance here from what the Controller passed along
-        this.balance = balance;
+        this.balance = balance.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -45,7 +59,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
-    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
         // Search the Dao for the item specified (using its itemId)
         // Get the price of that item
         // If the balance >= price, subtract 1 from the inventory of that item,
@@ -58,7 +72,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         if (item.getItemCount() == 0) {
             String message = "Item not in stock.";
             auditDao.writeAuditEntry(message);
-            throw new NoItemInventoryException(message);
+            throw new ItemOutOfStockException(message);
         }
         if (balance.compareTo(price) != -1) {
             item.setItemCount(item.getItemCount() - 1);
@@ -109,5 +123,15 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         }
 
         return change;
+    }
+
+    private void validateItem(VendingMachineItem item) throws VendingMachineDataValidationException {
+        if (item.getItemName() == null
+                || item.getItemName().trim().length() == 0
+                || item.getItemCount() <= 0
+                || item.getItemPrice() == null
+                || item.getItemPrice().compareTo(new BigDecimal("0.00")) != 1) {
+            throw new VendingMachineDataValidationException("ERROR: All fields [Item Name, Item Count, Item Price] must be valid.");
+        }
     }
 }

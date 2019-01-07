@@ -11,7 +11,9 @@ import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 import vendingmachine.service.InsufficientFundsException;
-import vendingmachine.service.NoItemInventoryException;
+import vendingmachine.service.ItemOutOfStockException;
+import vendingmachine.service.VendingMachineDataValidationException;
+import vendingmachine.service.VendingMachineDuplicateIDException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.view.VendingMachineView;
 
@@ -34,9 +36,9 @@ public class VendingMachineController {
      *
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
-     * @throws vendingmachine.service.NoItemInventoryException
+     * @throws vendingmachine.service.ItemOutOfStockException
      */
-    public void run() throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
+    public void run() throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
         boolean quit = false;
         int menuSelection;
 
@@ -49,11 +51,18 @@ public class VendingMachineController {
                 if (menuSelection == 0) {
                     exit();
                     quit = true;
+                } else if (menuSelection == -1) {
+                    addNewItem();
+                } else if (menuSelection == -2) {
+                    restock();
                 } else {
                     vend(menuSelection);
                 }
             }
-        } catch (VendingMachinePersistenceException | NoItemInventoryException e) {
+        } catch (VendingMachinePersistenceException
+                | ItemOutOfStockException
+                | VendingMachineDuplicateIDException
+                | VendingMachineDataValidationException e) {
             view.displayErrorMessage(e.getMessage());
         } catch (InsufficientFundsException e) {
             BigDecimal balance = service.getBalance();
@@ -101,12 +110,17 @@ public class VendingMachineController {
         return view.getMenuChoice(items);
     }
 
+    private void addNewItem() throws VendingMachineDuplicateIDException, VendingMachinePersistenceException, VendingMachineDataValidationException {
+        VendingMachineItem newItem = view.getNewItem();
+        service.addNewItem(newItem);
+    }
+
     /**
      * Sells the item to the user.
      *
      * @param itemId
      */
-    private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
+    private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException {
         // Passes along the itemId of the user selection to the Service Layer
         // If successful, View layer should display a message that the purchase
         // went through, and a message indicating what the change is.
@@ -120,5 +134,9 @@ public class VendingMachineController {
     private void exit() {
         // Exits the program
         view.displayExitMessage();
+    }
+
+    private void restock() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -155,7 +155,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public String readString(String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         return input.nextLine();
     }
 

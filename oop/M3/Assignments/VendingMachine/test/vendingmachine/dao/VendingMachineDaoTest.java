@@ -42,6 +42,22 @@ public class VendingMachineDaoTest {
     }
 
     /**
+     * Test of create method, of class VendingMachineDao.
+     */
+    @Test
+    public void testCreate() {
+        VendingMachineItem newItem = new VendingMachineItem(4);
+        newItem.setItemName("Powerade");
+        newItem.setItemCount(5);
+        newItem.setItemPrice(new BigDecimal("1.75"));
+
+        dao.create(newItem);
+
+        assertNotNull(dao.readByID(4));
+        assertEquals("Powerade", dao.readByID(4).getItemName());
+    }
+
+    /**
      * Test of readAll method, of class VendingMachineDao.
      */
     @Test
@@ -61,6 +77,7 @@ public class VendingMachineDaoTest {
 
     /**
      * Test of update method, of class VendingMachineDao.
+     *
      * @throws VendingMachinePersistenceException
      */
     @Test
@@ -73,7 +90,7 @@ public class VendingMachineDaoTest {
         dao.update(1, item);
 
         assertEquals(item.getItemId(), dao.readByID(1).getItemId());
-        
+
         assertNotEquals("Sprite", dao.readByID(1).getItemName());
         assertNotEquals(1, dao.readByID(1).getItemCount());
         assertNotEquals("1.00", dao.readByID(1).getItemPrice().toString());
