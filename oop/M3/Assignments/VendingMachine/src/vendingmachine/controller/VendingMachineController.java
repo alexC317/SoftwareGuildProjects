@@ -11,6 +11,7 @@ import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
 import vendingmachine.dto.VendingMachineItem;
 import vendingmachine.service.InsufficientFundsException;
+import vendingmachine.service.NoItemInventoryException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.view.VendingMachineView;
 
@@ -33,8 +34,9 @@ public class VendingMachineController {
      *
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
+     * @throws vendingmachine.service.NoItemInventoryException
      */
-    public void run() throws InsufficientFundsException, VendingMachinePersistenceException {
+    public void run() throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
         boolean quit = false;
         int menuSelection;
 
@@ -51,7 +53,7 @@ public class VendingMachineController {
                     vend(menuSelection);
                 }
             }
-        } catch (VendingMachinePersistenceException e) {
+        } catch (VendingMachinePersistenceException | NoItemInventoryException e) {
             view.displayErrorMessage(e.getMessage());
         } catch (InsufficientFundsException e) {
             BigDecimal balance = service.getBalance();
@@ -104,7 +106,7 @@ public class VendingMachineController {
      *
      * @param itemId
      */
-    private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException {
+    private void vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException {
         // Passes along the itemId of the user selection to the Service Layer
         // If successful, View layer should display a message that the purchase
         // went through, and a message indicating what the change is.

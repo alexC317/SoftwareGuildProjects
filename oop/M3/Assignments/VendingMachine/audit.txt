@@ -1,0 +1,4 @@
+2019-01-07T10:32:22.362 : Item not in stock.
+2019-01-07T10:39:03.922 : Item not in stock.
+2019-01-07T10:40:47.255 : Not enough funds.
+2019-01-07T10:53:25.723 : Not enough funds.

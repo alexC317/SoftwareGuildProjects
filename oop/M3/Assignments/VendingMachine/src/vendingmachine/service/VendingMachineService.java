@@ -48,7 +48,7 @@ public interface VendingMachineService {
      * @throws vendingmachine.service.InsufficientFundsException
      * @throws vendingmachine.dao.VendingMachinePersistenceException
      */
-    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException;
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException, NoItemInventoryException;
 
     /**
      * Calculates how much of each denomination the User is getting back and

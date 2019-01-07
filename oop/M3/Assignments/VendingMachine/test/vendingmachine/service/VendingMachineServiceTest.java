@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import vendingmachine.dao.VendingMachineAuditDao;
+import vendingmachine.dao.VendingMachineAuditDaoFileImpl;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachineDaoStubImpl;
 import vendingmachine.dto.Change;
@@ -28,7 +30,8 @@ public class VendingMachineServiceTest {
 
     public VendingMachineServiceTest() throws Exception {
         VendingMachineDao dao = new VendingMachineDaoStubImpl();
-        service = new VendingMachineServiceImpl(dao);
+        VendingMachineAuditDao auditDao = new VendingMachineAuditDaoFileImpl();
+        service = new VendingMachineServiceImpl(dao, auditDao);
     }
 
     @BeforeClass
@@ -53,7 +56,7 @@ public class VendingMachineServiceTest {
     @Test
     public void testGetAvailableItems() {
         List<VendingMachineItem> itemList = service.getAvailableItems();
-        assertEquals(1, itemList.size());
+        assertEquals(2, itemList.size());
     }
 
     /**
@@ -76,17 +79,15 @@ public class VendingMachineServiceTest {
     public void testVendIfNoChange() throws Exception {
         //Test to see if the inventory of the item was successfully vended
         //Test to see if there was no change given
-        List<VendingMachineItem> itemList = service.getAvailableItems();
-        assertEquals(1, itemList.size());
         BigDecimal balance = new BigDecimal("1.00");
         Change change;
-        
+
         service.setBalance(balance);
         change = service.vend(1);
 
-        itemList = service.getAvailableItems();
-        assertEquals(0, itemList.size());
-        
+        List<VendingMachineItem> itemList = service.getAvailableItems();
+        assertEquals(0, itemList.get(1).getItemCount());
+
         assertEquals(0, change.getQuarters());
         assertEquals(0, change.getDimes());
         assertEquals(0, change.getNickels());
@@ -106,13 +107,13 @@ public class VendingMachineServiceTest {
         //Test to see if there was correct change given
         BigDecimal balance = new BigDecimal("1.50");
         Change change;
-        
+
         service.setBalance(balance);
         change = service.vend(1);
-        
+
         List<VendingMachineItem> itemList = service.getAvailableItems();
-        assertEquals(0, itemList.size());
-        
+        assertEquals(0, itemList.get(1).getItemCount());
+
         assertEquals(2, change.getQuarters());
         assertEquals(0, change.getDimes());
         assertEquals(0, change.getNickels());
@@ -131,6 +132,15 @@ public class VendingMachineServiceTest {
     public void testVendIfNoEnoughBalance() throws Exception {
         //Test to see if the inventory of the item was not successfully vended
         //Test to see if there was an Exception thrown
+        BigDecimal balance = new BigDecimal(".50");
+        Change change;
+        try {
+            service.setBalance(balance);
+            change = service.vend(1);
+            fail("Expected InsufficientFundsException was not thrown");
+        } catch (InsufficientFundsException e) {
+            return;
+        }
 
     }
 
@@ -141,29 +151,29 @@ public class VendingMachineServiceTest {
     public void testCalculateChange() {
         BigDecimal dollar = new BigDecimal("1.00");
         BigDecimal seventyCents = new BigDecimal(".70");
-        BigDecimal fourtyTwoCents = new BigDecimal (".42");
-        BigDecimal sevenCents = new BigDecimal (".07");
-        
+        BigDecimal fourtyTwoCents = new BigDecimal(".42");
+        BigDecimal sevenCents = new BigDecimal(".07");
+
         Change change1 = service.calculateChange(dollar);
         Change change2 = service.calculateChange(seventyCents);
         Change change3 = service.calculateChange(fourtyTwoCents);
         Change change4 = service.calculateChange(sevenCents);
-        
+
         assertEquals(4, change1.getQuarters());
         assertEquals(0, change1.getDimes());
         assertEquals(0, change1.getNickels());
         assertEquals(0, change1.getPennies());
-        
+
         assertEquals(2, change2.getQuarters());
         assertEquals(2, change2.getDimes());
         assertEquals(0, change2.getNickels());
         assertEquals(0, change2.getPennies());
-        
+
         assertEquals(1, change3.getQuarters());
         assertEquals(1, change3.getDimes());
         assertEquals(1, change3.getNickels());
         assertEquals(2, change3.getPennies());
-        
+
         assertEquals(0, change4.getQuarters());
         assertEquals(0, change4.getDimes());
         assertEquals(1, change4.getNickels());

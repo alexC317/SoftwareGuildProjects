@@ -61,9 +61,10 @@ public class VendingMachineDaoTest {
 
     /**
      * Test of update method, of class VendingMachineDao.
+     * @throws VendingMachinePersistenceException
      */
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws VendingMachinePersistenceException {
         VendingMachineItem item = new VendingMachineItem(1);
         item.setItemName("Coca-Cola");
         item.setItemCount(2);

@@ -6,10 +6,13 @@
 package vendingmachine;
 
 import vendingmachine.controller.VendingMachineController;
+import vendingmachine.dao.VendingMachineAuditDao;
+import vendingmachine.dao.VendingMachineAuditDaoFileImpl;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachineDaoFileImpl;
 import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.service.InsufficientFundsException;
+import vendingmachine.service.NoItemInventoryException;
 import vendingmachine.service.VendingMachineService;
 import vendingmachine.service.VendingMachineServiceImpl;
 import vendingmachine.view.UserIO;
@@ -24,12 +27,16 @@ public class App {
 
     /**
      * @param args the command line arguments
+     * @throws vendingmachine.dao.VendingMachinePersistenceException
+     * @throws vendingmachine.service.InsufficientFundsException
+     * @throws vendingmachine.service.NoItemInventoryException
      */
-    public static void main(String[] args) throws VendingMachinePersistenceException, InsufficientFundsException {
+    public static void main(String[] args) throws VendingMachinePersistenceException, InsufficientFundsException, NoItemInventoryException {
         UserIO myIo = new UserIOConsoleImpl();
         VendingMachineView myView = new VendingMachineView(myIo);
         VendingMachineDao myDao = new VendingMachineDaoFileImpl();
-        VendingMachineService myService = new VendingMachineServiceImpl(myDao);
+        VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
+        VendingMachineService myService = new VendingMachineServiceImpl(myDao, myAuditDao);
         VendingMachineController controller = new VendingMachineController(myView, myService);
         controller.run();
     }

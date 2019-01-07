@@ -8,7 +8,7 @@ package vendingmachine.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.stream.Collectors;
+import vendingmachine.dao.VendingMachineAuditDao;
 import vendingmachine.dao.VendingMachineDao;
 import vendingmachine.dao.VendingMachinePersistenceException;
 import vendingmachine.dto.Change;
@@ -18,9 +18,11 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     private BigDecimal balance;
     private VendingMachineDao dao;
+    private VendingMachineAuditDao auditDao;
 
-    public VendingMachineServiceImpl(VendingMachineDao dao) throws VendingMachinePersistenceException {
+    public VendingMachineServiceImpl(VendingMachineDao dao, VendingMachineAuditDao auditDao) throws VendingMachinePersistenceException {
         this.dao = dao;
+        this.auditDao = auditDao;
     }
 
     @Override
@@ -28,10 +30,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         // Get the List of all items in the Dao
         // Parse through the list and create a new list based on what does not
         // have an inventory of 0
-        return dao.readAll().stream()
-                .filter(i -> i.getItemCount() > 0)
-                .collect(Collectors.toList());
-
+        return dao.readAll();
     }
 
     @Override
@@ -46,7 +45,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
-    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException {
+    public Change vend(int itemId) throws InsufficientFundsException, VendingMachinePersistenceException,NoItemInventoryException {
         // Search the Dao for the item specified (using its itemId)
         // Get the price of that item
         // If the balance >= price, subtract 1 from the inventory of that item,
@@ -55,13 +54,20 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         VendingMachineItem item = dao.readByID(itemId);
         BigDecimal price = item.getItemPrice();
         Change change;
-
+        
+        if (item.getItemCount() == 0) {
+            String message = "Item not in stock.";
+            auditDao.writeAuditEntry(message);
+            throw new NoItemInventoryException(message);
+        }
         if (balance.compareTo(price) != -1) {
             item.setItemCount(item.getItemCount() - 1);
             dao.update(itemId, item);
             change = calculateChange(balance.subtract(price));
         } else {
-            throw new InsufficientFundsException("Not enough funds.");
+            String message = "Not enough funds.";
+            auditDao.writeAuditEntry(message);
+            throw new InsufficientFundsException(message);
         }
         balance = null;
 
