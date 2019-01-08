@@ -29,3 +29,5 @@
 2019-01-07T15:33:59.588 : Powerade added to the Vending Machine.
 2019-01-07T15:33:59.588 : ID already in use.
 2019-01-07T15:53:37.726 : 4 added to the Vending Machine.
+2019-01-07T16:01:18.290 : ID already in use.
+2019-01-07T16:02:21.622 : Diet Coke added to the Vending Machine.
