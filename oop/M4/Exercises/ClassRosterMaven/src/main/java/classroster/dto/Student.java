@@ -86,6 +86,11 @@ public class Student {
         }
         return true;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "ID: " + studentId + " |Name: " + firstName + " "
+                + lastName + " |Cohort: " + cohort;
+    }
+
 }
