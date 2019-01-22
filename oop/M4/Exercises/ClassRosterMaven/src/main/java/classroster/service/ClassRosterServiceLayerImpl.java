@@ -38,7 +38,7 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer {
 
         dao.addStudent(student.getStudentId(), student);
 
-        auditDao.writeAuditEntry("Student " + student.getStudentId() + " CREATED.");
+        //auditDao.writeAuditEntry("Student " + student.getStudentId() + " CREATED.");
     }
 
     @Override
@@ -51,10 +51,11 @@ public class ClassRosterServiceLayerImpl implements ClassRosterServiceLayer {
         return dao.getStudent(studentId);
     }
 
+    @Override
     public Student removeStudent(String studentId) throws ClassRosterPersistenceException {
         Student removedStudent = dao.removeStudent(studentId);
         // Write to audit log
-        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
+        //auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
         return removedStudent;
     }
 

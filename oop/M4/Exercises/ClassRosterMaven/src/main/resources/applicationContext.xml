@@ -23,21 +23,37 @@
     </bean>
    
     <bean id="classRosterDao" 
-         class="classroster.dao.ClassRosterDaoFileImpl"/>
+          class="classroster.dao.ClassRosterDaoFileImpl"/>
    
     <bean id="auditDao" 
-         class="classroster.dao.ClassRosterAuditDaoFileImpl"/>
+          class="classroster.dao.ClassRosterAuditDaoImpl"/>
    
     <bean id="serviceLayer" 
-         class="classroster.service.ClassRosterServiceLayerImpl">
+          class="classroster.service.ClassRosterServiceLayerImpl">
         <constructor-arg ref="classRosterDao"/>
         <constructor-arg ref="auditDao"/>           
     </bean>
    
     <bean id="controller" 
-         class="classroster.controller.ClassRosterController">
+          class="classroster.controller.ClassRosterController">
         <constructor-arg ref="serviceLayer"/>
         <constructor-arg ref="view"/>
     </bean>
+    
+    <bean id="loggingAdvice" 
+          class="classroster.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <aop:config>
+        <aop:aspect ref="loggingAdvice">
+            <aop:after-returning 
+                method="createAuditEntry"
+                pointcut="execution(* classroster.service.ClassRosterServiceLayer.createStudent(..))"/>
+            <aop:after-returning 
+                method="createAuditEntry"
+                pointcut="execution(* classroster.service.ClassRosterServiceLayer.removeStudent(..))" />
+        </aop:aspect>
+    </aop:config>
    
 </beans>
