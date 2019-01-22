@@ -45,7 +45,7 @@ public class VendingMachineDaoTest {
      * Test of create method, of class VendingMachineDao.
      */
     @Test
-    public void testCreate() {
+    public void testCreate() throws Exception {
         VendingMachineItem newItem = new VendingMachineItem(4);
         newItem.setItemName("Powerade");
         newItem.setItemCount(5);
