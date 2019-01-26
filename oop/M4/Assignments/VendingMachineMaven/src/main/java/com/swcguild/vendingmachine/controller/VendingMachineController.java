@@ -38,6 +38,7 @@ public class VendingMachineController {
      * @throws InsufficientFundsException
      * @throws VendingMachinePersistenceException
      * @throws ItemOutOfStockException
+     * @throws VendingMachineItemOverCapacityException
      */
     public void run() throws InsufficientFundsException, VendingMachinePersistenceException, ItemOutOfStockException, VendingMachineItemOverCapacityException {
         boolean quit = false;

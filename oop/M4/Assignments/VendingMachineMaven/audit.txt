@@ -1,0 +1,8 @@
+2019-01-26T18:01:51.789 : Not enough funds.
+2019-01-26T18:01:51.971 : Powerade added to the Vending Machine.
+2019-01-26T18:01:51.975 : Powerade added to the Vending Machine.
+2019-01-26T18:01:51.976 : ID already in use.
+2019-01-26T18:04:33.403 : Not enough funds.
+2019-01-26T18:04:33.542 : Powerade added to the Vending Machine.
+2019-01-26T18:04:33.554 : Powerade added to the Vending Machine.
+2019-01-26T18:04:33.564 : ID already in use.

@@ -19,6 +19,8 @@ import com.swcguild.vendingmachine.service.VendingMachineServiceLayerImpl;
 import com.swcguild.vendingmachine.view.UserIO;
 import com.swcguild.vendingmachine.view.UserIOConsoleImpl;
 import com.swcguild.vendingmachine.view.VendingMachineView;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -28,22 +30,25 @@ public class App {
 
     /**
      * @param args the command line arguments
-     * @throws vendingmachine.dao.VendingMachinePersistenceException
-     * @throws vendingmachine.service.InsufficientFundsException
-     * @throws vendingmachine.service.ItemOutOfStockException
-     * @throws vendingmachine.service.VendingMachineItemOverCapacityException
+     * @throws com.swcguild.vendingmachine.dao.VendingMachinePersistenceException
+     * @throws com.swcguild.vendingmachine.service.InsufficientFundsException
+     * @throws com.swcguild.vendingmachine.service.ItemOutOfStockException
+     * @throws com.swcguild.vendingmachine.service.VendingMachineItemOverCapacityException
      */
     public static void main(String[] args) throws
             VendingMachinePersistenceException,
             InsufficientFundsException,
             ItemOutOfStockException,
             VendingMachineItemOverCapacityException {
-        UserIO myIo = new UserIOConsoleImpl();
-        VendingMachineView myView = new VendingMachineView(myIo);
-        VendingMachineDao myDao = new VendingMachineDaoFileImpl();
-        VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
-        VendingMachineServiceLayer myService = new VendingMachineServiceLayerImpl(myDao, myAuditDao);
-        VendingMachineController controller = new VendingMachineController(myView, myService);
+//        UserIO myIo = new UserIOConsoleImpl();
+//        VendingMachineView myView = new VendingMachineView(myIo);
+//        VendingMachineDao myDao = new VendingMachineDaoFileImpl();
+//        VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
+//        VendingMachineServiceLayer myService = new VendingMachineServiceLayerImpl(myDao, myAuditDao);
+//        VendingMachineController controller = new VendingMachineController(myView, myService);
+        
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        VendingMachineController controller = ctx.getBean("controller", VendingMachineController.class);
         controller.run();
     }
 
