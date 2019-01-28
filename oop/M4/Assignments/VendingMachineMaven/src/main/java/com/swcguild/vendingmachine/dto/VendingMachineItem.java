@@ -49,4 +49,9 @@ public class VendingMachineItem {
     public void setItemCount(int itemCount) {
         this.itemCount = itemCount;
     }
+    
+    @Override
+    public String toString() {
+        return "Item: " + itemName;
+    }
 }
