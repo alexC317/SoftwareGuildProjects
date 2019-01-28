@@ -21,9 +21,9 @@ public class LoggingAdvice {
         this.auditDao = auditDao;
     }
 
-    public void createAuditEntry(JoinPoint jp, Exception message) {
-        String auditEntry = message.toString();
-        
+    public void createAuditEntry(JoinPoint jp, Exception error) {
+        String auditEntry = error.getMessage();
+
         try {
             auditDao.writeAuditEntry(auditEntry);
         } catch (VendingMachinePersistenceException e) {

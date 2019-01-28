@@ -42,10 +42,8 @@
             <aop:after-throwing
                 method="createAuditEntry"
                 pointcut="execution(* com.swcguild.vendingmachine.service.VendingMachineServiceLayer.vend(..))"
-                throwing="message"
+                throwing="error"
             />
-         
-           
         </aop:aspect>
     </aop:config>
 </beans>
