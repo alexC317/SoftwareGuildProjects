@@ -33,5 +33,19 @@
         <constructor-arg ref="service"/>
     </bean>
     
+    <bean id="loggingAdvice" class="com.swcguild.vendingmachine.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
     
+    <aop:config>
+        <aop:aspect ref="loggingAdvice">
+            <aop:after-throwing
+                method="createAuditEntry"
+                pointcut="execution(* com.swcguild.vendingmachine.service.VendingMachineServiceLayer.vend(..))"
+                throwing="message"
+            />
+         
+           
+        </aop:aspect>
+    </aop:config>
 </beans>

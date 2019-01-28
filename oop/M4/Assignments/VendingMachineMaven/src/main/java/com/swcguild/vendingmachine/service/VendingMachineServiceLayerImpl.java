@@ -35,12 +35,12 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
             VendingMachinePersistenceException,
             VendingMachineDataValidationException {
         if (dao.readByID(item.getItemId()) != null) {
-            auditDao.writeAuditEntry("ID already in use.");
+//            auditDao.writeAuditEntry("ID already in use.");
             throw new VendingMachineDuplicateIDException("This ID is already in use. Please select another and try again.");
         }
         validateItem(item);
         dao.create(item);
-        auditDao.writeAuditEntry(item.getItemName() + " added to the Vending Machine.");
+//        auditDao.writeAuditEntry(item.getItemName() + " added to the Vending Machine.");
     }
 
     @Override
@@ -65,8 +65,8 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
         Change change;
 
         if (item.getItemCount() == 0) {
-            String message = "Item not in stock.";
-            auditDao.writeAuditEntry(message);
+            String message = item.toString() + " not in stock.";
+//           auditDao.writeAuditEntry(message);
             throw new ItemOutOfStockException(message);
         }
         if (balance.compareTo(price) != -1) {
@@ -74,8 +74,8 @@ public class VendingMachineServiceLayerImpl implements VendingMachineServiceLaye
             dao.update(itemId, item);
             change = calculateChange(balance.subtract(price));
         } else {
-            String message = "Not enough funds.";
-            auditDao.writeAuditEntry(message);
+            String message = " Not enough funds for " + item.toString() + ".";
+//            auditDao.writeAuditEntry(message);
             throw new InsufficientFundsException(message);
         }
         balance = null;

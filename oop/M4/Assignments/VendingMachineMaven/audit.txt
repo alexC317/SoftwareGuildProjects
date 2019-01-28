@@ -1,0 +1,4 @@
+2019-01-28T03:09:41.398 : Item not in stock.
+2019-01-28T03:10:01.103 : Not enough funds.
+2019-01-28T04:03:39.570 : com.swcguild.vendingmachine.service.ItemOutOfStockException: Sprite not in stock.
+2019-01-28T04:04:15.862 : com.swcguild.vendingmachine.service.InsufficientFundsException:  Not enough funds for Beef Jerky.

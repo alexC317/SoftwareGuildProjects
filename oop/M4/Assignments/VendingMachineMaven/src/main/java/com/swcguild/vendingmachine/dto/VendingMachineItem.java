@@ -52,6 +52,6 @@ public class VendingMachineItem {
     
     @Override
     public String toString() {
-        return "Item: " + itemName;
+        return itemName;
     }
 }

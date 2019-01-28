@@ -60,7 +60,7 @@ public class VendingMachineView {
         int max = items.size();
         int choice = io.readInt("Please enter your selection: ", -1, max + 1);
 
-        if (choice == 1) {
+        if (choice == 1 || choice == 0) {
             return 0;
         } else if (choice == -1) {
             return -1;
