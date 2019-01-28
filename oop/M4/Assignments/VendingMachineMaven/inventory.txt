@@ -1,6 +1,0 @@
-1::Sprite::1.00::2
-2::Coca-Cola::1.00::5
-3::Beef Jerky::2.50::5
-4::Sour Patch Kids::1.75::6
-5::Cookies::2.25::6
-108::Diet Coke::1.00::10

@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import vendingmachine.dao.VendingMachineAuditDaoStubImpl;
 import vendingmachine.dao.VendingMachineDaoStubImpl;
 
 /**
@@ -38,7 +39,7 @@ public class VendingMachineServiceTest {
 
     public VendingMachineServiceTest() throws Exception {
         VendingMachineDao dao = new VendingMachineDaoStubImpl();
-        VendingMachineAuditDao auditDao = new VendingMachineAuditDaoFileImpl();
+        VendingMachineAuditDao auditDao = new VendingMachineAuditDaoStubImpl();
         service = new VendingMachineServiceLayerImpl(dao, auditDao);
     }
 

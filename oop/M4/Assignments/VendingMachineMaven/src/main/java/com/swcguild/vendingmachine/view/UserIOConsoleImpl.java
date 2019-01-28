@@ -62,7 +62,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public float readFloat(String prompt, float min, float max) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         float value;
         try {
             value = Float.parseFloat(input.nextLine());
@@ -77,7 +77,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public int readInt(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         int value;
         try {
             value = Integer.parseInt(input.nextLine());
@@ -89,7 +89,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public int readInt(String prompt, int min, int max) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         int value;
         try {
             value = Integer.parseInt(input.nextLine());
@@ -132,7 +132,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         BigDecimal value;
         try {
             value = new BigDecimal(input.nextLine());
