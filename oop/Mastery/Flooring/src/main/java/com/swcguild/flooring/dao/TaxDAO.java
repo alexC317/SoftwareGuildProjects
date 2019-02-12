@@ -5,10 +5,17 @@
  */
 package com.swcguild.flooring.dao;
 
+import com.swcguild.flooring.dto.Tax;
+import java.util.List;
+
 /**
  *
  * @author Alex
  */
 public interface TaxDAO {
-    
+
+    public List<Tax> readAll();
+
+    public Tax readById(String stateName);
+
 }

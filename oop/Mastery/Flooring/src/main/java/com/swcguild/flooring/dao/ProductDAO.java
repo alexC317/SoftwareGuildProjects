@@ -5,10 +5,17 @@
  */
 package com.swcguild.flooring.dao;
 
+import com.swcguild.flooring.dto.Product;
+import java.util.List;
+
 /**
  *
  * @author Alex
  */
 public interface ProductDAO {
-    
+
+    public List<Product> readAll();
+
+    public Product readById(String productName);
+
 }
