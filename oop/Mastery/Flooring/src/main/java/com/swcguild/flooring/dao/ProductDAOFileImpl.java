@@ -5,7 +5,7 @@
  */
 package com.swcguild.flooring.dao;
 
-import com.swcguild.flooring.dto.Tax;
+import com.swcguild.flooring.dto.Product;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,41 +20,42 @@ import java.util.Scanner;
  *
  * @author Alex
  */
-public class TaxDAOFileImpl implements TaxDAO {
+public class ProductDAOFileImpl implements ProductDAO {
 
-    private Map<String, Tax> taxes = new HashMap<>();
+    private Map<String, Product> products = new HashMap<>();
 
-    public static final String TAX_FILE = "Taxes.txt";
+    public static final String PRODUCT_FILE = "Products.txt";
     public static final String DELIMITER = ",";
 
-    public TaxDAOFileImpl() throws FlooringPersistenceException {
-        loadTaxes();
+    public ProductDAOFileImpl() throws FlooringPersistenceException {
+        loadProducts();
     }
 
     @Override
-    public List<Tax> readAll() {
-        return new ArrayList<>(taxes.values());
+    public List<Product> readAll() {
+        return new ArrayList<>(products.values());
     }
 
     @Override
-    public Tax readById(String stateName) {
-        if (taxes.containsKey(stateName)) {
-            return taxes.get(stateName);
+    public Product readById(String productName) {
+        if (products.containsKey(productName)) {
+            return products.get(productName);
         }
+
         return null;
     }
 
-    private void loadTaxes() throws FlooringPersistenceException {
+    private void loadProducts() throws FlooringPersistenceException {
         Scanner scanner;
 
         try {
             //Create scanner for reading the file
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader(TAX_FILE)));
+                            new FileReader(PRODUCT_FILE)));
         } catch (FileNotFoundException e) {
             throw new FlooringPersistenceException(
-                    "-_- Could not load tax information into memory.", e);
+                    "-_- Could not load product information into memory.", e);
         }
 
         String currentLine;
@@ -64,12 +65,12 @@ public class TaxDAOFileImpl implements TaxDAO {
             currentLine = scanner.nextLine();
             currentTokens = currentLine.split(DELIMITER);
 
-            Tax currentItem = new Tax((currentTokens[0]));
-            currentItem.setTaxRate(new BigDecimal(currentTokens[1]));
+            Product currentItem = new Product((currentTokens[0]));
+            currentItem.setCostPerSquareFoot(new BigDecimal(currentTokens[1]));
+            currentItem.setLaborCostPerSqaureFoot(new BigDecimal(currentTokens[2]));
 
-            taxes.put(currentItem.getStateName(), currentItem);
+            products.put(currentItem.getProductType(), currentItem);
         }
         scanner.close();
     }
-
 }

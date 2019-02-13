@@ -5,8 +5,7 @@
  */
 package com.swcguild.flooring.dao;
 
-import com.swcguild.flooring.dto.Tax;
-import java.util.List;
+import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,10 +18,11 @@ import static org.junit.Assert.*;
  * @author Alex
  */
 public class TaxDAOTest {
-    
-    private TaxDAO taxDAO = new TaxDAOFileImpl();
 
-    public TaxDAOTest() {
+    private TaxDAO taxDAO;
+
+    public TaxDAOTest() throws Exception {
+        taxDAO = new TaxDAOFileImpl();
     }
 
     @BeforeClass
@@ -55,16 +55,18 @@ public class TaxDAOTest {
     @Test
     public void testReadById() {
         assertNotNull(taxDAO.readById("OH"));
-        assertEquals(6.25, taxDAO.readById("OH").getTaxRate());
-        
+        assertEquals(new BigDecimal("6.25"), taxDAO.readById("OH").getTaxRate());
+
         assertNotNull(taxDAO.readById("PA"));
-        assertEquals(6.75, taxDAO.readById("PA").getTaxRate());
-        
+        assertEquals(new BigDecimal("6.75"), taxDAO.readById("PA").getTaxRate());
+
         assertNotNull(taxDAO.readById("MI"));
-        assertEquals(5.75, taxDAO.readById("MI").getTaxRate());
-        
+        assertEquals(new BigDecimal("5.75"), taxDAO.readById("MI").getTaxRate());
+
         assertNotNull(taxDAO.readById("IN"));
-        assertEquals(6.00, taxDAO.readById("IN").getTaxRate());
+        assertEquals(new BigDecimal("6.00"), taxDAO.readById("IN").getTaxRate());
+        
+        assertNull(taxDAO.readById("NY"));
     }
 
 }
