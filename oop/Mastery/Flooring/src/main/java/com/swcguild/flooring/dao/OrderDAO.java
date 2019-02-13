@@ -6,6 +6,7 @@
 package com.swcguild.flooring.dao;
 
 import com.swcguild.flooring.dto.Order;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,14 +15,14 @@ import java.util.List;
  */
 public interface OrderDAO {
 
-    public void create(Order order);
+    public void create(LocalDate date, Order order);
 
-    public List<Order> readAll();
+    public List<Order> readAll(LocalDate date);
 
-    public Order readById(int id);
+    public Order readById(LocalDate date, int id);
 
-    public void update(int id);
+    public void update(LocalDate date, int id);
 
-    public void delete(int id);
+    public void delete(LocalDate date, int id);
 
 }

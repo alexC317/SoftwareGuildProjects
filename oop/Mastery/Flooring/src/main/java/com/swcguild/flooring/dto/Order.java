@@ -20,7 +20,7 @@ public class Order {
     private String productType;
     private BigDecimal area;
     private BigDecimal costPerSquareFoot;
-    private BigDecimal laborCostPerSqaureFoot;
+    private BigDecimal laborCostPerSquareFoot;
     private BigDecimal materialCost;
     private BigDecimal laborCost;
     private BigDecimal tax;
@@ -82,12 +82,12 @@ public class Order {
         this.costPerSquareFoot = costPerSquareFoot;
     }
 
-    public BigDecimal getLaborCostPerSqaureFoot() {
-        return laborCostPerSqaureFoot;
+    public BigDecimal getLaborCostPerSquareFoot() {
+        return laborCostPerSquareFoot;
     }
 
-    public void setLaborCostPerSqaureFoot(BigDecimal laborCostPerSqaureFoot) {
-        this.laborCostPerSqaureFoot = laborCostPerSqaureFoot;
+    public void setLaborCostPerSquareFoot(BigDecimal laborCostPerSquareFoot) {
+        this.laborCostPerSquareFoot = laborCostPerSquareFoot;
     }
 
     public BigDecimal getMaterialCost() {
