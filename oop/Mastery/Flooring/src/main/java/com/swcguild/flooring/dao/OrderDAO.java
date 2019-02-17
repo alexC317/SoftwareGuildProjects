@@ -15,13 +15,13 @@ import java.util.List;
  */
 public interface OrderDAO {
 
-    public void create(LocalDate date, Order order);
+    public void create(LocalDate date, Order order) throws FlooringPersistenceException;
 
     public List<Order> readAll(LocalDate date);
 
     public Order readById(LocalDate date, int id);
 
-    public void update(LocalDate date, int id);
+    public void update(LocalDate date, int id, Order order) throws FlooringPersistenceException;
 
     public void delete(LocalDate date, int id);
 

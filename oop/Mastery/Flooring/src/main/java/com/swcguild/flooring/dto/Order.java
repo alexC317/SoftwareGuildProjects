@@ -6,6 +6,7 @@
 package com.swcguild.flooring.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -120,6 +121,32 @@ public class Order {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + this.orderNumber;
+        hash = 61 * hash + Objects.hashCode(this.customerName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Order other = (Order) obj;
+        if (this.orderNumber != other.orderNumber) {
+            return false;
+        }
+        return true;
     }
 
 }
