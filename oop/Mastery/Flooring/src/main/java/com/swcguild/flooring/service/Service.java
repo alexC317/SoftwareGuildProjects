@@ -5,10 +5,23 @@
  */
 package com.swcguild.flooring.service;
 
+import com.swcguild.flooring.dto.Order;
+import java.time.LocalDate;
+import java.util.List;
+
 /**
  *
  * @author Alex
  */
 public interface Service {
-    
+
+    public List<Order> displayOrders(LocalDate date);
+
+    public void addOrder(Order newOrder);
+
+    public Order editOrder(LocalDate date, int orderNum);
+
+    public void removeOrder(LocalDate date, int orderNum);
+
+    public void saveCurrentWork();
 }
