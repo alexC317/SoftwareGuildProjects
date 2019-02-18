@@ -18,7 +18,9 @@ public interface Service {
 
     public List<Order> displayOrders(LocalDate date) throws FlooringPersistenceException;
 
-    public void addOrder(Order newOrder);
+    public Order getOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException;
+
+    public void addOrder(Order newOrder) throws FlooringPersistenceException, OrderValidationException;
 
     public Order editOrder(LocalDate date, int orderNum);
 

@@ -5,6 +5,7 @@
  */
 package com.swcguild.flooring.service;
 
+import com.swcguild.flooring.dao.FlooringPersistenceException;
 import com.swcguild.flooring.dao.OrderDAO;
 import com.swcguild.flooring.dao.OrderDAOProdFileImpl;
 import com.swcguild.flooring.dao.ProductDAO;
@@ -12,6 +13,7 @@ import com.swcguild.flooring.dao.ProductDAOFileImpl;
 import com.swcguild.flooring.dao.TaxDAO;
 import com.swcguild.flooring.dao.TaxDAOFileImpl;
 import com.swcguild.flooring.dto.Order;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
@@ -63,14 +65,39 @@ public class ServiceTest {
 
         assertEquals(1, order.size());
         assertEquals(1, order.get(0).getOrderNumber());
-
     }
 
     /**
      * Test of addOrder method, of class Service.
      */
     @Test
-    public void testAddOrder() {
+    public void testAddOrder() throws FlooringPersistenceException, OrderValidationException {
+        Order newOrder = new Order(1);
+        newOrder.setCustomerName("Cepeda");
+        newOrder.setStateName("PA");
+        //newOrder.setTaxRate(new BigDecimal("6.75"));
+        newOrder.setProductType("Wood");
+        newOrder.setArea(new BigDecimal("100.00"));
+//        newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
+//        newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
+//        newOrder.setMaterialCost(new BigDecimal("515.00"));
+//        newOrder.setLaborCost(new BigDecimal("475.00"));
+//        newOrder.setTax(new BigDecimal("66.83"));
+//        newOrder.setTotal(new BigDecimal("1056.83"));
+
+        service.addOrder(newOrder);
+        Order fromService = service.getOrder(LocalDate.now(), 1);
+
+        assertEquals(fromService, newOrder);
+        assertEquals(1, fromService.getOrderNumber());
+        assertEquals(new BigDecimal("6.75"), fromService.getTaxRate());
+        assertEquals(new BigDecimal("5.15"), fromService.getCostPerSquareFoot());
+        assertEquals(new BigDecimal("4.75"), fromService.getLaborCostPerSquareFoot());
+        assertEquals(new BigDecimal("515.00"), fromService.getMaterialCost());
+        assertEquals(new BigDecimal("475.00"), fromService.getLaborCost());
+        assertEquals(new BigDecimal("66.83"), fromService.getTax());
+        assertEquals(new BigDecimal("1056.83"), fromService.getTotal());
+
     }
 
     /**

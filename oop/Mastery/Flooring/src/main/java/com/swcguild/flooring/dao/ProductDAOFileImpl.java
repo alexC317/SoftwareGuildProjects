@@ -67,7 +67,7 @@ public class ProductDAOFileImpl implements ProductDAO {
 
             Product currentItem = new Product((currentTokens[0]));
             currentItem.setCostPerSquareFoot(new BigDecimal(currentTokens[1]));
-            currentItem.setLaborCostPerSqaureFoot(new BigDecimal(currentTokens[2]));
+            currentItem.setLaborCostPerSquareFoot(new BigDecimal(currentTokens[2]));
 
             products.put(currentItem.getProductType(), currentItem);
         }
