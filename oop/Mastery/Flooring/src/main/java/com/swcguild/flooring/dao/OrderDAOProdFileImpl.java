@@ -25,7 +25,7 @@ import java.util.Scanner;
  *
  * @author acetip
  */
-public class OrderDAOFileImpl implements OrderDAO {
+public class OrderDAOProdFileImpl implements OrderDAO {
 
     private Map<Integer, Order> currentOrders = new HashMap<>();
     private LocalDate currentDate;
@@ -33,52 +33,58 @@ public class OrderDAOFileImpl implements OrderDAO {
     public static final String ORDER_FILE = "Orders_";
     public static final String DELIMITER = ",";
 
-    public OrderDAOFileImpl() {
+    public OrderDAOProdFileImpl() {
     }
 
     @Override
     public void create(LocalDate date, Order order) throws FlooringPersistenceException {
         currentDate = date;
         currentOrders.put(order.getOrderNumber(), order);
-        orderWriter(date, currentOrders);
+        writeOrders(date, currentOrders);
     }
 
     @Override
-    public List<Order> readAll(LocalDate date) {
-        return new ArrayList<>(currentOrders.values());
+    public List<Order> readAll(LocalDate date) throws FlooringPersistenceException {
+        Map<Integer, Order> localOrders = loadOrders(date);
+
+        return new ArrayList<>(localOrders.values());
     }
 
     @Override
-    public Order readById(LocalDate date, int id) {
-        if (currentOrders.containsKey(id)) {
-            return currentOrders.get(id);
+    public Order readById(LocalDate date, int id) throws FlooringPersistenceException {
+        Map<Integer, Order> localOrders = loadOrders(date);
+
+        if (localOrders.containsKey(id)) {
+            return localOrders.get(id);
         }
         return null;
     }
 
     @Override
-    public void update(LocalDate date, int id, Order order) throws FlooringPersistenceException {
-        Map<Integer, Order> localOrders = orderReader(date);
-        
-        if(localOrders.containsKey(id)){
-            localOrders.put(id, order);
-        }
-        
-        orderWriter(date, localOrders);
+    public void update(LocalDate date, int id, Order updatedOrder) throws FlooringPersistenceException {
+        Map<Integer, Order> localOrders = loadOrders(date);
 
+        if (localOrders.containsKey(id)) {
+            localOrders.put(id, updatedOrder);
+        }
+
+        writeOrders(date, localOrders);
     }
 
     @Override
-    public void delete(LocalDate date, int id) {
-        if (currentOrders.containsKey(id)) {
-            currentOrders.remove(id);
+    public void delete(LocalDate date, int id) throws FlooringPersistenceException {
+        Map<Integer, Order> localOrders = loadOrders(date);
+
+        if (localOrders.containsKey(id)) {
+            localOrders.remove(id);
         }
 
+        writeOrders(date, localOrders);
     }
 
-    private void orderWriter(LocalDate date, Map orders) throws FlooringPersistenceException {
-        String dateString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
-        String fullFileName = ORDER_FILE + dateString;
+    private void writeOrders(LocalDate date, Map orders) throws FlooringPersistenceException {
+        String dateAsString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
+        String fullFileName = ORDER_FILE + dateAsString;
         PrintWriter out;
 
         try {
@@ -92,7 +98,7 @@ public class OrderDAOFileImpl implements OrderDAO {
         // get the Collection of Students and iterate over them, but we've
         // already created a method that gets a List of Students so
         // we'll reuse it.
-        List<Order> orderList = this.readAll(date);
+        List<Order> orderList = new ArrayList<>(orders.values());
         for (Order currentOrder : orderList) {
             // write the Student object to the file
             out.println(currentOrder.getOrderNumber() + DELIMITER
@@ -114,11 +120,11 @@ public class OrderDAOFileImpl implements OrderDAO {
         out.close();
     }
 
-    private Map orderReader(LocalDate date) throws FlooringPersistenceException {
+    private Map loadOrders(LocalDate date) throws FlooringPersistenceException {
         Map<Integer, Order> localOrders = new HashMap<>();
 
-        String dateString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
-        String fullFileName = ORDER_FILE + dateString;
+        String dateAsString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
+        String fullFileName = ORDER_FILE + dateAsString;
         Scanner scanner;
 
         try {
@@ -173,7 +179,6 @@ public class OrderDAOFileImpl implements OrderDAO {
         scanner.close();
 
         return localOrders;
-
     }
 
 }

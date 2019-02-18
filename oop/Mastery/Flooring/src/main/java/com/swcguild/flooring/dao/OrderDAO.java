@@ -17,12 +17,12 @@ public interface OrderDAO {
 
     public void create(LocalDate date, Order order) throws FlooringPersistenceException;
 
-    public List<Order> readAll(LocalDate date);
+    public List<Order> readAll(LocalDate date) throws FlooringPersistenceException;
 
-    public Order readById(LocalDate date, int id);
+    public Order readById(LocalDate date, int id) throws FlooringPersistenceException;
 
     public void update(LocalDate date, int id, Order order) throws FlooringPersistenceException;
 
-    public void delete(LocalDate date, int id);
+    public void delete(LocalDate date, int id) throws FlooringPersistenceException;
 
 }

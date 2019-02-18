@@ -7,7 +7,6 @@ package com.swcguild.flooring.dao;
 
 import com.swcguild.flooring.dto.Order;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
@@ -26,7 +25,7 @@ public class OrderDAOTest {
     private OrderDAO orderDAO;
 
     public OrderDAOTest() {
-        orderDAO = new OrderDAOFileImpl();
+        orderDAO = new OrderDAOProdFileImpl();
     }
 
     @BeforeClass
@@ -38,7 +37,7 @@ public class OrderDAOTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         LocalDate testDate = LocalDate.parse("2018-01-01");
         List<Order> orderList = orderDAO.readAll(testDate);
         for (Order order : orderList) {
@@ -51,7 +50,7 @@ public class OrderDAOTest {
     }
 
     /**
-     * Test of create method, of class OrderDAO.
+     * Test of create and readById method, of class OrderDAO.
      */
     @Test
     public void testCreateAndReadById() throws Exception {
@@ -63,27 +62,11 @@ public class OrderDAOTest {
         newOrder.setArea(new BigDecimal("100.00"));
         newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
         newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
+        newOrder.setMaterialCost(new BigDecimal("515.00"));
+        newOrder.setLaborCost(new BigDecimal("475"));
+        newOrder.setTax(new BigDecimal("61.88"));
+        newOrder.setTotal(new BigDecimal("1051.88"));
 
-        BigDecimal area = newOrder.getArea().setScale(2, RoundingMode.HALF_UP);
-        BigDecimal cpsf = newOrder.getCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP);
-        BigDecimal lcpsf = newOrder.getLaborCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP);
-
-        BigDecimal materialCost = area.multiply(cpsf).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal laborCost = area.multiply(lcpsf).setScale(2, RoundingMode.HALF_UP);
-
-        newOrder.setMaterialCost(materialCost);
-        newOrder.setLaborCost(laborCost);
-
-        BigDecimal taxPercent = newOrder.getTaxRate().divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        BigDecimal materialTax = materialCost.multiply(taxPercent).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal laborTax = materialCost.multiply(taxPercent).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal totalTax = materialTax.add(laborTax).setScale(2, RoundingMode.HALF_UP);
-
-        newOrder.setTax(totalTax);
-
-        BigDecimal total = materialCost.add(laborCost.add(totalTax).setScale(2, RoundingMode.HALF_UP));
-
-        newOrder.setTotal(total);
         LocalDate testDate = LocalDate.parse("2018-01-01");
 
         orderDAO.create(testDate, newOrder);
@@ -106,6 +89,10 @@ public class OrderDAOTest {
         newOrder.setArea(new BigDecimal("100.00"));
         newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
         newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
+        newOrder.setMaterialCost(new BigDecimal("515.00"));
+        newOrder.setLaborCost(new BigDecimal("475"));
+        newOrder.setTax(new BigDecimal("66.83"));
+        newOrder.setTotal(new BigDecimal("1056.83"));
 
         Order newOrder2 = new Order(2);
         newOrder2.setCustomerName("Porras");
@@ -115,34 +102,16 @@ public class OrderDAOTest {
         newOrder2.setArea(new BigDecimal("10.00"));
         newOrder2.setCostPerSquareFoot(new BigDecimal("2.25"));
         newOrder2.setLaborCostPerSquareFoot(new BigDecimal("2.10"));
+        newOrder2.setMaterialCost(new BigDecimal("22.50"));
+        newOrder2.setLaborCost(new BigDecimal("21"));
+        newOrder2.setTax(new BigDecimal("2.72"));
+        newOrder2.setTotal(new BigDecimal("46.22"));
 
         LocalDate testDate = LocalDate.parse("2018-01-01");
         orderDAO.create(testDate, newOrder);
         orderDAO.create(testDate, newOrder2);
 
         assertEquals(2, orderDAO.readAll(testDate).size());
-
-    }
-
-    /**
-     * Test of readById method, of class OrderDAO.
-     */
-    @Test
-    public void testReadById() throws Exception {
-        Order newOrder = new Order(1);
-        newOrder.setCustomerName("Cepeda");
-        newOrder.setStateName("PA");
-        newOrder.setTaxRate(new BigDecimal("6.75"));
-        newOrder.setProductType("Wood");
-        newOrder.setArea(new BigDecimal("100.00"));
-        newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
-        newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
-
-        LocalDate testDate = LocalDate.parse("2018-01-01");
-        orderDAO.create(testDate, newOrder);
-
-        Order fromDAO = orderDAO.readById(testDate, 1);
-        assertEquals(fromDAO, newOrder);
 
     }
 
@@ -159,33 +128,26 @@ public class OrderDAOTest {
         newOrder.setArea(new BigDecimal("100.00"));
         newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
         newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
-        BigDecimal area = newOrder.getArea().setScale(2, RoundingMode.HALF_UP);
-        BigDecimal cpsf = newOrder.getCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP);
-        BigDecimal lcpsf = newOrder.getLaborCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP);
-
-        BigDecimal materialCost = area.multiply(cpsf).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal laborCost = area.multiply(lcpsf).setScale(2, RoundingMode.HALF_UP);
-
-        newOrder.setMaterialCost(materialCost);
-        newOrder.setLaborCost(laborCost);
-
-        BigDecimal taxPercent = newOrder.getTaxRate().divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-        BigDecimal materialTax = materialCost.multiply(taxPercent).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal laborTax = materialCost.multiply(taxPercent).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal totalTax = materialTax.add(laborTax).setScale(2, RoundingMode.HALF_UP);
-
-        newOrder.setTax(totalTax);
-
-        BigDecimal total = materialCost.add(laborCost.add(totalTax).setScale(2, RoundingMode.HALF_UP));
-
-        newOrder.setTotal(total);
+        newOrder.setMaterialCost(new BigDecimal("515.00"));
+        newOrder.setLaborCost(new BigDecimal("475"));
+        newOrder.setTax(new BigDecimal("66.83"));
+        newOrder.setTotal(new BigDecimal("1056.83"));
 
         LocalDate testDate = LocalDate.parse("2018-01-01");
         orderDAO.create(testDate, newOrder);
 
         Order updateOrder = new Order(1);
-        newOrder.setCustomerName("Jacobs");
-        newOrder.setProductType("Tile");
+        updateOrder.setCustomerName("Jacobs");
+        updateOrder.setStateName("PA");
+        updateOrder.setTaxRate(new BigDecimal("6.75"));
+        updateOrder.setProductType("Wood");
+        updateOrder.setArea(new BigDecimal("100.00"));
+        updateOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
+        updateOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
+        updateOrder.setMaterialCost(new BigDecimal("515.00"));
+        updateOrder.setLaborCost(new BigDecimal("475"));
+        updateOrder.setTax(new BigDecimal("66.83"));
+        updateOrder.setTotal(new BigDecimal("1056.83"));
 
         orderDAO.update(testDate, 1, updateOrder);
 
@@ -193,7 +155,6 @@ public class OrderDAOTest {
 
         assertEquals(updateOrder, fromDAO);
         assertNotEquals("Cepeda", fromDAO.getCustomerName());
-        assertEquals("Tile", fromDAO.getProductType());
 
     }
 
@@ -210,6 +171,10 @@ public class OrderDAOTest {
         newOrder.setArea(new BigDecimal("100.00"));
         newOrder.setCostPerSquareFoot(new BigDecimal("5.15"));
         newOrder.setLaborCostPerSquareFoot(new BigDecimal("4.75"));
+        newOrder.setMaterialCost(new BigDecimal("515.00"));
+        newOrder.setLaborCost(new BigDecimal("475"));
+        newOrder.setTax(new BigDecimal("66.83"));
+        newOrder.setTotal(new BigDecimal("1056.83"));
 
         LocalDate testDate = LocalDate.parse("2018-01-01");
         orderDAO.create(testDate, newOrder);
@@ -222,14 +187,19 @@ public class OrderDAOTest {
         newOrder2.setArea(new BigDecimal("10.00"));
         newOrder2.setCostPerSquareFoot(new BigDecimal("2.25"));
         newOrder2.setLaborCostPerSquareFoot(new BigDecimal("2.10"));
+        newOrder2.setMaterialCost(new BigDecimal("22.50"));
+        newOrder2.setLaborCost(new BigDecimal("21"));
+        newOrder2.setTax(new BigDecimal("2.72"));
+        newOrder2.setTotal(new BigDecimal("46.22"));
 
         orderDAO.create(testDate, newOrder2);
 
         orderDAO.delete(testDate, 1);
-        
+
         assertEquals(1, orderDAO.readAll(testDate).size());
         assertNull(orderDAO.readById(testDate, 1));
         assertNotNull(orderDAO.readById(testDate, 2));
+
     }
 
 }
