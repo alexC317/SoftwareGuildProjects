@@ -5,6 +5,7 @@
  */
 package com.swcguild.flooring.service;
 
+import com.swcguild.flooring.dao.FlooringPersistenceException;
 import com.swcguild.flooring.dto.Order;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface Service {
 
-    public List<Order> displayOrders(LocalDate date);
+    public List<Order> displayOrders(LocalDate date) throws FlooringPersistenceException;
 
     public void addOrder(Order newOrder);
 

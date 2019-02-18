@@ -5,18 +5,21 @@
  */
 package com.swcguild.flooring.service;
 
-import com.swcguild.flooring.dao.FlooringPersistenceException;
 import com.swcguild.flooring.dao.OrderDAO;
 import com.swcguild.flooring.dao.OrderDAOProdFileImpl;
 import com.swcguild.flooring.dao.ProductDAO;
 import com.swcguild.flooring.dao.ProductDAOFileImpl;
 import com.swcguild.flooring.dao.TaxDAO;
 import com.swcguild.flooring.dao.TaxDAOFileImpl;
+import com.swcguild.flooring.dto.Order;
+import java.time.LocalDate;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -26,10 +29,12 @@ public class ServiceTest {
 
     private Service service;
 
-    public ServiceTest() throws FlooringPersistenceException {
+    public ServiceTest() throws Exception {
         TaxDAO taxDAO = new TaxDAOFileImpl();
         ProductDAO productDAO = new ProductDAOFileImpl();
         OrderDAO orderDAO = new OrderDAOProdFileImpl();
+
+        service = new ServiceImpl(taxDAO, productDAO, orderDAO);
     }
 
     @BeforeClass
@@ -52,8 +57,13 @@ public class ServiceTest {
      * Test of displayOrders method, of class Service.
      */
     @Test
-    public void testDisplayOrders() {
-        
+    public void testDisplayOrders() throws Exception {
+        LocalDate testDate = LocalDate.parse("2018-01-01");
+        List<Order> order = service.displayOrders(testDate);
+
+        assertEquals(1, order.size());
+        assertEquals(1, order.get(0).getOrderNumber());
+
     }
 
     /**

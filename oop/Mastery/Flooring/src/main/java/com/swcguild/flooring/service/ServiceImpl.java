@@ -5,6 +5,7 @@
  */
 package com.swcguild.flooring.service;
 
+import com.swcguild.flooring.dao.FlooringPersistenceException;
 import com.swcguild.flooring.dao.OrderDAO;
 import com.swcguild.flooring.dao.ProductDAO;
 import com.swcguild.flooring.dao.TaxDAO;
@@ -25,8 +26,9 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List<Order> displayOrders(LocalDate date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Order> displayOrders(LocalDate orderDate) throws FlooringPersistenceException {
+        List<Order> orders = orderDAO.readAll(orderDate);
+        return orders;
     }
 
     @Override
