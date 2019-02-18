@@ -27,6 +27,7 @@ import java.util.Scanner;
  */
 public class OrderDAOProdFileImpl implements OrderDAO {
 
+    private Map<LocalDate, Map> masterList = new HashMap<>();
     private Map<Integer, Order> currentOrders = new HashMap<>();
     private LocalDate currentDate;
 
@@ -40,50 +41,90 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     public void create(LocalDate orderDate, Order newOrder) throws FlooringPersistenceException {
         currentDate = orderDate;
         currentOrders.put(newOrder.getOrderNumber(), newOrder);
-        writeOrders(orderDate, currentOrders);
+
+        masterList.put(currentDate, currentOrders);
     }
 
     @Override
     public List<Order> readAll(LocalDate orderDate) throws FlooringPersistenceException {
-        Map<Integer, Order> localOrders = loadOrders(orderDate);
+        Map<Integer, Order> localOrders;
 
-        return new ArrayList<>(localOrders.values());
+        if (masterList.containsKey(orderDate)) {
+            localOrders = masterList.get(orderDate);
+            return new ArrayList<>(localOrders.values());
+        } else {
+            localOrders = loadOrders(orderDate);
+            masterList.put(orderDate, localOrders);
+            return new ArrayList<>(localOrders.values());
+        }
     }
 
     @Override
     public Order readById(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException {
-        Map<Integer, Order> localOrders = loadOrders(orderDate);
+        Map<Integer, Order> localOrders;
 
-        if (localOrders.containsKey(orderNumber)) {
-            return localOrders.get(orderNumber);
+        if (masterList.containsKey(orderDate)) {
+            localOrders = masterList.get(orderDate);
+            if (localOrders.containsKey(orderNumber)) {
+                return localOrders.get(orderNumber);
+            }
+        } else {
+            localOrders = loadOrders(orderDate);
+            masterList.put(orderDate, localOrders);
+            if (localOrders.containsKey(orderNumber)) {
+                return localOrders.get(orderNumber);
+            }
         }
         return null;
     }
 
     @Override
     public void update(LocalDate orderDate, int orderNumber, Order updatedOrder) throws FlooringPersistenceException {
-        Map<Integer, Order> localOrders = loadOrders(orderDate);
+        Map<Integer, Order> localOrders;
 
-        if (localOrders.containsKey(orderNumber)) {
-            localOrders.put(orderNumber, updatedOrder);
+        if (masterList.containsKey(orderDate)) {
+            localOrders = masterList.get(orderDate);
+            if (localOrders.containsKey(orderNumber)) {
+                localOrders.put(orderNumber, updatedOrder);
+            }
+        } else {
+            localOrders = loadOrders(orderDate);
+            if (localOrders.containsKey(orderNumber)) {
+                localOrders.put(orderNumber, updatedOrder);
+            }
         }
-
-        writeOrders(orderDate, localOrders);
+        masterList.put(orderDate, localOrders);
+        //writeOrders(orderDate, localOrders);
     }
 
     @Override
     public void delete(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException {
-        Map<Integer, Order> localOrders = loadOrders(orderDate);
+        Map<Integer, Order> localOrders;
 
-        if (localOrders.containsKey(orderNumber)) {
-            localOrders.remove(orderNumber);
+        if (masterList.containsKey(orderDate)) {
+            localOrders = masterList.get(orderDate);
+            if (localOrders.containsKey(orderNumber)) {
+                localOrders.remove(orderNumber);
+            }
+        } else {
+            localOrders = loadOrders(orderDate);
+            if (localOrders.containsKey(orderNumber)) {
+                localOrders.remove(orderNumber);
+            }
         }
-
-        writeOrders(orderDate, localOrders);
+        masterList.put(orderDate, localOrders);
+        //writeOrders(orderDate, localOrders);
     }
 
-    private void writeOrders(LocalDate ordeDate, Map orders) throws FlooringPersistenceException {
-        String dateAsString = ordeDate.format(DateTimeFormatter.ofPattern("MMddyyyy"));
+    @Override
+    public void save() throws FlooringPersistenceException {
+        for (LocalDate activeDate : masterList.keySet()) {
+            writeOrders(activeDate, masterList.get(activeDate));
+        }
+    }
+
+    private void writeOrders(LocalDate orderDate, Map orders) throws FlooringPersistenceException {
+        String dateAsString = orderDate.format(DateTimeFormatter.ofPattern("MMddyyyy"));
         String fullFileName = ORDER_FILE + dateAsString;
         PrintWriter out;
 

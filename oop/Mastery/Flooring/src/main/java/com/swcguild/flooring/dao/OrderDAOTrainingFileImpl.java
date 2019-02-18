@@ -60,6 +60,10 @@ public class OrderDAOTrainingFileImpl implements OrderDAO {
 
     }
 
+    public void save() throws FlooringPersistenceException {
+
+    }
+
     private void writeOrders(LocalDate date, Map orders) throws FlooringPersistenceException {
         String dateAsString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
         String fullFileName = ORDER_FILE + dateAsString;

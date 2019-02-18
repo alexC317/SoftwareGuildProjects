@@ -25,4 +25,5 @@ public interface OrderDAO {
 
     public void delete(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException;
 
+    public void save() throws FlooringPersistenceException;
 }

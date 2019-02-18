@@ -70,6 +70,7 @@ public class OrderDAOTest {
         LocalDate testDate = LocalDate.parse("2018-01-01");
 
         orderDAO.create(testDate, newOrder);
+        //orderDAO.save();
 
         Order fromDAO = orderDAO.readById(testDate, 1);
         assertEquals(fromDAO, newOrder);
@@ -107,10 +108,11 @@ public class OrderDAOTest {
         newOrder2.setTax(new BigDecimal("2.72"));
         newOrder2.setTotal(new BigDecimal("46.22"));
 
-        LocalDate testDate = LocalDate.parse("2018-01-01");
+        LocalDate testDate = LocalDate.parse("2018-01-02");
         orderDAO.create(testDate, newOrder);
         orderDAO.create(testDate, newOrder2);
-
+        orderDAO.save();
+        
         assertEquals(2, orderDAO.readAll(testDate).size());
 
     }
@@ -135,6 +137,7 @@ public class OrderDAOTest {
 
         LocalDate testDate = LocalDate.parse("2018-01-01");
         orderDAO.create(testDate, newOrder);
+        orderDAO.save();
 
         Order updateOrder = new Order(1);
         updateOrder.setCustomerName("Jacobs");
@@ -150,6 +153,7 @@ public class OrderDAOTest {
         updateOrder.setTotal(new BigDecimal("1056.83"));
 
         orderDAO.update(testDate, 1, updateOrder);
+        orderDAO.save();
 
         Order fromDAO = orderDAO.readById(testDate, 1);
 
@@ -193,8 +197,10 @@ public class OrderDAOTest {
         newOrder2.setTotal(new BigDecimal("46.22"));
 
         orderDAO.create(testDate, newOrder2);
+        orderDAO.save();
 
         orderDAO.delete(testDate, 1);
+        orderDAO.save();
 
         assertEquals(1, orderDAO.readAll(testDate).size());
         assertNull(orderDAO.readById(testDate, 1));
