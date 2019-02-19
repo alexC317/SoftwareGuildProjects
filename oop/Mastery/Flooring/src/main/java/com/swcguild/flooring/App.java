@@ -35,6 +35,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class App {
 
+    /**
+     *
+     * @param args The command line arguments
+     * @throws FlooringPersistenceException
+     */
     public static void main(String[] args) throws FlooringPersistenceException {
 //        UserIO IO = new UserIOConsoleImpl();
 //        View view = new View(IO);

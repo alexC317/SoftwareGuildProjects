@@ -70,6 +70,14 @@ public class OrderDAOTrainingFileImpl implements OrderDAO {
         return null;
     }
 
+    /**
+     * Writes the orders to the appropriate file. Adapted from SG's code.
+     *
+     * @param orderDate The date associated with the orders.
+     * @param orders A Map of Orders to write to the file.
+     * @throws FlooringPersistenceException - If the file cannot be written/read
+     * from, then we have an Exception thrown.
+     */
     private void writeOrders(LocalDate date, Map orders) throws FlooringPersistenceException {
         String dateAsString = date.format(DateTimeFormatter.ofPattern("MMddyyyy"));
         String fullFileName = ORDER_FILE + dateAsString;
@@ -108,6 +116,15 @@ public class OrderDAOTrainingFileImpl implements OrderDAO {
         out.close();
     }
 
+    /**
+     * Loads the orders from a file and places them into a Map. Adapted from
+     * SG's code.
+     *
+     * @param orderDate The order date to look for.
+     * @return A Map containing the Orders related to a certain date.
+     * @throws FlooringPersistenceException - If the file cannot be written/read
+     * from, then we have an Exception thrown.
+     */
     private Map loadOrders(LocalDate date) throws FlooringPersistenceException {
         Map<Integer, Order> localOrders = new HashMap<>();
 

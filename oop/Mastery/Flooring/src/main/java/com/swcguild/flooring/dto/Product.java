@@ -17,6 +17,12 @@ public class Product {
     private BigDecimal costPerSquareFoot;
     private BigDecimal laborCostPerSquareFoot;
 
+    /**
+     * Constructor for the Product class. Takes in a String that will serve as
+     * an ID.
+     *
+     * @param productType The String that will serve as an ID.
+     */
     public Product(String productType) {
         this.productType = productType;
     }

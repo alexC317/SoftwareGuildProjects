@@ -27,6 +27,12 @@ public class Order {
     private BigDecimal tax;
     private BigDecimal total;
 
+    /**
+     * Constructor for the Order class. Takes in an orderNumber to serve as an
+     * ID.
+     *
+     * @param orderNumber The number that will effectively serve as an ID.
+     */
     public Order(int orderNumber) {
         this.orderNumber = orderNumber;
     }

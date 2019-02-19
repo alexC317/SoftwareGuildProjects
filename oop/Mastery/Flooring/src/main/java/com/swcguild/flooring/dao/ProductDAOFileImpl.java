@@ -45,6 +45,13 @@ public class ProductDAOFileImpl implements ProductDAO {
         return null;
     }
 
+    /**
+     * Loads the products from a file and places them into a Map. Adapted from
+     * SG's code.
+     *
+     * @throws FlooringPersistenceException - If the file cannot be written/read
+     * from, then we have an Exception thrown.
+     */
     private void loadProducts() throws FlooringPersistenceException {
         Scanner scanner;
 

@@ -101,6 +101,14 @@ public class ServiceImpl implements Service {
         orderDAO.save();
     }
 
+    /**
+     * Validates the User information passed from the Controller, by checking to
+     * see that the fields have something in them.
+     *
+     * @param newOrder A new order awaiting validation.
+     * @throws OrderValidationException - If the provided information is
+     * invalid, this Exception is thrown.
+     */
     private void validateUserInformation(Order newOrder) throws OrderValidationException {
         if (newOrder.getCustomerName() == null
                 || newOrder.getCustomerName().trim().length() == 0
@@ -114,6 +122,15 @@ public class ServiceImpl implements Service {
         }
     }
 
+    /**
+     * Fills out the rest of Order using what was given from the Users and
+     * matching it to the Tax and Product files, plus calculations.
+     *
+     * @param newOrder A new order awaiting validation.
+     * @return Returns a fully formed Order object.
+     * @throws OrderValidationException - If the provided information is
+     * invalid, this Exception is thrown.
+     */
     private Order completeOrderInformation(Order newOrder) throws OrderValidationException {
         List<Product> productList = productDAO.readAll();
         List<Tax> taxList = taxDAO.readAll();

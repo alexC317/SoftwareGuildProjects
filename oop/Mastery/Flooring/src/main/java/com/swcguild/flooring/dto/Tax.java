@@ -16,6 +16,11 @@ public class Tax {
     private String stateName;
     private BigDecimal taxRate;
 
+    /**
+     * Constructor for the Tax class. Takes in a State name that will be its ID.
+     *
+     * @param stateName A String that will work as an ID.
+     */
     public Tax(String stateName) {
         this.stateName = stateName;
     }

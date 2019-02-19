@@ -14,8 +14,19 @@ import java.util.List;
  */
 public interface TaxDAO {
 
+    /**
+     * Gets all the Taxes in the taxes file.
+     *
+     * @return All the Taxes in the taxes file.
+     */
     public List<Tax> readAll();
 
+    /**
+     * Gets a Tax from the product file.
+     *
+     * @param stateName The state name to look for.
+     * @return The Tax associated with the product Name.
+     */
     public Tax readById(String stateName);
 
 }

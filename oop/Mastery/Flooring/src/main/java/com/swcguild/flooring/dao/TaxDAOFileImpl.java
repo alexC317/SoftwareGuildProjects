@@ -44,6 +44,13 @@ public class TaxDAOFileImpl implements TaxDAO {
         return null;
     }
 
+    /**
+     * Loads the orders from a file and places them into a Map. Adapted from
+     * SG's code.
+     *
+     * @throws FlooringPersistenceException - If the file cannot be written/read
+     * from, then we have an Exception thrown.
+     */
     private void loadTaxes() throws FlooringPersistenceException {
         Scanner scanner;
 

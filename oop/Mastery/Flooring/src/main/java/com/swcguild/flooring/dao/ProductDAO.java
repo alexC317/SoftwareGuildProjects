@@ -14,8 +14,19 @@ import java.util.List;
  */
 public interface ProductDAO {
 
+    /**
+     * Gets all the Products in the product file.
+     *
+     * @return All the Products in the product file.
+     */
     public List<Product> readAll();
 
+    /**
+     * Gets a Product from the product file.
+     *
+     * @param productName The product name to look for.
+     * @return The Product associated with the product Name.
+     */
     public Product readById(String productName);
 
 }
