@@ -52,7 +52,11 @@ public class ServiceTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws FlooringPersistenceException {
+        List<Order> orderList = service.displayOrders(LocalDate.now());
+        for (Order currentOrder : orderList) {
+            service.removeOrder(LocalDate.now(), currentOrder.getOrderNumber());
+        }
     }
 
     /**
@@ -72,7 +76,7 @@ public class ServiceTest {
      */
     @Test
     public void testAddOrder() throws FlooringPersistenceException, OrderValidationException {
-        Order newOrder = new Order(1);
+        Order newOrder = new Order(0);
         newOrder.setCustomerName("Cepeda");
         newOrder.setStateName("PA");
         //newOrder.setTaxRate(new BigDecimal("6.75"));
@@ -84,6 +88,12 @@ public class ServiceTest {
 //        newOrder.setLaborCost(new BigDecimal("475.00"));
 //        newOrder.setTax(new BigDecimal("66.83"));
 //        newOrder.setTotal(new BigDecimal("1056.83"));
+
+        Order newOrder2 = new Order(0);
+        newOrder2.setCustomerName("Hawkins");
+        newOrder2.setStateName("OH");
+        newOrder2.setProductType("Tile");
+        newOrder2.setArea(new BigDecimal("100.00"));
 
         service.addOrder(newOrder);
         Order fromService = service.getOrder(LocalDate.now(), 1);
@@ -105,7 +115,7 @@ public class ServiceTest {
      */
     @Test
     public void testAddOrderWithExceptionThrown() throws FlooringPersistenceException, OrderValidationException {
-        Order newOrder = new Order(1);
+        Order newOrder = new Order(0);
         newOrder.setCustomerName("Cepeda");
         newOrder.setStateName("NY");
         newOrder.setProductType("Metal");
@@ -124,7 +134,7 @@ public class ServiceTest {
      */
     @Test
     public void testEditOrder() throws FlooringPersistenceException, OrderValidationException {
-        Order newOrder = new Order(1);
+        Order newOrder = new Order(0);
         newOrder.setCustomerName("Cepeda");
         newOrder.setStateName("PA");
         newOrder.setProductType("Wood");
@@ -152,20 +162,18 @@ public class ServiceTest {
      */
     @Test
     public void testRemoveOrder() throws FlooringPersistenceException, OrderValidationException {
-        Order newOrder = new Order(1);
+        Order newOrder = new Order(0);
         newOrder.setCustomerName("Ryder");
         newOrder.setStateName("PA");
         newOrder.setProductType("Wood");
         newOrder.setArea(new BigDecimal("100.00"));
-
         service.addOrder(newOrder);
 
-        Order newOrder2 = new Order(2);
+        Order newOrder2 = new Order(0);
         newOrder2.setCustomerName("Hawkins");
         newOrder2.setStateName("OH");
         newOrder2.setProductType("Tile");
         newOrder2.setArea(new BigDecimal("100.00"));
-
         service.addOrder(newOrder2);
         assertEquals(2, service.displayOrders(LocalDate.now()).size());
 
@@ -178,7 +186,7 @@ public class ServiceTest {
      */
     @Test
     public void testSaveCurrentWork() throws FlooringPersistenceException, OrderValidationException {
-        Order newOrder = new Order(3);
+        Order newOrder = new Order(0);
         newOrder.setCustomerName("Ryder");
         newOrder.setStateName("PA");
         newOrder.setProductType("Wood");
@@ -187,7 +195,11 @@ public class ServiceTest {
         service.addOrder(newOrder);
         service.saveCurrentWork();
 
-        assertEquals(newOrder, service.getOrder(LocalDate.now(), 3));
+        assertEquals(newOrder, service.getOrder(LocalDate.now(), 1));
+        service.removeOrder(LocalDate.now(), 1);
+        service.saveCurrentWork();
+
+        assertNull(service.getOrder(LocalDate.now(), 1));
     }
 
 }

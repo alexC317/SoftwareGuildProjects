@@ -42,6 +42,17 @@ public class ServiceImpl implements Service {
 
     @Override
     public void addOrder(Order newOrder) throws FlooringPersistenceException, OrderValidationException {
+        int orderNum;
+        List<Order> existingOrders = orderDAO.readAll(LocalDate.now());
+
+        if (existingOrders.isEmpty()) {
+            orderNum = 1;
+        } else {
+            orderNum = existingOrders.size() + 1;
+        }
+
+        newOrder.setOrderNumber(orderNum);
+
         validateUserInformation(newOrder);
         newOrder = completeOrderInformation(newOrder);
         orderDAO.create(LocalDate.now(), newOrder);

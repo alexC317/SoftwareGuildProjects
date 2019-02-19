@@ -48,14 +48,17 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     @Override
     public List<Order> readAll(LocalDate orderDate) throws FlooringPersistenceException {
         Map<Integer, Order> localOrders;
-
-        if (masterList.containsKey(orderDate)) {
-            localOrders = masterList.get(orderDate);
-            return new ArrayList<>(localOrders.values());
-        } else {
-            localOrders = loadOrders(orderDate);
-            masterList.put(orderDate, localOrders);
-            return new ArrayList<>(localOrders.values());
+        try {
+            if (masterList.containsKey(orderDate)) {
+                localOrders = masterList.get(orderDate);
+                return new ArrayList<>(localOrders.values());
+            } else {
+                localOrders = loadOrders(orderDate);
+                masterList.put(orderDate, localOrders);
+                return new ArrayList<>(localOrders.values());
+            }
+        } catch (FlooringPersistenceException e) {
+            return null;
         }
     }
 
@@ -172,7 +175,7 @@ public class OrderDAOProdFileImpl implements OrderDAO {
             // Create Scanner for reading the file
             scanner = new Scanner(new BufferedReader(new FileReader(fullFileName)));
         } catch (FileNotFoundException e) {
-            throw new FlooringPersistenceException("-_- Could not load order data into memory.", e);
+            throw new FlooringPersistenceException("No orders for this date found.", e);
         }
         // currentLine holds the most recent line read from the file
         String currentLine;

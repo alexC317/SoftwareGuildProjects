@@ -31,6 +31,10 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     public int getOrderNumber() {
         return orderNumber;
     }
