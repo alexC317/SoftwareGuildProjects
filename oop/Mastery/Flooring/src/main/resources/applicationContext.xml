@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+ 
+    <!-- Bean definitions go here -->
+    <bean id="userIO" class="com.swcguild.flooring.view.UserIOConsoleImpl"/> 
+    <bean id="view" class="com.swcguild.flooring.view.View">
+        <constructor-arg ref="userIO"/>
+    </bean>
+    
+    <!--<bean id="orderDAO" class="com.swcguild.flooring.dao.OrderDAO"/>-->
+    <bean id="orderDAOProd" class="com.swcguild.flooring.dao.OrderDAOProdFileImpl"/>
+    <bean id="orderDAOTraining" class="com.swcguild.flooring.dao.OrderDAOTrainingFileImpl"/> 
+    <bean id="productDAO" class="com.swcguild.flooring.dao.ProductDAOFileImpl"/>
+    <bean id="taxDAO" class="com.swcguild.flooring.dao.TaxDAOFileImpl"/>
+    <bean id="service" class="com.swcguild.flooring.service.ServiceImpl">
+        <constructor-arg ref="taxDAO"/>
+        <constructor-arg ref="productDAO"/>
+        <constructor-arg ref="orderDAOTraining"/>
+    </bean>
+    
+    <bean id="controller" class="com.swcguild.flooring.controller.Controller">
+        <constructor-arg ref="view"/>
+        <constructor-arg ref="service"/>
+    </bean>
+    
+<!--    <bean id="loggingAdvice" class="com.swcguild.vendingmachine.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <aop:config>
+        <aop:aspect ref="loggingAdvice">
+            <aop:after-throwing
+                method="createAuditEntry"
+                pointcut="execution(* com.swcguild.vendingmachine.service.VendingMachineServiceLayer.vend(..))"
+                throwing="error"
+            />
+        </aop:aspect>
+    </aop:config>-->
+</beans>
