@@ -60,8 +60,14 @@ public class OrderDAOTrainingFileImpl implements OrderDAO {
 
     }
 
+    @Override
     public void save() throws FlooringPersistenceException {
 
+    }
+
+    @Override
+    public List<Order> getAllExistingOrders(LocalDate orderDate) throws FlooringPersistenceException {
+        return null;
     }
 
     private void writeOrders(LocalDate date, Map orders) throws FlooringPersistenceException {

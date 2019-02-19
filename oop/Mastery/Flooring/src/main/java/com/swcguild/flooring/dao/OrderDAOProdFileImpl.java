@@ -48,17 +48,13 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     @Override
     public List<Order> readAll(LocalDate orderDate) throws FlooringPersistenceException {
         Map<Integer, Order> localOrders;
-        try {
-            if (masterList.containsKey(orderDate)) {
-                localOrders = masterList.get(orderDate);
-                return new ArrayList<>(localOrders.values());
-            } else {
-                localOrders = loadOrders(orderDate);
-                masterList.put(orderDate, localOrders);
-                return new ArrayList<>(localOrders.values());
-            }
-        } catch (FlooringPersistenceException e) {
-            return null;
+        if (masterList.containsKey(orderDate)) {
+            localOrders = masterList.get(orderDate);
+            return new ArrayList<>(localOrders.values());
+        } else {
+            localOrders = loadOrders(orderDate);
+            masterList.put(orderDate, localOrders);
+            return new ArrayList<>(localOrders.values());
         }
     }
 
@@ -123,6 +119,23 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     public void save() throws FlooringPersistenceException {
         for (LocalDate activeDate : masterList.keySet()) {
             writeOrders(activeDate, masterList.get(activeDate));
+        }
+    }
+
+    @Override
+    public List<Order> getAllExistingOrders(LocalDate orderDate) throws FlooringPersistenceException {
+        Map<Integer, Order> localOrders;
+        try {
+            if (masterList.containsKey(orderDate)) {
+                localOrders = masterList.get(orderDate);
+                return new ArrayList<>(localOrders.values());
+            } else {
+                localOrders = loadOrders(orderDate);
+                masterList.put(orderDate, localOrders);
+                return new ArrayList<>(localOrders.values());
+            }
+        } catch (FlooringPersistenceException e) {
+            return null;
         }
     }
 

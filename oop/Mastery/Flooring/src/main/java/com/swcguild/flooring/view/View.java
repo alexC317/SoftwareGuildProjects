@@ -49,6 +49,7 @@ public class View {
 
     public void displayOrders(List<Order> orderList, LocalDate orderDate) {
         io.print("Displaying all orders for " + orderDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+
         for (Order currentOrder : orderList) {
             io.print("*Order number " + currentOrder.getOrderNumber() + "\n");
             io.print("** Customer name: " + currentOrder.getCustomerName() + "\n");
@@ -68,6 +69,7 @@ public class View {
 
     public Order getOrderInformation() {
         Order newOrder = new Order(0);
+
         newOrder.setCustomerName(io.readString("Please enter your name: "));
         io.print("We provide services to only the following states: \n");
         io.print("**OH, 6.25% tax rate \n");
@@ -81,7 +83,7 @@ public class View {
         io.print("**Tile     | $3.50 per square foot, $4.15 labor cost per square foot \n");
         io.print("**Wood     | $5.15 per square foot, $4.70 labor cost per square foot \n");
         newOrder.setProductType(io.readString("Please type in the product you wish to order: "));
-        newOrder.setArea(io.readBigDecimal("Please type in the area you wish to floor: "));
+        newOrder.setArea(io.readBigDecimal("Please type in the square feet of the area you wish to floor: "));
 
         io.print("Please verify the following information: \n");
         io.print("Your name: " + newOrder.getCustomerName());
@@ -98,7 +100,76 @@ public class View {
                 return newOrder;
             }
         } while (!choice.equalsIgnoreCase("y") || !choice.equalsIgnoreCase("n"));
+        io.print("Order data discarded. \n");
+
         return null;
+    }
+
+    public void displayEditOrderBanner() {
+        io.print("=== EDIT ORDER === \n");
+    }
+
+    public int getOrderNumber() {
+        return io.readInt("Please enter the order number you wish to edit: ");
+    }
+
+    public Order getUpdatedInformation(Order originalOrder) {
+        Order updatedOrder = new Order(0);
+
+        updatedOrder.setCustomerName(io.readString("Please enter your name: (" + originalOrder.getCustomerName() + "): "));
+        updatedOrder.setStateName(io.readString("Please type your state abbreviation: (" + originalOrder.getStateName() + "): "));
+        updatedOrder.setProductType(io.readString("Please type in the product you wish to order: (" + originalOrder.getProductType() + "): "));
+        updatedOrder.setArea(io.readBigDecimal("Please type in the square feet of the area you wish to floor: (" + originalOrder.getArea() + "): "));
+
+        return updatedOrder;
+    }
+
+    public void displayRemoveOrderBanner() {
+        io.print("=== REMOVE ORDER === \n");
+    }
+
+    public boolean removeOrder(Order orderToRemove) {
+        io.print("Here is the order information of the order you wish to remove: \n");
+        io.print("Customer name: " + orderToRemove.getCustomerName());
+        io.print("State name: " + orderToRemove.getStateName());
+        io.print("Tax rate: " + orderToRemove.getTaxRate());
+        io.print("Product type: " + orderToRemove.getProductType());
+        io.print("Area: " + orderToRemove.getArea());
+        io.print("Cost per square foot: " + orderToRemove.getCostPerSquareFoot());
+        io.print("Labor cost per square foot: " + orderToRemove.getLaborCostPerSquareFoot());
+        io.print("Material cost: " + orderToRemove.getMaterialCost());
+        io.print("Labor cost: " + orderToRemove.getLaborCost());
+        io.print("Total tax: " + orderToRemove.getTax());
+        io.print("Total cost: " + orderToRemove.getTotal());
+
+        String choice;
+        do {
+            choice = io.readString("Are you sure you want to remove this order? Y/N \n");
+            if (choice.equalsIgnoreCase("y")) {
+                io.print("Order deleted. \n");
+                return true;
+            }
+        } while (!choice.equalsIgnoreCase("y") || !choice.equalsIgnoreCase("n"));
+        io.print("Order not deleted. \n");
+
+        return false;
+    }
+
+    public void displaySaveWorkBanner() {
+        io.print("=== SAVE WORK === \n");
+    }
+
+    public void saveWork() {
+        io.print("Work saved.");
+    }
+
+    public void displayErrorMessage(String message) {
+        io.print("=== ERROR ===");
+        io.print(message);
+    }
+
+    public void displayUnknownCommand() {
+        io.print("Unknown Command.");
     }
 
 }

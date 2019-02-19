@@ -53,13 +53,13 @@ public class Controller {
                         saveCurrentWork();
                         break;
                     case 6:
-                        exit();
+                        quit = true;
                         break;
                     default:
                         unknownCommand();
                 }
             } catch (Exception e) {
-                //view.displayErrorMessage(e.getMessage());
+                view.displayErrorMessage(e.getMessage());
             }
         }
     }
@@ -82,27 +82,39 @@ public class Controller {
     private void addOrder() throws FlooringPersistenceException, OrderValidationException {
         view.displayAddOrderBanner();
         Order newOrder = view.getOrderInformation();
-        service.addOrder(newOrder);
+        if (newOrder != null) {
+            service.addOrder(newOrder);
+        }
     }
 
-    private void editOrder() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void editOrder() throws FlooringPersistenceException, OrderValidationException {
+        view.displayEditOrderBanner();
+        LocalDate orderDate = view.getOrderDate();
+        int orderNumber = view.getOrderNumber();
+        Order originalOrder = service.getOrder(orderDate, orderNumber);
+        Order updatedOrder = view.getUpdatedInformation(originalOrder);
+        service.editOrder(orderDate, orderNumber, updatedOrder);
     }
 
-    private void removeOrder() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void removeOrder() throws FlooringPersistenceException {
+        view.displayRemoveOrderBanner();
+        LocalDate orderDate = view.getOrderDate();
+        int orderNumber = view.getOrderNumber();
+        Order orderToRemove = service.getOrder(orderDate, orderNumber);
+        boolean removeOrder = view.removeOrder(orderToRemove);
+        if (removeOrder) {
+            service.removeOrder(orderDate, orderNumber);
+        }
     }
 
-    private void saveCurrentWork() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void exit() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void saveCurrentWork() throws FlooringPersistenceException {
+        view.displaySaveWorkBanner();
+        view.saveWork();
+        service.saveCurrentWork();
     }
 
     private void unknownCommand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        view.displayUnknownCommand();
     }
 
 }
