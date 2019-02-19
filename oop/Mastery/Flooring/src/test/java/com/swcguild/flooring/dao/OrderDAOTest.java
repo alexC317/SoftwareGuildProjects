@@ -24,7 +24,7 @@ public class OrderDAOTest {
 
     private OrderDAO orderDAO;
 
-    public OrderDAOTest() {
+    public OrderDAOTest() throws FlooringPersistenceException {
         orderDAO = new OrderDAOProdFileImpl();
     }
 

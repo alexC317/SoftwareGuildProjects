@@ -29,7 +29,7 @@
     <bean id="service" class="com.swcguild.flooring.service.ServiceImpl">
         <constructor-arg ref="taxDAO"/>
         <constructor-arg ref="productDAO"/>
-        <constructor-arg ref="orderDAOProd"/>
+        <constructor-arg ref="orderDAOTraining"/>
     </bean>
     
     <bean id="controller" class="com.swcguild.flooring.controller.Controller">
