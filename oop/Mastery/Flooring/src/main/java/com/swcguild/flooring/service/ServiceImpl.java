@@ -48,18 +48,38 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException {
-        Order originalOrder = getOrder(date, orderNum);
+    public void editOrder(LocalDate orderDate, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException {
+        Order originalOrder = getOrder(orderDate, orderNum);
+
+        if (updatedOrder.getCustomerName() == null || updatedOrder.getCustomerName().isEmpty()) {
+            updatedOrder.setCustomerName(originalOrder.getCustomerName());
+        }
+
+        if (updatedOrder.getStateName() == null || updatedOrder.getStateName().isEmpty()) {
+            updatedOrder.setStateName(originalOrder.getStateName());
+        }
+
+        if (updatedOrder.getProductType() == null || updatedOrder.getProductType().isEmpty()) {
+            updatedOrder.setProductType(originalOrder.getProductType());
+        }
+
+        if (updatedOrder.getArea() == null || updatedOrder.getArea().equals(new BigDecimal("0.00"))) {
+            updatedOrder.setArea(originalOrder.getArea());
+        }
+
+        validateUserInformation(updatedOrder);
+        completeOrderInformation(updatedOrder);
+        orderDAO.update(orderDate, orderNum, updatedOrder);
     }
 
     @Override
-    public void removeOrder(LocalDate date, int orderNum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void removeOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException {
+        orderDAO.delete(orderDate, orderNumber);
     }
 
     @Override
-    public void saveCurrentWork() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveCurrentWork() throws FlooringPersistenceException {
+        orderDAO.save();
     }
 
     private void validateUserInformation(Order newOrder) throws OrderValidationException {
@@ -112,9 +132,8 @@ public class ServiceImpl implements Service {
 
         BigDecimal subTotal = materialCost.add(laborCost);
         BigDecimal taxPercent = newOrder.getTaxRate().divide(new BigDecimal("100"), 4, RoundingMode.HALF_UP);
-        System.out.println(taxPercent);
         BigDecimal totalTax = taxPercent.multiply(subTotal).setScale(2, RoundingMode.HALF_UP);
-        System.out.println(totalTax);
+
         newOrder.setTax(totalTax);
 
         BigDecimal total = materialCost.add(laborCost.add(totalTax).setScale(2, RoundingMode.HALF_UP));

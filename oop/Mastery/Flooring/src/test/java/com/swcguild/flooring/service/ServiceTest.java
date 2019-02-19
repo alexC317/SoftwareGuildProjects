@@ -141,24 +141,53 @@ public class ServiceTest {
 
         Order fromService = service.getOrder(LocalDate.now(), 1);
         assertEquals(1, fromService.getOrderNumber());
-        assertEquals("PA", fromService.getStateName());
-        assertEquals("Wood", fromService.getProductType());
+        assertEquals("OH", fromService.getStateName());
+        assertEquals("Tile", fromService.getProductType());
         assertEquals(new BigDecimal("100.00"), fromService.getArea());
-        assertEquals(new BigDecimal("812.82"), fromService.getTotal());
+        assertEquals(new BigDecimal("812.81"), fromService.getTotal());
     }
 
     /**
      * Test of removeOrder method, of class Service.
      */
     @Test
-    public void testRemoveOrder() {
+    public void testRemoveOrder() throws FlooringPersistenceException, OrderValidationException {
+        Order newOrder = new Order(1);
+        newOrder.setCustomerName("Ryder");
+        newOrder.setStateName("PA");
+        newOrder.setProductType("Wood");
+        newOrder.setArea(new BigDecimal("100.00"));
+
+        service.addOrder(newOrder);
+
+        Order newOrder2 = new Order(2);
+        newOrder2.setCustomerName("Hawkins");
+        newOrder2.setStateName("OH");
+        newOrder2.setProductType("Tile");
+        newOrder2.setArea(new BigDecimal("100.00"));
+
+        service.addOrder(newOrder2);
+        assertEquals(2, service.displayOrders(LocalDate.now()).size());
+
+        service.removeOrder(LocalDate.now(), 1);
+        assertEquals(1, service.displayOrders(LocalDate.now()).size());
     }
 
     /**
      * Test of saveCurrentWork method, of class Service.
      */
     @Test
-    public void testSaveCurrentWork() {
+    public void testSaveCurrentWork() throws FlooringPersistenceException, OrderValidationException {
+        Order newOrder = new Order(3);
+        newOrder.setCustomerName("Ryder");
+        newOrder.setStateName("PA");
+        newOrder.setProductType("Wood");
+        newOrder.setArea(new BigDecimal("100.00"));
+
+        service.addOrder(newOrder);
+        service.saveCurrentWork();
+
+        assertEquals(newOrder, service.getOrder(LocalDate.now(), 3));
     }
 
 }

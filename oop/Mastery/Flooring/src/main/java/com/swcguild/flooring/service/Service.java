@@ -24,7 +24,7 @@ public interface Service {
 
     public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException;
 
-    public void removeOrder(LocalDate date, int orderNum);
+    public void removeOrder(LocalDate date, int orderNum) throws FlooringPersistenceException;
 
-    public void saveCurrentWork();
+    public void saveCurrentWork() throws FlooringPersistenceException;
 }
