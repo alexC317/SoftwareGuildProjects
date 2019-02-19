@@ -18,11 +18,11 @@ public interface Service {
 
     public List<Order> displayOrders(LocalDate date) throws FlooringPersistenceException;
 
-    public Order getOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException;
+    public Order getOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException, NoOrdersFoundException;
 
     public void addOrder(Order newOrder) throws FlooringPersistenceException, OrderValidationException;
 
-    public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException;
+    public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException, NoOrdersFoundException;
 
     public void removeOrder(LocalDate date, int orderNum) throws FlooringPersistenceException;
 

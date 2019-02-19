@@ -7,6 +7,7 @@ package com.swcguild.flooring.controller;
 
 import com.swcguild.flooring.dao.FlooringPersistenceException;
 import com.swcguild.flooring.dto.Order;
+import com.swcguild.flooring.service.NoOrdersFoundException;
 import com.swcguild.flooring.service.OrderValidationException;
 import com.swcguild.flooring.service.Service;
 import com.swcguild.flooring.view.View;
@@ -87,7 +88,7 @@ public class Controller {
         }
     }
 
-    private void editOrder() throws FlooringPersistenceException, OrderValidationException {
+    private void editOrder() throws FlooringPersistenceException, OrderValidationException, NoOrdersFoundException {
         view.displayEditOrderBanner();
         LocalDate orderDate = view.getOrderDate();
         int orderNumber = view.getOrderNumber();
@@ -96,7 +97,7 @@ public class Controller {
         service.editOrder(orderDate, orderNumber, updatedOrder);
     }
 
-    private void removeOrder() throws FlooringPersistenceException {
+    private void removeOrder() throws FlooringPersistenceException, NoOrdersFoundException {
         view.displayRemoveOrderBanner();
         LocalDate orderDate = view.getOrderDate();
         int orderNumber = view.getOrderNumber();

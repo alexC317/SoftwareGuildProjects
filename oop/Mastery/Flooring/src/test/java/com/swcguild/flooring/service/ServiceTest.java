@@ -75,7 +75,7 @@ public class ServiceTest {
      * Test of addOrder method, of class Service.
      */
     @Test
-    public void testAddOrder() throws FlooringPersistenceException, OrderValidationException {
+    public void testAddOrder() throws FlooringPersistenceException, OrderValidationException, NoOrdersFoundException {
         Order newOrder = new Order(0);
         newOrder.setCustomerName("Cepeda");
         newOrder.setStateName("PA");
@@ -133,7 +133,7 @@ public class ServiceTest {
      * Test of editOrder method, of class Service.
      */
     @Test
-    public void testEditOrder() throws FlooringPersistenceException, OrderValidationException {
+    public void testEditOrder() throws FlooringPersistenceException, OrderValidationException, NoOrdersFoundException {
         Order newOrder = new Order(0);
         newOrder.setCustomerName("Cepeda");
         newOrder.setStateName("PA");
@@ -185,7 +185,7 @@ public class ServiceTest {
      * Test of saveCurrentWork method, of class Service.
      */
     @Test
-    public void testSaveCurrentWork() throws FlooringPersistenceException, OrderValidationException {
+    public void testSaveCurrentWork() throws FlooringPersistenceException, OrderValidationException, NoOrdersFoundException {
         Order newOrder = new Order(0);
         newOrder.setCustomerName("Ryder");
         newOrder.setStateName("PA");
@@ -198,8 +198,6 @@ public class ServiceTest {
         assertEquals(newOrder, service.getOrder(LocalDate.now(), 1));
         service.removeOrder(LocalDate.now(), 1);
         service.saveCurrentWork();
-
-        assertNull(service.getOrder(LocalDate.now(), 1));
     }
 
 }

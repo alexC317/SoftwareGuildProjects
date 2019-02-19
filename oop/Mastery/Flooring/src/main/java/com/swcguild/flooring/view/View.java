@@ -29,7 +29,7 @@ public class View {
         io.print("*  1. Display Orders                 * \n");
         io.print("*  2. Add Order                      * \n");
         io.print("*  3. Edit an Order                  * \n");
-        io.print("*  4. Remove an Orer                 * \n");
+        io.print("*  4. Remove an Order                * \n");
         io.print("*  5. Save current work              * \n");
         io.print("*  6: Quit the program               * \n");
         io.print("************************************** \n");
@@ -48,18 +48,18 @@ public class View {
     }
 
     public void displayOrders(List<Order> orderList, LocalDate orderDate) {
-        io.print("Displaying all orders for " + orderDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        io.print("Displaying all orders for " + orderDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + "\n");
 
         for (Order currentOrder : orderList) {
-            io.print("*Order number " + currentOrder.getOrderNumber() + "\n");
+            io.print("*Order number: " + currentOrder.getOrderNumber() + "\n");
             io.print("** Customer name: " + currentOrder.getCustomerName() + "\n");
             io.print("** State: " + currentOrder.getStateName() + "\n");
             io.print("** Product: " + currentOrder.getProductType() + "\n");
-            io.print("** Area: " + currentOrder.getArea() + "\n");
-            io.print("*** Material Cost: " + currentOrder.getMaterialCost() + "\n");
-            io.print("*** Labor Cost: " + currentOrder.getLaborCost() + "\n");
-            io.print("** Total: " + currentOrder.getTotal() + "\n");
-            io.print("-------------------------");
+            io.print("** Area: " + currentOrder.getArea() + " sq. ft. \n");
+            io.print("*** Material Cost: $" + currentOrder.getMaterialCost() + "\n");
+            io.print("*** Labor Cost: $" + currentOrder.getLaborCost() + "\n");
+            io.print("** Total: $" + currentOrder.getTotal() + "\n");
+            io.print("------------------------- \n");
         }
     }
 
@@ -86,10 +86,10 @@ public class View {
         newOrder.setArea(io.readBigDecimal("Please type in the square feet of the area you wish to floor: "));
 
         io.print("Please verify the following information: \n");
-        io.print("Your name: " + newOrder.getCustomerName());
-        io.print("Your state: " + newOrder.getStateName());
-        io.print("Your product: " + newOrder.getProductType());
-        io.print("Your area: " + newOrder.getArea());
+        io.print("Your name: " + newOrder.getCustomerName() + "\n");
+        io.print("Your state: " + newOrder.getStateName() + "\n");
+        io.print("Your product: " + newOrder.getProductType() + "\n");
+        io.print("Your area: " + newOrder.getArea() + " sq. ft. \n");
 
         String choice;
 
@@ -98,6 +98,9 @@ public class View {
             if (choice.equalsIgnoreCase("y")) {
                 io.print("Please make sure to save your work by hitting option 5 on the menu! \n");
                 return newOrder;
+            } else if (choice.equalsIgnoreCase("n")) {
+                io.print("Order data discarded. \n");
+                return null;
             }
         } while (!choice.equalsIgnoreCase("y") || !choice.equalsIgnoreCase("n"));
         io.print("Order data discarded. \n");
@@ -114,7 +117,7 @@ public class View {
     }
 
     public Order getUpdatedInformation(Order originalOrder) {
-        Order updatedOrder = new Order(0);
+        Order updatedOrder = new Order(originalOrder.getOrderNumber());
 
         updatedOrder.setCustomerName(io.readString("Please enter your name: (" + originalOrder.getCustomerName() + "): "));
         updatedOrder.setStateName(io.readString("Please type your state abbreviation: (" + originalOrder.getStateName() + "): "));
@@ -130,28 +133,30 @@ public class View {
 
     public boolean removeOrder(Order orderToRemove) {
         io.print("Here is the order information of the order you wish to remove: \n");
-        io.print("Customer name: " + orderToRemove.getCustomerName());
-        io.print("State name: " + orderToRemove.getStateName());
-        io.print("Tax rate: " + orderToRemove.getTaxRate());
-        io.print("Product type: " + orderToRemove.getProductType());
-        io.print("Area: " + orderToRemove.getArea());
-        io.print("Cost per square foot: " + orderToRemove.getCostPerSquareFoot());
-        io.print("Labor cost per square foot: " + orderToRemove.getLaborCostPerSquareFoot());
-        io.print("Material cost: " + orderToRemove.getMaterialCost());
-        io.print("Labor cost: " + orderToRemove.getLaborCost());
-        io.print("Total tax: " + orderToRemove.getTax());
-        io.print("Total cost: " + orderToRemove.getTotal());
+        io.print("Customer name: " + orderToRemove.getCustomerName() + "\n");
+        io.print("State name: " + orderToRemove.getStateName() + "\n");
+        io.print("Tax rate: " + orderToRemove.getTaxRate() + "% \n");
+        io.print("Product type: " + orderToRemove.getProductType() + "\n");
+        io.print("Area: " + orderToRemove.getArea() + " sq. ft. \n");
+        io.print("Cost per square foot: $" + orderToRemove.getCostPerSquareFoot() + "\n");
+        io.print("Labor cost per square foot: $" + orderToRemove.getLaborCostPerSquareFoot() + "\n");
+        io.print("Material cost: $" + orderToRemove.getMaterialCost() + "\n");
+        io.print("Labor cost: $" + orderToRemove.getLaborCost() + "\n");
+        io.print("Total tax: $" + orderToRemove.getTax() + "\n");
+        io.print("Total cost: $" + orderToRemove.getTotal() + "\n");
 
         String choice;
         do {
-            choice = io.readString("Are you sure you want to remove this order? Y/N \n");
+            choice = io.readString("Are you sure you want to remove this order? Y/N");
             if (choice.equalsIgnoreCase("y")) {
                 io.print("Order deleted. \n");
                 return true;
+            } else if (choice.equalsIgnoreCase("n")) {
+                io.print("Order not deleted. \n");
+                return false;
             }
         } while (!choice.equalsIgnoreCase("y") || !choice.equalsIgnoreCase("n"));
         io.print("Order not deleted. \n");
-
         return false;
     }
 
@@ -160,16 +165,16 @@ public class View {
     }
 
     public void saveWork() {
-        io.print("Work saved.");
+        io.print("Work saved. \n");
     }
 
     public void displayErrorMessage(String message) {
-        io.print("=== ERROR ===");
-        io.print(message);
+        io.print("=== ERROR === \n");
+        io.print(message + "\n");
     }
 
     public void displayUnknownCommand() {
-        io.print("Unknown Command.");
+        io.print("Unknown Command. \n");
     }
 
 }

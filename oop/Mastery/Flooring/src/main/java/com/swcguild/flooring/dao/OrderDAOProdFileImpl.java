@@ -34,14 +34,15 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     public static final String ORDER_FILE = "Orders_";
     public static final String DELIMITER = ",";
 
-    public OrderDAOProdFileImpl() {
+    public OrderDAOProdFileImpl() throws FlooringPersistenceException {
+        currentOrders = loadOrders(LocalDate.now());
+        currentDate = LocalDate.now();
     }
 
     @Override
     public void create(LocalDate orderDate, Order newOrder) throws FlooringPersistenceException {
         currentDate = orderDate;
         currentOrders.put(newOrder.getOrderNumber(), newOrder);
-
         masterList.put(currentDate, currentOrders);
     }
 
@@ -118,6 +119,7 @@ public class OrderDAOProdFileImpl implements OrderDAO {
     @Override
     public void save() throws FlooringPersistenceException {
         for (LocalDate activeDate : masterList.keySet()) {
+
             writeOrders(activeDate, masterList.get(activeDate));
         }
     }
@@ -145,7 +147,7 @@ public class OrderDAOProdFileImpl implements OrderDAO {
         PrintWriter out;
 
         try {
-            out = new PrintWriter(new FileWriter(fullFileName));
+            out = new PrintWriter(new FileWriter(fullFileName), true);
         } catch (IOException e) {
             throw new FlooringPersistenceException("Could not save order data.", e);
         }

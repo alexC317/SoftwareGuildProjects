@@ -22,7 +22,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public double readDouble(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         double value;
         try {
             value = Double.parseDouble(input.nextLine());
@@ -34,7 +34,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public double readDouble(String prompt, double min, double max) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         double value;
         try {
             value = Double.parseDouble(input.nextLine());
@@ -49,7 +49,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public float readFloat(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         float value;
         try {
             value = Float.parseFloat(input.nextLine());
@@ -61,7 +61,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public float readFloat(String prompt, float min, float max) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         float value;
         try {
             value = Float.parseFloat(input.nextLine());
@@ -103,7 +103,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public long readLong(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         long value;
         try {
             value = Long.parseLong(input.nextLine());
@@ -115,7 +115,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public long readLong(String prompt, long min, long max) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         long value;
         try {
             value = Long.parseLong(input.nextLine());
@@ -143,7 +143,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt, BigDecimal min, BigDecimal max) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         BigDecimal value;
         try {
             value = new BigDecimal(input.nextLine());
@@ -171,7 +171,7 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public String readString(String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         return input.nextLine();
     }
 

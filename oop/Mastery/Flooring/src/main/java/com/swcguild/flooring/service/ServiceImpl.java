@@ -36,19 +36,26 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Order getOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException {
-        return orderDAO.readById(orderDate, orderNumber);
+    public Order getOrder(LocalDate orderDate, int orderNumber) throws FlooringPersistenceException, NoOrdersFoundException {
+        Order order = orderDAO.readById(orderDate, orderNumber);
+
+        if (order == null) {
+            throw new NoOrdersFoundException("No such order number.");
+        }
+        return order;
     }
 
     @Override
     public void addOrder(Order newOrder) throws FlooringPersistenceException, OrderValidationException {
         int orderNum;
+        int maxNum;
         List<Order> existingOrders = orderDAO.getAllExistingOrders(LocalDate.now());
 
         if (existingOrders.isEmpty()) {
             orderNum = 1;
         } else {
-            orderNum = existingOrders.size() + 1;
+            maxNum = existingOrders.get(existingOrders.size() - 1).getOrderNumber();
+            orderNum = maxNum + 1;
         }
 
         newOrder.setOrderNumber(orderNum);
@@ -59,7 +66,8 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void editOrder(LocalDate orderDate, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException {
+    public void editOrder(LocalDate orderDate, int orderNum, Order updatedOrder) throws FlooringPersistenceException,
+            OrderValidationException, NoOrdersFoundException {
         Order originalOrder = getOrder(orderDate, orderNum);
 
         if (updatedOrder.getCustomerName() == null || updatedOrder.getCustomerName().isEmpty()) {
