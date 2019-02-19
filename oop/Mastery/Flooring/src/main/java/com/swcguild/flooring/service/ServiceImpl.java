@@ -48,8 +48,8 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Order editOrder(LocalDate date, int orderNum) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException {
+        Order originalOrder = getOrder(date, orderNum);
     }
 
     @Override

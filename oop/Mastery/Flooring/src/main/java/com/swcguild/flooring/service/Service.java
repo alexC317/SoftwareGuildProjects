@@ -22,7 +22,7 @@ public interface Service {
 
     public void addOrder(Order newOrder) throws FlooringPersistenceException, OrderValidationException;
 
-    public Order editOrder(LocalDate date, int orderNum);
+    public void editOrder(LocalDate date, int orderNum, Order updatedOrder) throws FlooringPersistenceException, OrderValidationException;
 
     public void removeOrder(LocalDate date, int orderNum);
 

@@ -101,10 +101,50 @@ public class ServiceTest {
     }
 
     /**
+     * Test of addOrder method throwing an Exception, of class Service.
+     */
+    @Test
+    public void testAddOrderWithExceptionThrown() throws FlooringPersistenceException, OrderValidationException {
+        Order newOrder = new Order(1);
+        newOrder.setCustomerName("Cepeda");
+        newOrder.setStateName("NY");
+        newOrder.setProductType("Metal");
+        newOrder.setArea(new BigDecimal("100.00"));
+
+        try {
+            service.addOrder(newOrder);
+            fail("Expected OrderValidationException not thrown.");
+        } catch (OrderValidationException e) {
+            return;
+        }
+    }
+
+    /**
      * Test of editOrder method, of class Service.
      */
     @Test
-    public void testEditOrder() {
+    public void testEditOrder() throws FlooringPersistenceException, OrderValidationException {
+        Order newOrder = new Order(1);
+        newOrder.setCustomerName("Cepeda");
+        newOrder.setStateName("PA");
+        newOrder.setProductType("Wood");
+        newOrder.setArea(new BigDecimal("100.00"));
+
+        service.addOrder(newOrder);
+
+        Order updatedOrder = service.getOrder(LocalDate.now(), 1);
+        updatedOrder.setCustomerName("Porras");
+        updatedOrder.setStateName("OH");
+        updatedOrder.setProductType("Tile");
+
+        service.editOrder(LocalDate.now(), 1, updatedOrder);
+
+        Order fromService = service.getOrder(LocalDate.now(), 1);
+        assertEquals(1, fromService.getOrderNumber());
+        assertEquals("PA", fromService.getStateName());
+        assertEquals("Wood", fromService.getProductType());
+        assertEquals(new BigDecimal("100.00"), fromService.getArea());
+        assertEquals(new BigDecimal("812.82"), fromService.getTotal());
     }
 
     /**
