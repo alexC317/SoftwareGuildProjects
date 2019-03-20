@@ -43,3 +43,48 @@ CREATE TABLE Task (
     FOREIGN KEY fk_Task_ProjectWorker (ProjectId, WorkerId)
         REFERENCES ProjectWorker(ProjectId, WorkerId)
 );
+
+INSERT INTO Worker (WorkerId, FirstName, LastName)
+    VALUES (1, 'Rosemonde', 'Featherbie');
+    
+INSERT INTO Worker (FirstName, LastName)
+    VALUES ('Kingsly', 'Besantie');
+
+INSERT INTO Worker (FirstName, LastName) VALUES
+    ('Goldi','Pilipets'),
+    ('Dorey','Rulf'),
+    ('Panchito','Ashtonhurst');
+
+SELECT * FROM Worker;
+
+INSERT INTO Worker (WorkerId, FirstName, LastName)
+    VALUES (50, 'Valentino', 'Newvill');
+    
+INSERT INTO Worker (FirstName, LastName)
+    VALUES ('Martin', 'Flowers');
+    
+INSERT INTO Project (ProjectId, `Name`, DueDate)
+    VALUES ('db-milestone', 'Database Material', '2018-12-31'); 
+
+INSERT INTO ProjectWorker (ProjectId, WorkerId)
+    VALUES ('db-milestone', 2);
+    
+INSERT INTO Project (ProjectId, `Name`, DueDate)
+	VALUES ('kitchen', 'Kitchen Remodel', '2025-07-15'); 
+    
+INSERT INTO ProjectWorker (ProjectId, WorkerId) VALUES 
+    ('db-milestone', 1), -- Rosemonde, Database
+    ('kitchen', 2),      -- Kingsly, Kitchen
+    ('db-milestone', 3), -- Goldi, Database
+    ('db-milestone', 4); -- Dorey, Database
+
+-- Provide a Project Summary and change the DueDate.
+UPDATE Project SET
+    Summary = 'All lessons and exercises for the relational database milestone.',
+    DueDate = '2018-10-15'
+WHERE ProjectId = 'db-milestone';
+
+-- Change Kingsly's LastName to 'Oaks'.
+UPDATE Worker SET
+    LastName = 'Oaks'
+WHERE WorkerId = 2;
