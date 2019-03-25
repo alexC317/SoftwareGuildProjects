@@ -43,7 +43,13 @@ public class DvdLibraryView {
     }
 
     public void DisplayDirectors(List<Director> directors) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (directors == null) {
+            System.out.println("Nothing here");
+        } else {
+            for(Director director: directors){
+                System.out.println("Name: " + director.getName());
+            }
+        }
     }
 
     public int getDirectorId() {
@@ -57,10 +63,10 @@ public class DvdLibraryView {
     public Director editDirector(Director director) {
         io.display("ID: " + director.getId() + " Name" + director.getName());
         String name = io.promptString("What is your new Director Name? ");
-        if(!"".equals(name)){
+        if (!"".equals(name)) {
             director.setName(name);
         }
-        
+
         return director;
     }
 

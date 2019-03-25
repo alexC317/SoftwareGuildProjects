@@ -17,6 +17,12 @@
     
 
     <!-- PUT JDBC BEAN HERE -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/DVDDB" />
+        <property name="username" value="root" />
+        <property name="password" value="Nightmare0*" />
+    </bean> 
     
     <bean id="directorDao" class="sg.com.dvdlibrary.daos.DirectorDaoFileImpl">
     </bean>
@@ -24,10 +30,14 @@
     </bean>
     
     <!-- PUT JDBC DAO BEANS HERE -->
+    <bean id="directorJDBCDao" class="sg.com.dvdlibrary.daos.DirectorDaoJDBCImpl">
+    </bean>
+    <bean id="dvdJDBCDao" class="sg.com.dvdlibrary.daos.DvdDaoJDBCImpl">
+    </bean>
     
     <bean id="dvdService" class="sg.com.dvdlibrary.services.DvdServiceImpl">
-        <constructor-arg ref="dvdDao" />
-        <constructor-arg ref="directorDao" />
+        <constructor-arg ref="dvdJDBCDao" />
+        <constructor-arg ref="directorJDBCDao" />
     </bean>
     <bean id="io" class="sg.com.dvdlibrary.views.UserConsoleIOImpl"></bean>
     <bean id="view" class="sg.com.dvdlibrary.views.DvdLibraryView">
