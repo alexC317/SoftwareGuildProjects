@@ -31,6 +31,7 @@ public class DirectorDaoJDBCImpl implements DirectorDao {
     @Override
     public List<Director> ReadAll() {
         final String SELECT_ALL_DIRECTORS = "SELECT * FROM DVD";
+        System.out.println(SELECT_ALL_DIRECTORS);
         //try {
         return jdbc.query(SELECT_ALL_DIRECTORS, new DirectorMapper());
 //        } catch (Exception ex) {

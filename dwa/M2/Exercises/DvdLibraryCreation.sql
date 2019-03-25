@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS DVDDB;
-CREATE DATABASE DVDDB;
+DROP DATABASE IF EXISTS DVDLibrary;
+CREATE DATABASE DVDLibrary;
 
-USE DVDDB;
+USE DVDLibrary;
 
 CREATE TABLE Director(
 	ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -20,8 +20,6 @@ CREATE TABLE DVD(
 INSERT INTO Director(`name`) VALUES('George Lucas');
 INSERT INTO Director(`name`) VALUES('Mamoru Hosoda');
 INSERT INTO Director(`name`) VALUES('Joseph Kosinski');
-
-SELECT * FROM Director;
 
 INSERT INTO DVD(directorID, `name`, releaseDate, rating) VALUES (1, 'Return of the Jedi', '2006-09-12', 'PG');
 INSERT INTO DVD(directorID, `name`, releaseDate, rating) VALUES (2, 'Mirai', '2019-04-09', 'PG');

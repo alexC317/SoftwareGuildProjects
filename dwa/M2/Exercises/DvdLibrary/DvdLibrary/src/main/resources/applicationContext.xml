@@ -16,13 +16,13 @@
     
     
 
-    <!-- PUT JDBC BEAN HERE -->
+    <!-- PUT JDBC BEAN HERE
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/DVDDB" />
+        <property name="url" value="jdbc:mysql://localhost:3306/DVDLibrary" />
         <property name="username" value="root" />
         <property name="password" value="Nightmare0*" />
-    </bean> 
+    </bean>  -->
     
     <bean id="directorDao" class="sg.com.dvdlibrary.daos.DirectorDaoFileImpl">
     </bean>
