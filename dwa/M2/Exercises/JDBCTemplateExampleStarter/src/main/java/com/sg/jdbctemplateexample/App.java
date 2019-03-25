@@ -77,7 +77,7 @@ public class App implements CommandLineRunner {
 
     private void displayList() throws SQLException {
         List<ToDo> todos = jdbc.query("SELECT * FROM todo", new ToDoMapper());
-        for(ToDo td: todos){
+        for (ToDo td : todos) {
             System.out.printf("%s: %s -- %s -- %s \n",
                     td.getId(),
                     td.getTodo(),
@@ -93,13 +93,48 @@ public class App implements CommandLineRunner {
         String task = sc.nextLine();
         System.out.println("Any additional notes?");
         String note = sc.nextLine();
-        
+
         jdbc.update("INSERT INTO todo(todo, note) VALUES(?,?)", task, note);
         System.out.println("Add Complete");
     }
 
     private void updateItem() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Update Item");
+        System.out.println("Which item do you want to update?");
+        String itemId = sc.nextLine();
+        ToDo item = jdbc.queryForObject("SELECT * FROM todo WHERE id = ?", new ToDoMapper(), itemId);
+        
+        System.out.println("1. ToDo - " + item.getTodo());
+        System.out.println("2. Note - " + item.getNote());
+        System.out.println("3. Finished - " + item.isFinished());
+        System.out.println("What would you like to change?");
+        String choice = sc.nextLine();
+        switch(choice){
+            case "1":
+                System.out.println("Enter new ToDo:");
+                String todo = sc.nextLine();
+                item.setTodo(todo);
+                break;
+            case "2":
+                System.out.println("Enter new Note:");
+                String note = sc.nextLine();
+                item.setNote(note);
+                break;
+            case "3":
+                System.out.println("Toggling Finished to " + !item.isFinished());
+                item.setFinished(!item.isFinished());
+                break;
+            default:
+                System.out.println("No change made");
+                return;
+        }
+        
+        jdbc.update("UPDATE todo SET todo = ?, note = ?, finished = ? WHERE id = ?",
+                item.getTodo(),
+                item.getNote(),
+                item.isFinished(),
+                item.getId());
+        System.out.println("Update Complete");
     }
 
     private void removeItem() throws SQLException {
