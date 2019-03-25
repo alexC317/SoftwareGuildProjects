@@ -29,7 +29,7 @@ public class App {
         //DvdController controller = new DvdController(view, service);
 
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DvdController controller = ctx.getBean("controller", DvdController.class);
+        DvdController controller = ctx.getBean("dvdController", DvdController.class);
 
         controller.Run();
     }

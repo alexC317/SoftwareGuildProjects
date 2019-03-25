@@ -34,7 +34,7 @@
         <constructor-arg ref="io" />
     </bean>
 
-    <bean id="characterController" class="sg.com.dvdlibrary.controllers.DvdController">
+    <bean id="dvdController" class="sg.com.dvdlibrary.controllers.DvdController">
         <constructor-arg ref="view" />  
         <constructor-arg ref="dvdService" />
     </bean>
