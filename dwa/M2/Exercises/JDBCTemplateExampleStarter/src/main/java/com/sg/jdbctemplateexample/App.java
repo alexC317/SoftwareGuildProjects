@@ -5,11 +5,16 @@
  */
 package com.sg.jdbctemplateexample;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 /**
  *
@@ -19,6 +24,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App implements CommandLineRunner {
 
     private static Scanner sc;
+
+    @Autowired
+    private JdbcTemplate jdbc;
 
     public static void main(String args[]) {
         SpringApplication.run(App.class, args);
@@ -68,11 +76,26 @@ public class App implements CommandLineRunner {
     }
 
     private void displayList() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ToDo> todos = jdbc.query("SELECT * FROM todo", new ToDoMapper());
+        for(ToDo td: todos){
+            System.out.printf("%s: %s -- %s -- %s \n",
+                    td.getId(),
+                    td.getTodo(),
+                    td.getNote(),
+                    td.isFinished());
+        }
+        System.out.println("");
     }
 
     private void addItem() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Add Item");
+        System.out.println("What is the task?");
+        String task = sc.nextLine();
+        System.out.println("Any additional notes?");
+        String note = sc.nextLine();
+        
+        jdbc.update("INSERT INTO todo(todo, note) VALUES(?,?)", task, note);
+        System.out.println("Add Complete");
     }
 
     private void updateItem() throws SQLException {
@@ -81,6 +104,20 @@ public class App implements CommandLineRunner {
 
     private void removeItem() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static final class ToDoMapper implements RowMapper<ToDo> {
+
+        @Override
+        public ToDo mapRow(ResultSet rs, int index) throws SQLException {
+            ToDo td = new ToDo();
+            td.setId(rs.getInt("id"));
+            td.setTodo(rs.getString("todo"));
+            td.setNote(rs.getString("note"));
+            td.setFinished(rs.getBoolean("finished"));
+            return td;
+        }
+
     }
 
 }
