@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  * @author Randall
  */
-public class Dvd {
+public class DVD {
     private int id;
     private int directorId;
     private String name;

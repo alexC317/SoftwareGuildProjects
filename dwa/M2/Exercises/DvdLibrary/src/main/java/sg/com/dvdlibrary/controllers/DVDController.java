@@ -7,21 +7,21 @@ package sg.com.dvdlibrary.controllers;
 
 import java.util.List;
 import sg.com.dvdlibrary.dtos.Director;
-import sg.com.dvdlibrary.dtos.Dvd;
+import sg.com.dvdlibrary.dtos.DVD;
 import sg.com.dvdlibrary.services.DirectorNotFoundException;
-import sg.com.dvdlibrary.services.DvdService;
-import sg.com.dvdlibrary.views.DvdLibraryView;
+import sg.com.dvdlibrary.views.DVDLibraryView;
+import sg.com.dvdlibrary.services.DVDService;
 
 /**
  *
  * @author Randall
  */
-public class DvdController {
+public class DVDController {
 
-    DvdLibraryView view;
-    DvdService service;
+    DVDLibraryView view;
+    DVDService service;
 
-    public DvdController(DvdLibraryView view, DvdService service) {
+    public DVDController(DVDLibraryView view, DVDService service) {
         this.view = view;
         this.service = service;
     }
@@ -109,7 +109,7 @@ public class DvdController {
 
     private void CreateDvd() {
         
-        Dvd dvd = view.getNewDvdInfo();
+        DVD dvd = view.getNewDvdInfo();
         try {
             dvd = service.CreateDvd(dvd);
             view.displayDvd(dvd);
@@ -135,7 +135,7 @@ public class DvdController {
 
     private void UpdateDvd() {
         int dvdId = view.getDvdId();
-        Dvd dvd = service.ReadDvdById(dvdId);
+        DVD dvd = service.ReadDvdById(dvdId);
         dvd = view.editDvd(dvd);
         try {
             service.UpdateDvd(dvdId, dvd);
@@ -146,7 +146,7 @@ public class DvdController {
 
     private void DeleteDvd() {
         int dvdId = view.getDvdId();
-        Dvd dvd = service.ReadDvdById(dvdId);
+        DVD dvd = service.ReadDvdById(dvdId);
         if(view.deleteDvd(dvd) == true){
             service.DeleteDvd(dvdId);
         }

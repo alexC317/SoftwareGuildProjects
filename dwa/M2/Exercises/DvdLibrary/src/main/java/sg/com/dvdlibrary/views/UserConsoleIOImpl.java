@@ -9,12 +9,15 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-
 public class UserConsoleIOImpl implements UserIO {
+
     private static Scanner sc = new Scanner(System.in);
+
     @Override
-    public String promptString(String messagge) {
-        return sc.nextLine();
+    public String promptString(String message) {
+        display(message);
+        String value = sc.nextLine();
+        return value;
     }
 
     @Override
@@ -25,18 +28,20 @@ public class UserConsoleIOImpl implements UserIO {
     @Override
     public int promptInt(String message) {
         int result = 0;
-        while(!sc.hasNextInt()){
+        display(message);
+        while (!sc.hasNextInt()) {
             display("Invalid Input");
         }
-        return sc.nextInt();
-        
+        result = sc.nextInt();
+        sc.nextLine();
+        return result;
     }
 
     @Override
     public LocalDate promptDate(String message) {
         LocalDate date = null;
         boolean isValid = false;
-        while(!isValid){
+        while (!isValid) {
             String input = promptString(message);
             try {
                 date = LocalDate.parse(input);
@@ -47,5 +52,5 @@ public class UserConsoleIOImpl implements UserIO {
         }
         return date;
     }
-    
+
 }

@@ -14,13 +14,13 @@ import java.util.List;
 public class Director {
     private int id;
     private String name;
-    private List<Dvd> dvds;
+    private List<DVD> dvds;
 
-    public List<Dvd> getDvds() {
+    public List<DVD> getDvds() {
         return dvds;
     }
 
-    public void setDvds(List<Dvd> dvds) {
+    public void setDvds(List<DVD> dvds) {
         this.dvds = dvds;
     }
     

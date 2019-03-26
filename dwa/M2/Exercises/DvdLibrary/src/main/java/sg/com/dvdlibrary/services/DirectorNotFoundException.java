@@ -5,7 +5,7 @@
  */
 package sg.com.dvdlibrary.services;
 
-import sg.com.dvdlibrary.dtos.Dvd;
+import sg.com.dvdlibrary.dtos.DVD;
 
 /**
  *
@@ -13,18 +13,18 @@ import sg.com.dvdlibrary.dtos.Dvd;
  */
 public class DirectorNotFoundException extends Exception {
 
-    private Dvd dvd;
+    private DVD dvd;
 
-    public DirectorNotFoundException(String message, Dvd dvd) {
+    public DirectorNotFoundException(String message, DVD dvd) {
         super(message);
         this.dvd = dvd;
     }
 
-    public Dvd getDvd() {
+    public DVD getDvd() {
         return dvd;
     }
 
-    public void setDvd(Dvd dvd) {
+    public void setDvd(DVD dvd) {
         this.dvd = dvd;
     }
 

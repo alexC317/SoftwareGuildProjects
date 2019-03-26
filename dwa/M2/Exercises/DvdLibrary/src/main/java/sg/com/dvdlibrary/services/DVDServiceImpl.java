@@ -6,17 +6,17 @@
 package sg.com.dvdlibrary.services;
 
 import java.util.List;
-import sg.com.dvdlibrary.daos.DirectorDao;
-import sg.com.dvdlibrary.daos.DvdDao;
 import sg.com.dvdlibrary.dtos.Director;
-import sg.com.dvdlibrary.dtos.Dvd;
+import sg.com.dvdlibrary.dtos.DVD;
+import sg.com.dvdlibrary.daos.DVDDAO;
+import sg.com.dvdlibrary.daos.DirectorDAO;
 
-public class DvdServiceImpl implements DvdService {
+public class DVDServiceImpl implements DVDService {
 
-    DvdDao dvdDao;
-    DirectorDao directorDao;
+    DVDDAO dvdDao;
+    DirectorDAO directorDao;
 
-    public DvdServiceImpl(DvdDao dvdDao, DirectorDao directorDao) {
+    public DVDServiceImpl(DVDDAO dvdDao, DirectorDAO directorDao) {
         this.dvdDao = dvdDao;
         this.directorDao = directorDao;
     }
@@ -54,7 +54,7 @@ public class DvdServiceImpl implements DvdService {
     }
 
     @Override
-    public Dvd CreateDvd(Dvd dvd) throws DirectorNotFoundException {
+    public DVD CreateDvd(DVD dvd) throws DirectorNotFoundException {
         Director director = directorDao.ReadById(dvd.getDirectorId());
         if (director != null) {
             return dvdDao.Create(dvd);
@@ -63,22 +63,22 @@ public class DvdServiceImpl implements DvdService {
     }
 
     @Override
-    public List<Dvd> ReadAllDvds() {
+    public List<DVD> ReadAllDvds() {
         return this.dvdDao.ReadAll();
     }
 
     @Override
-    public Dvd ReadDvdById(int dvdId) {
+    public DVD ReadDvdById(int dvdId) {
         return this.dvdDao.ReadById(dvdId);
     }
 
     @Override
-    public List<Dvd> ReadDvdsByDirectorId(int directorId) {
-        return this.ReadDvdsByDirectorId(directorId);
+    public List<DVD> ReadDvdsByDirectorId(int directorId) {
+        return this.dvdDao.ReadByDirectorId(directorId);
     }
 
     @Override
-    public void UpdateDvd(int dvdId, Dvd dvd) throws DirectorNotFoundException {
+    public void UpdateDvd(int dvdId, DVD dvd) throws DirectorNotFoundException {
         Director director = directorDao.ReadById(dvd.getDirectorId());
         if (director == null) {
             throw new DirectorNotFoundException("Director not found", dvd);

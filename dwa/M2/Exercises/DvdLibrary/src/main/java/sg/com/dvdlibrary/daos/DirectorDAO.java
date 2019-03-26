@@ -12,7 +12,7 @@ import sg.com.dvdlibrary.dtos.Director;
  *
  * @author Randall
  */
-public interface DirectorDao {
+public interface DirectorDAO {
 
     Director Create(Director entity);
 

@@ -7,11 +7,11 @@ package sg.com.dvdlibrary;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import sg.com.dvdlibrary.controllers.DvdController;
-import sg.com.dvdlibrary.daos.DirectorDaoFileImpl;
-import sg.com.dvdlibrary.daos.DvdDaoFileImpl;
-import sg.com.dvdlibrary.services.DvdServiceImpl;
-import sg.com.dvdlibrary.views.DvdLibraryView;
+import sg.com.dvdlibrary.controllers.DVDController;
+import sg.com.dvdlibrary.daos.DirectorDAOFileImpl;
+import sg.com.dvdlibrary.daos.DVDDAOFileImpl;
+import sg.com.dvdlibrary.services.DVDServiceImpl;
+import sg.com.dvdlibrary.views.DVDLibraryView;
 import sg.com.dvdlibrary.views.UserConsoleIOImpl;
 
 /**
@@ -21,15 +21,15 @@ import sg.com.dvdlibrary.views.UserConsoleIOImpl;
 public class App {
 
     public static void main(String[] args) {
-        //DvdDao dvdDao = new DvdDaoFileImpl();
-        //DirectorDao directorDao = new DirectorDaoFileImpl();
-        //DvdService service = new DvdServiceImpl(dvdDao, directorDao);
+        //DvdDao dvdDao = new DVDDAOFileImpl();
+        //DirectorDao directorDao = new DirectorDAOFileImpl();
+        //DvdService service = new DVDServiceImpl(dvdDao, directorDao);
         //UserIO io = new UserConsoleIOImpl();
-        //DvdLibraryView view = new DvdLibraryView(io);
-        //DvdController controller = new DvdController(view, service);
+        //DvdLibraryView view = new DVDLibraryView(io);
+        //DvdController controller = new DVDController(view, service);
 
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-        DvdController controller = ctx.getBean("controller", DvdController.class);
+        DVDController controller = ctx.getBean("DVDController", DVDController.class);
 
         controller.Run();
     }

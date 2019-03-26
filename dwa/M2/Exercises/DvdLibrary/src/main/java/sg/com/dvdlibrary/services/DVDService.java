@@ -7,23 +7,23 @@ package sg.com.dvdlibrary.services;
 
 import java.util.List;
 import sg.com.dvdlibrary.dtos.Director;
-import sg.com.dvdlibrary.dtos.Dvd;
+import sg.com.dvdlibrary.dtos.DVD;
 
 /**
  *
  * @author Randall
  */
-public interface DvdService {
+public interface DVDService {
     Director CreateDirector(String name);
     List<Director> ReadAllDirectors();
     Director ReadDirectorById(int directorId);
     void UpdateDirector(int directorId, Director director);
     void DeleteDirector(int directorId);
     
-    Dvd CreateDvd(Dvd dvd) throws DirectorNotFoundException;
-    List<Dvd> ReadAllDvds();
-    Dvd ReadDvdById(int dvdId);
-    List<Dvd> ReadDvdsByDirectorId(int directorId);
-    void UpdateDvd(int directorId, Dvd dvd) throws DirectorNotFoundException;
+    DVD CreateDvd(DVD dvd) throws DirectorNotFoundException;
+    List<DVD> ReadAllDvds();
+    DVD ReadDvdById(int dvdId);
+    List<DVD> ReadDvdsByDirectorId(int directorId);
+    void UpdateDvd(int directorId, DVD dvd) throws DirectorNotFoundException;
     void DeleteDvd(int dvdId);
 }

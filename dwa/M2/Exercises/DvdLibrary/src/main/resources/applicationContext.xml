@@ -17,25 +17,41 @@
     
 
     <!-- PUT JDBC BEAN HERE -->
-    
-    <bean id="directorDao" class="sg.com.dvdlibrary.daos.DirectorDaoFileImpl">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/DVDLibrary" />
+        <property name="username" value="root" />
+        <property name="password" value="Nightmare0*" />
+        <property name="initialSize" value="5" />
+        <property name="maxTotal" value="10" />
     </bean>
-    <bean id="dvdDao" class="sg.com.dvdlibrary.daos.DvdDaoFileImpl">
+    
+    <bean id="directorDAO" class="sg.com.dvdlibrary.daos.DirectorDAOFileImpl">
+    </bean>
+    <bean id="dvdDAO" class="sg.com.dvdlibrary.daos.DVDDAOFileImpl">
     </bean>
     
     <!-- PUT JDBC DAO BEANS HERE -->
     
-    <bean id="dvdService" class="sg.com.dvdlibrary.services.DvdServiceImpl">
-        <constructor-arg ref="dvdDao" />
-        <constructor-arg ref="directorDao" />
+    <bean id="directorJDBCDAO" class="sg.com.dvdlibrary.daos.DirectorDAOJDBCImpl">
+        <constructor-arg ref="dataSource" />
     </bean>
+    <bean id="DVDJDBCDAO" class="sg.com.dvdlibrary.daos.DVDDAOJDBCImpl">
+        <constructor-arg ref="dataSource" />
+    </bean>
+    
+    <bean id="DVDService" class="sg.com.dvdlibrary.services.DVDServiceImpl">
+        <constructor-arg ref="DVDJDBCDAO" />
+        <constructor-arg ref="directorJDBCDAO" />
+    </bean>
+    
     <bean id="io" class="sg.com.dvdlibrary.views.UserConsoleIOImpl"></bean>
-    <bean id="view" class="sg.com.dvdlibrary.views.DvdLibraryView">
+    <bean id="view" class="sg.com.dvdlibrary.views.DVDLibraryView">
         <constructor-arg ref="io" />
     </bean>
 
-    <bean id="characterController" class="sg.com.dvdlibrary.controllers.DvdController">
+    <bean id="DVDController" class="sg.com.dvdlibrary.controllers.DVDController">
         <constructor-arg ref="view" />  
-        <constructor-arg ref="dvdService" />
+        <constructor-arg ref="DVDService" />
     </bean>
 </beans>

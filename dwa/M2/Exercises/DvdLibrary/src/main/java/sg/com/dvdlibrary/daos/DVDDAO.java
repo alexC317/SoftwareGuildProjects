@@ -6,24 +6,24 @@
 package sg.com.dvdlibrary.daos;
 
 import java.util.List;
-import sg.com.dvdlibrary.dtos.Dvd;
+import sg.com.dvdlibrary.dtos.DVD;
 
 /**
  *
  * @author Randall
  */
-public interface DvdDao {
+public interface DVDDAO {
 
-    Dvd Create(Dvd entity);
+    DVD Create(DVD entity);
 
     void Delete(int id);
 
-    List<Dvd> ReadAll();
+    List<DVD> ReadAll();
     
-    List<Dvd> ReadByDirectorId(int directorId);
+    List<DVD> ReadByDirectorId(int directorId);
 
-    Dvd ReadById(int id);
+    DVD ReadById(int id);
 
-    void Update(int id, Dvd entity);
+    void Update(int id, DVD entity);
     
 }

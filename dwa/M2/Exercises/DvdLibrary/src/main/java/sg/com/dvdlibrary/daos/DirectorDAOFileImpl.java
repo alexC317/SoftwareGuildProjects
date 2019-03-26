@@ -13,11 +13,11 @@ import java.util.Map;
 import sg.com.dvdlibrary.dtos.Director;
 
 
-public class DirectorDaoFileImpl implements DirectorDao {
+public class DirectorDAOFileImpl implements DirectorDAO {
 
     private Map<Integer, Director> directors;
 
-    public DirectorDaoFileImpl() {
+    public DirectorDAOFileImpl() {
         this.directors = new HashMap<>();
     }
 
