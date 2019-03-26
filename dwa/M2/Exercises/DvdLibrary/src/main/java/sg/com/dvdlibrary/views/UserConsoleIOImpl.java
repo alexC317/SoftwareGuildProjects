@@ -7,17 +7,13 @@ package sg.com.dvdlibrary.views;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class UserConsoleIOImpl implements UserIO {
-
     private static Scanner sc = new Scanner(System.in);
-
     @Override
-    public String promptString(String message) {
-        display(message);
+    public String promptString(String messagge) {
         return sc.nextLine();
     }
 
@@ -29,30 +25,27 @@ public class UserConsoleIOImpl implements UserIO {
     @Override
     public int promptInt(String message) {
         int result = 0;
-        display(message);
-        while (!sc.hasNextInt()) {
+        while(!sc.hasNextInt()){
             display("Invalid Input");
         }
-        result = sc.nextInt();
-        sc.nextLine();
-        return result;
+        return sc.nextInt();
+        
     }
 
     @Override
     public LocalDate promptDate(String message) {
         LocalDate date = null;
         boolean isValid = false;
-        while (!isValid) {
+        while(!isValid){
             String input = promptString(message);
             try {
-                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                LocalDate lDate = LocalDate.parse(input, format);
-                return lDate;
+                date = LocalDate.parse(input);
+                isValid = true;
             } catch (DateTimeException e) {
                 display("Invalid Date format");
             }
         }
         return date;
     }
-
+    
 }

@@ -74,8 +74,7 @@ public class DvdServiceImpl implements DvdService {
 
     @Override
     public List<Dvd> ReadDvdsByDirectorId(int directorId) {
-        return this.dvdDao.ReadByDirectorId(directorId);
-
+        return this.ReadDvdsByDirectorId(directorId);
     }
 
     @Override

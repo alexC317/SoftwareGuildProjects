@@ -8,26 +8,45 @@ package sg.com.dvdlibrary.daos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import sg.com.dvdlibrary.dtos.Dvd;
 
 @Repository
 public class DvdDaoJDBCImpl implements DvdDao {
-    
+
     @Autowired
     private JdbcTemplate jdbc;
 
+    public DvdDaoJDBCImpl(DataSource dataSource) {
+        this.jdbc = new JdbcTemplate(dataSource);
+    }
+
     @Override
+    @Transactional
     public Dvd Create(Dvd entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String INSERT_DVD = "INSERT INTO dvd(directorID, name, releaseDate, rating) "
+                + "VALUES(?,?,?,?)";
+        jdbc.update(INSERT_DVD,
+                entity.getDirectorId(),
+                entity.getName(),
+                entity.getReleaseDate(),
+                entity.getRating());
+        int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        entity.setId(newID);
+
+        return entity;
+
     }
 
     @Override
     public void Delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String DELETE_DVD = "DELETE FROM dvd WHERE ID = ?";
+        jdbc.update(DELETE_DVD, id);
     }
 
     @Override
@@ -38,20 +57,33 @@ public class DvdDaoJDBCImpl implements DvdDao {
 
     @Override
     public List<Dvd> ReadByDirectorId(int directorId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_BY_DIRECTOR_ID = "SELECT * FROM dvd WHERE directorID = ?";
+        return jdbc.query(SELECT_BY_DIRECTOR_ID, new DVDMapper(), directorId);
     }
 
     @Override
     public Dvd ReadById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_BY_DVD_ID = "SELECT * FROM dvd WHERE id = ?";
+        return jdbc.queryForObject(SELECT_BY_DVD_ID, new DVDMapper(), id);
     }
 
     @Override
     public void Update(int id, Dvd entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String UPDATE_DVD = "UPDATE dvd SET "
+                + "directorID = ?, "
+                + "name = ?, "
+                + "releaseDate = ?, "
+                + "rating = ? "
+                + "WHERE id = ?";
+        jdbc.update(UPDATE_DVD,
+                entity.getDirectorId(),
+                entity.getName(),
+                entity.getReleaseDate(),
+                entity.getRating(),
+                entity.getId());
     }
-    
-    public static final class DVDMapper implements RowMapper<Dvd>{
+
+    public static final class DVDMapper implements RowMapper<Dvd> {
 
         @Override
         public Dvd mapRow(ResultSet rs, int index) throws SQLException {
@@ -63,6 +95,6 @@ public class DvdDaoJDBCImpl implements DvdDao {
             dvd.setReleaseDate(rs.getDate("releaseDate").toLocalDate());
             return dvd;
         }
-        
+
     }
 }

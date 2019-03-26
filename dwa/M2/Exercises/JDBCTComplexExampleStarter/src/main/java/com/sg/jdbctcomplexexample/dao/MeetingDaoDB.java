@@ -124,7 +124,7 @@ public class MeetingDaoDB implements MeetingDao {
 
     private List<Employee> getEmployeesForMeeting(Meeting meeting) {
         final String SELECT_EMPLOYEES_FOR_MEETING = "SELECT e.* FROM employee e "
-                + "JOIN meeting employee me ON e.id = me.employeeId WHERE me.meetingId = ?";
+                + "JOIN meeting_employee me ON e.id = me.employeeId WHERE me.meetingId = ?";
         return jdbc.query(SELECT_EMPLOYEES_FOR_MEETING, new EmployeeMapper(), meeting.getId());
     }
 

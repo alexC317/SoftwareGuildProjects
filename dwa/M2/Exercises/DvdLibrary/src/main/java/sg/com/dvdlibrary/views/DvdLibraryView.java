@@ -5,10 +5,7 @@
  */
 package sg.com.dvdlibrary.views;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.swing.text.DateFormatter;
 import sg.com.dvdlibrary.dtos.Director;
 import sg.com.dvdlibrary.dtos.Dvd;
 import sg.com.dvdlibrary.services.DirectorNotFoundException;
@@ -46,11 +43,7 @@ public class DvdLibraryView {
     }
 
     public void DisplayDirectors(List<Director> directors) {
-        for (Director director : directors) {
-            io.display("ID: " + director.getId() + " Name: " + director.getName());
-        }
-
-        io.promptString("Press Enter to Continue");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getDirectorId() {
@@ -64,10 +57,10 @@ public class DvdLibraryView {
     public Director editDirector(Director director) {
         io.display("ID: " + director.getId() + " Name" + director.getName());
         String name = io.promptString("What is your new Director Name? ");
-        if (!"".equals(name)) {
+        if(!"".equals(name)){
             director.setName(name);
         }
-
+        
         return director;
     }
 
@@ -77,62 +70,31 @@ public class DvdLibraryView {
     }
 
     public Dvd getNewDvdInfo() {
-
-        Dvd newDvd = new Dvd();
-
-        String title = io.promptString("Enter new Dvd Title");
-        int directorId = io.promptInt("Enter Director Id"); //TODO: change to look up by name
-        String rating = io.promptString("Enter Rating");
-        LocalDate releaseDate = io.promptDate("Enter Release Date");
-
-        newDvd.setDirectorId(directorId);
-        newDvd.setName(title);
-        newDvd.setRating(rating);
-        newDvd.setReleaseDate(releaseDate);
-        return newDvd;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void DisplayError(DirectorNotFoundException ex) {
-        io.display(ex.getMessage());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void displayDvd(Dvd dvd) {
-
-        io.display("Title: " + dvd.getName());
-        //io.display("Director: " + dvd.getDirector().getName());
-        io.display("Rating: " + dvd.getRating());
-        io.display("Release Date:" + dvd.getReleaseDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void DisplayDvds(List<Dvd> ReadAllDvds) {
-        for (Dvd dvd : ReadAllDvds) {
-            displayDvd(dvd);
-        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getDvdId() {
-        return io.promptInt("Enter Dvd Id");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Dvd editDvd(Dvd dvd) {
-        Dvd newDvd = new Dvd();
-
-        String title = io.promptString("Enter new Dvd Title");
-        int directorId = io.promptInt("Enter Director Id"); //TODO: change to look up by name
-        String rating = io.promptString("Enter Rating");
-        LocalDate releaseDate = io.promptDate("Enter Release Date");
-
-        newDvd.setDirectorId(directorId);
-        newDvd.setName(title);
-        newDvd.setRating(rating);
-        newDvd.setReleaseDate(releaseDate);
-        return newDvd;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public boolean deleteDvd(Dvd dvd) {
-        String userInput = io.promptString("Are you sure you want to delete " + dvd.getName());
-        return "y".equalsIgnoreCase(userInput);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
