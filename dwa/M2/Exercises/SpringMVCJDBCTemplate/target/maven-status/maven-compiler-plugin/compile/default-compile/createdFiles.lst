@@ -1,0 +1,5 @@
+com\swcguild\springmvcjdbctemplate\data\ToDoInMemoryDAO.class
+com\swcguild\springmvcjdbctemplate\controllers\ToDoController.class
+com\swcguild\springmvcjdbctemplate\models\ToDo.class
+com\swcguild\springmvcjdbctemplate\App.class
+com\swcguild\springmvcjdbctemplate\data\ToDoDAO.class
