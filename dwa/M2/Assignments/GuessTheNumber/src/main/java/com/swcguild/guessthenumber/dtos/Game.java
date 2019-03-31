@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Game {
 
     private int id;
-    String number;
+    String answer;
     boolean isFinished;
 
     public int getId() {
@@ -25,15 +25,15 @@ public class Game {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public boolean isIsFinished() {
+    public boolean getIsFinished() {
         return isFinished;
     }
 
@@ -45,7 +45,7 @@ public class Game {
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + this.id;
-        hash = 53 * hash + Objects.hashCode(this.number);
+        hash = 53 * hash + Objects.hashCode(this.answer);
         hash = 53 * hash + (this.isFinished ? 1 : 0);
         return hash;
     }
@@ -68,7 +68,7 @@ public class Game {
         if (this.isFinished != other.isFinished) {
             return false;
         }
-        if (!Objects.equals(this.number, other.number)) {
+        if (!Objects.equals(this.answer, other.answer)) {
             return false;
         }
         return true;
