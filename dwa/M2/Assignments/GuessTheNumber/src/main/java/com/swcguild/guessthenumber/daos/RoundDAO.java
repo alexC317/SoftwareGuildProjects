@@ -20,5 +20,7 @@ public interface RoundDAO {
 
     public Round readByID(int id);
 
+    public List<Round> readByGameID(int id);
+
     public boolean delete(int id);
 }

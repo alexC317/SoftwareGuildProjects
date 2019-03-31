@@ -49,12 +49,12 @@ public class GameDAOJDBCImplTest {
     public void setUp() {
         List<Game> games = gameDAO.readAll();
         for (Game game : games) {
-            gameDAO.delete(game.getId());
+            gameDAO.delete(game.getID());
         }
 
         List<Round> rounds = roundDAO.readAll();
         for (Round round : rounds) {
-            roundDAO.delete(round.getGameID());
+            roundDAO.delete(round.getID());
         }
     }
 
@@ -66,13 +66,13 @@ public class GameDAOJDBCImplTest {
      * Test of create method, of class GameDAOJDBCImpl.
      */
     @Test
-    public void testCreateGetGame() {
+    public void testCreateReadByID() {
         Game game = new Game();
         game.setAnswer("1234");
         game.setIsFinished(false);
         gameDAO.create(game);
 
-        Game fromDAO = gameDAO.readByID(game.getId());
+        Game fromDAO = gameDAO.readByID(game.getID());
 
         assertEquals(game, fromDAO);
     }
@@ -82,13 +82,21 @@ public class GameDAOJDBCImplTest {
      */
     @Test
     public void testReadAll() {
-    }
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+        gameDAO.create(game);
 
-    /**
-     * Test of readByID method, of class GameDAOJDBCImpl.
-     */
-    @Test
-    public void testReadByID() {
+        Game game2 = new Game();
+        game2.setAnswer("5678");
+        game2.setIsFinished(false);
+        gameDAO.create(game2);
+
+        List<Game> games = gameDAO.readAll();
+
+        assertEquals(2, games.size());
+        assertTrue(games.contains(game));
+        assertTrue(games.contains(game2));
     }
 
     /**
@@ -96,6 +104,25 @@ public class GameDAOJDBCImplTest {
      */
     @Test
     public void testUpdate() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+        gameDAO.create(game);
+
+        Game fromDAO = gameDAO.readByID(game.getID());
+
+        assertEquals(game, fromDAO);
+
+        game.setIsFinished(true);
+
+        gameDAO.update(game);
+
+        assertNotEquals(game, fromDAO);
+
+        fromDAO = gameDAO.readByID(game.getID());
+
+        assertEquals(game, fromDAO);
+
     }
 
     /**
@@ -103,6 +130,16 @@ public class GameDAOJDBCImplTest {
      */
     @Test
     public void testDelete() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+        gameDAO.create(game);
+
+        gameDAO.delete(game.getID());
+        
+        Game fromDAO = gameDAO.readByID(game.getID());
+
+        assertNull(fromDAO);
     }
 
 }

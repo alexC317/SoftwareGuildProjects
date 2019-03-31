@@ -13,8 +13,9 @@ CREATE TABLE Rounds(
 	roundID INT PRIMARY KEY AUTO_INCREMENT,
     gameID INT NOT NULL,
     guess VARCHAR(4) NOT NULL,
+    guessTime TIMESTAMP NOT NULL,
     result VARCHAR(7) NOT NULL,
-    FOREIGN KEY (gameID) REFERENCES Game(gameID)
+    FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );
     
     

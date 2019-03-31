@@ -5,6 +5,7 @@
  */
 package com.swcguild.guessthenumber.dtos;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -14,24 +15,33 @@ import java.util.Objects;
 public class Round {
 
     private int id;
-    private int gameID;
+    private Game game;
+    private LocalDateTime guessTime;
     private String guess;
     private String result;
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setID(int id) {
         this.id = id;
     }
 
-    public int getGameID() {
-        return gameID;
+    public Game getGame() {
+        return game;
     }
 
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public LocalDateTime getGuessTime() {
+        return guessTime;
+    }
+
+    public void setGuessTime(LocalDateTime guessTime) {
+        this.guessTime = guessTime;
     }
 
     public String getGuess() {
@@ -52,11 +62,12 @@ public class Round {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + this.id;
-        hash = 67 * hash + this.gameID;
-        hash = 67 * hash + Objects.hashCode(this.guess);
-        hash = 67 * hash + Objects.hashCode(this.result);
+        int hash = 3;
+        hash = 37 * hash + this.id;
+        hash = 37 * hash + Objects.hashCode(this.game);
+        hash = 37 * hash + Objects.hashCode(this.guessTime);
+        hash = 37 * hash + Objects.hashCode(this.guess);
+        hash = 37 * hash + Objects.hashCode(this.result);
         return hash;
     }
 
@@ -75,13 +86,16 @@ public class Round {
         if (this.id != other.id) {
             return false;
         }
-        if (this.gameID != other.gameID) {
-            return false;
-        }
         if (!Objects.equals(this.guess, other.guess)) {
             return false;
         }
         if (!Objects.equals(this.result, other.result)) {
+            return false;
+        }
+        if (!Objects.equals(this.game, other.game)) {
+            return false;
+        }
+        if (!Objects.equals(this.guessTime, other.guessTime)) {
             return false;
         }
         return true;
