@@ -63,7 +63,7 @@ public class GameDAOJDBCImplTest {
     }
 
     /**
-     * Test of create method, of class GameDAOJDBCImpl.
+     * Test of create and readBy ID methods, of class GameDAOJDBCImpl.
      */
     @Test
     public void testCreateReadByID() {
@@ -75,6 +75,19 @@ public class GameDAOJDBCImplTest {
         Game fromDAO = gameDAO.readByID(game.getID());
 
         assertEquals(game, fromDAO);
+    }
+
+    /**
+     * Test of readByID when no Game exists.
+     */
+    @Test
+    public void testReadByIDNoGame() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+
+        Game fromDAO = gameDAO.readByID(game.getID());
+        assertNull(fromDAO);
     }
 
     /**
@@ -97,6 +110,15 @@ public class GameDAOJDBCImplTest {
         assertEquals(2, games.size());
         assertTrue(games.contains(game));
         assertTrue(games.contains(game2));
+    }
+
+    /**
+     * Test of readAll method when no Games exist.
+     */
+    @Test
+    public void testReadAllNoGame() {
+        List<Game> games = gameDAO.readAll();
+        assertEquals(0, games.size());
     }
 
     /**
@@ -136,7 +158,7 @@ public class GameDAOJDBCImplTest {
         gameDAO.create(game);
 
         gameDAO.delete(game.getID());
-        
+
         Game fromDAO = gameDAO.readByID(game.getID());
 
         assertNull(fromDAO);

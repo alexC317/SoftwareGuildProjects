@@ -65,7 +65,7 @@ public class RoundDAOJDBCImplTest {
     }
 
     /**
-     * Test of create method, of class RoundDAOJDBCImpl.
+     * Test of create and readByID methods, of class RoundDAOJDBCImpl.
      */
     @Test
     public void testCreateReadByID() {
@@ -84,6 +84,48 @@ public class RoundDAOJDBCImplTest {
         Round fromDAO = roundDAO.readByID(round.getID());
 
         assertEquals(round, fromDAO);
+    }
+
+    /**
+     * Test of readByID when no Round exists.
+     */
+    @Test
+    public void testReadByIDNoRound() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+        gameDAO.create(game);
+
+        Round round = new Round();
+        round.setGame(game);
+        round.setGuess("1234");
+        round.setGuessTime(LocalDateTime.now().withNano(0));
+        round.setResult("e:4:p:0");
+
+        Round fromDAO = roundDAO.readByID(round.getID());
+
+        assertNull(fromDAO);
+    }
+
+    /**
+     * Test of readByID when no Game exists.
+     */
+    @Test
+    public void testReadByIDNoGame() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+
+        Round round = new Round();
+        round.setGame(game);
+        round.setGuess("1234");
+        round.setGuessTime(LocalDateTime.now().withNano(0));
+        round.setResult("e:4:p:0");
+        roundDAO.create(round);
+
+        Round fromDAO = roundDAO.readByID(round.getID());
+
+        assertNull(fromDAO);
     }
 
     /**
@@ -115,6 +157,65 @@ public class RoundDAOJDBCImplTest {
         assertEquals(2, rounds.size());
         assertTrue(rounds.contains(round));
         assertTrue(rounds.contains(round2));
+    }
+
+    /**
+     * Test of readAll method when no Rounds exist.
+     */
+    @Test
+    public void testReadAllNoRounds() {
+        Game game = new Game();
+        game.setAnswer(("1234"));
+        game.setIsFinished(false);
+        gameDAO.create(game);
+
+        Round round = new Round();
+        round.setGame(game);
+        round.setGuess("1234");
+        round.setGuessTime(LocalDateTime.now().withNano(0));
+        round.setResult("e:4:p:0");
+
+        Round round2 = new Round();
+        round2.setGame(game);
+        round2.setGuess("5678");
+        round2.setGuessTime(LocalDateTime.now().withNano(0));
+        round2.setResult("e:0:p:0");
+
+        List<Round> rounds = roundDAO.readAll();
+
+        assertEquals(0, rounds.size());
+        assertFalse(rounds.contains(round));
+        assertFalse(rounds.contains(round2));
+    }
+
+    /**
+     * Test of readAll method when no Rounds exist.
+     */
+    @Test
+    public void testReadAllNoGames() {
+        Game game = new Game();
+        game.setAnswer(("1234"));
+        game.setIsFinished(false);
+
+        Round round = new Round();
+        round.setGame(game);
+        round.setGuess("1234");
+        round.setGuessTime(LocalDateTime.now().withNano(0));
+        round.setResult("e:4:p:0");
+        roundDAO.create(round);
+
+        Round round2 = new Round();
+        round2.setGame(game);
+        round2.setGuess("5678");
+        round2.setGuessTime(LocalDateTime.now().withNano(0));
+        round2.setResult("e:0:p:0");
+        roundDAO.create(round2);
+
+        List<Round> rounds = roundDAO.readAll();
+
+        assertEquals(0, rounds.size());
+        assertFalse(rounds.contains(round));
+        assertFalse(rounds.contains(round2));
     }
 
     /**
@@ -161,7 +262,35 @@ public class RoundDAOJDBCImplTest {
         List<Round> roundsGame2 = roundDAO.readByGameID(game2.getID());
         assertEquals(1, roundsGame2.size());
         assertTrue(roundsGame2.contains(round3));
+    }
 
+    /**
+     * Test of readByGameID method when no Games exist.
+     */
+    @Test
+    public void testReadByGameIDNoGames() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+
+        Round round = new Round();
+        round.setGame(game);
+        round.setGuess("1234");
+        round.setGuessTime(LocalDateTime.now().withNano(0));
+        round.setResult("e:4:p:0");
+        roundDAO.create(round);
+
+        Round round2 = new Round();
+        round2.setGame(game);
+        round2.setGuess("5678");
+        round2.setGuessTime(LocalDateTime.now().withNano(0));
+        round2.setResult("e:0:p:0");
+        roundDAO.create(round2);
+
+        List<Round> roundsGame1 = roundDAO.readByGameID(game.getID());
+        assertEquals(0, roundsGame1.size());
+        assertFalse(roundsGame1.contains(round));
+        assertFalse(roundsGame1.contains(round2));
     }
 
     /**

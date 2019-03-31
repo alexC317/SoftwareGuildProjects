@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -35,10 +36,15 @@ public class RoundDAOJDBCImpl implements RoundDAO {
     @Override
     @Transactional
     public Round create(Round round) {
-        jdbc.update(INSERT_ROUND, round.getGame().getID(), round.getGuess(), round.getGuessTime(), round.getResult());
-        int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        round.setID(newID);
-        return round;
+        try {
+            jdbc.update(INSERT_ROUND, round.getGame().getID(), round.getGuess(), round.getGuessTime(), round.getResult());
+            int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+            round.setID(newID);
+            return round;
+        } catch (DataIntegrityViolationException ex) {
+            return null;
+        }
+
     }
 
     @Override
