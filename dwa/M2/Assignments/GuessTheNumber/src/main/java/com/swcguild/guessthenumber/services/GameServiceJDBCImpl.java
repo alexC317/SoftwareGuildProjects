@@ -37,8 +37,8 @@ public class GameServiceJDBCImpl implements GameService {
     @Override
     public Round checkGuess(String guess, int gameID) {
         Game game = gameDAO.readByID(gameID);
-        
-        if(game == null){
+
+        if (game == null) {
             return null;
         }
 
@@ -106,6 +106,11 @@ public class GameServiceJDBCImpl implements GameService {
         int exactMatches = 0;
         int partialMatches = 0;
         String finalResult;
+
+        if (guess.length() != 4) {
+            finalResult = "e:" + exactMatches + ":p:" + partialMatches;
+            return finalResult;
+        }
 
         for (int i = 0; i < 4; i++) {
             if (guess.charAt(i) == answer.charAt(i)) {

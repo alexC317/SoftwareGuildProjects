@@ -127,6 +127,20 @@ public class GameServiceJDBCImplTest {
     }
 
     /**
+     * Test of checkGuess method when there are no games, of class
+     * GameServiceJDBCImpl.
+     */
+    @Test
+    public void testCheckGuessBadInput() {
+        Game game = new Game();
+        game.setAnswer("1234");
+        game.setIsFinished(false);
+
+        Round round = gameService.checkGuess("12345", game.getID());
+        assertNull(round);
+    }
+
+    /**
      * Test of getAllGames method, of class GameServiceJDBCImpl.
      */
     @Test
