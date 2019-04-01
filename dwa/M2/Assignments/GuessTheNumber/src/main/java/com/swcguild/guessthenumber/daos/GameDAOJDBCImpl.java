@@ -22,7 +22,7 @@ public class GameDAOJDBCImpl implements GameDAO {
     @Autowired
     private JdbcTemplate jdbc;
 
-    private final String INSERT_GAME = "INSERT INTO games(answer, isFinished) VALUES (?, false)";
+    private final String INSERT_GAME = "INSERT INTO games(answer, isFinished) VALUES (?, ?)";
     private final String SELECT_ALL_GAMES = "SELECT gameID, answer, isFinished FROM games";
     private final String SELECT_GAME_BY_ID = "SELECT gameID, answer, isFinished FROM games WHERE gameID = ?";
     private final String UPDATE_GAME = "UPDATE games SET isFinished = ? WHERE gameID = ?";
@@ -32,7 +32,7 @@ public class GameDAOJDBCImpl implements GameDAO {
     @Override
     @Transactional
     public Game create(Game game) {
-        jdbc.update(INSERT_GAME, game.getAnswer());
+        jdbc.update(INSERT_GAME, game.getAnswer(), game.getIsFinished());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         game.setID(newID);
         return game;

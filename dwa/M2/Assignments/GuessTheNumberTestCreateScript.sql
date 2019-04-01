@@ -12,10 +12,12 @@ CREATE TABLE Games(
 CREATE TABLE Rounds(
 	roundID INT PRIMARY KEY AUTO_INCREMENT,
 	gameID INT NOT NULL,
-    guessTime TIMESTAMP NOT NULL,
     guess VARCHAR(4) NOT NULL,
+	guessTime TIMESTAMP NOT NULL,
     result VARCHAR(7) NOT NULL,
     FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );
+
+select * from games;
     
     
