@@ -18,4 +18,3 @@ CREATE TABLE Rounds(
     FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );
     
-    
