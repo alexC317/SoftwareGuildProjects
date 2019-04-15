@@ -1,0 +1,16 @@
+.vendingItem {
+    padding: 25px;
+    margin: 10px;
+  }
+
+  .form-control {
+    margin: 10px;
+  }
+
+  .btn {
+    margin: 10px;
+  }
+
+  button {
+    margin: auto;
+  }
