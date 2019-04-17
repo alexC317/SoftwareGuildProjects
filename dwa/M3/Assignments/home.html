@@ -41,11 +41,11 @@
       <div class="column-lg">
         <label for="balanceInput" class="text-center">Total $ In</label>
         <input type="text" class="form-control" id="balanceInput" readonly>
-        <button type="button" class="btn balanceButton" data-buttonID="dollar">Add Dollar</button>
-        <button type="button" class="btn balanceButton" data-buttonID="quarter">Add Quarter</button>
+        <button type="button" class="btn balanceButton" data-balanceID="100">Add Dollar</button>
+        <button type="button" class="btn balanceButton" data-balanceID="25">Add Quarter</button>
         <br>
-        <button type="button" class="btn balanceButton" data-buttonID="dime">Add Dime</button>
-        <button type="button" class="btn balanceButton" data-buttonID="nickel">Add Nickel</button>
+        <button type="button" class="btn balanceButton" data-balanceID="10">Add Dime</button>
+        <button type="button" class="btn balanceButton" data-balanceID="5">Add Nickel</button>
         <hr>
       </div>
     </div>
@@ -75,7 +75,7 @@
         <label for="messageOutput">Messages</label>
         <input type="text" class="form-control" id="messageOutput" readonly>
         <label for="">Item: </label>
-        <input type="number" id="itemQuantity" readonly>
+        <input type="number" id="purchaseItem" readonly>
         <br>
         <button type="button" class="btn purchaseButton" id="purchaseButton">Make Purchase</button>
         <hr>
