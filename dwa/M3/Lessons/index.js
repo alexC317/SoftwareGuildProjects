@@ -2,16 +2,19 @@ function DataService() {
     var self = this;
     var myData = [{ 'id': 1, 'name': 'Alex' }, { 'id': 2, 'name': 'Jason' }];
     //Create - POST
+    
     //ReadAll - GET
     self.readAll = function (callback, errorFunc) {
-        //setTimeout(function () { callback(myData) }, 3000);
+        setTimeout(function () { callback(myData) }, 3000);
         setTimeout(function () { errorFunc("some message") }, 3000);
     }
+    
     //ReadByID - GET
     self.readByID = function (characterID, callback, errorFunc) {
-        //setTimeout(function () { callback(myData) }, 3000);
+        setTimeout(function () { callback(myData) }, 3000);
         setTimeout(function () { errorFunc("some message") }, 3000);
     }
+    
     //Update - PUT
     //Delete - DELETE
 }

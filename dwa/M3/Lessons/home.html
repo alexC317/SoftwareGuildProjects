@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Vending Machine</title>
+  <!-- Bootstrap CDN copied from https://getbootstrap.com/docs/4.1/getting-started/introduction/ -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="CSS/style.css">
+</head>
+
+<header>
+  <h1 class="text-center">Vending Machine</h1>
+</header>
+
+<body>
+  <div class="container">
+
+    <hr>
+
+    <div class="row">
+      <div class="column-lg border border-primary vendingItem" data-itemID="1">
+        <p class="text-left">1</p>
+        <p class="text-center">Snickers</p>
+        <p class="text-center">$1.85</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="2">
+        <p class="text-left">2</p>
+        <p class="text-center">M & Ms</p>
+        <p class="text-center">$1.50</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="3">
+        <p class="text-left">3</p>
+        <p class="text-center">Pringles</p>
+        <p class="text-center">$2.10</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg">
+        <label for="balanceInput" class="text-center">Total $ In</label>
+        <input type="text" class="form-control" id="balanceInput" readonly>
+        <button type="button" class="btn balanceButton" data-balanceID="100">Add Dollar</button>
+        <button type="button" class="btn balanceButton" data-balanceID="25">Add Quarter</button>
+        <br>
+        <button type="button" class="btn balanceButton" data-balanceID="10">Add Dime</button>
+        <button type="button" class="btn balanceButton" data-balanceID="5">Add Nickel</button>
+        <hr>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="column-lg border border-primary vendingItem" data-itemID="4">
+        <p class="text-left">4</p>
+        <p class="text-center">Reese's</p>
+        <p class="text-center">$1.85</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="5">
+        <p class="text-left">5</p>
+        <p class="text-center">Pretzels</p>
+        <p class="text-center">$1.25</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="6">
+        <p class="text-left">6</p>
+        <p class="text-center">Twinkies</p>
+        <p class="text-center">$1.95</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg">
+        <label for="messageOutput">Messages</label>
+        <input type="text" class="form-control" id="messageOutput" readonly>
+        <label for="">Item: </label>
+        <input type="number" id="purchaseItem" readonly>
+        <br>
+        <button type="button" class="btn purchaseButton" id="purchaseButton">Make Purchase</button>
+        <hr>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="column-lg border border-primary vendingItem" data-itemID="7">
+        <p class="text-left">7</p>
+        <p class="text-center">Doritos</p>
+        <p class="text-center">$1.75</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="8">
+        <p class="text-left">8</p>
+        <p class="text-center">Almond Joy</p>
+        <p class="text-center">$1.85</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg border border-primary vendingItem" data-itemID="9">
+        <p class="text-left">9</p>
+        <p class="text-center">Trident</p>
+        <p class="text-center">$1.95</p>
+        <p class="text-center">Quantity Left: </p>
+      </div>
+      <div class="column-lg">
+        <label for="changeOutput">Change</label>
+        <input type="text" class="form-control" id="changeOutput" readOnly>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- CDN links copied from https://getbootstrap.com/docs/4.1/getting-started/introduction/ -->
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <script src="js/dataservice.js"></script>
+  <script src="js/home.js"></script>
+</body>
+
+</html>
