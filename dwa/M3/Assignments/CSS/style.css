@@ -1,6 +1,9 @@
 .vendingItem {
-    padding: 25px;
+    /*padding: 25px;
     margin: 10px;
+    height: 120px;*/
+    border: 1px solid black;
+    
   }
 
   .form-control {

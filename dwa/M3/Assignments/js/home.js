@@ -1,12 +1,13 @@
 var runningTotal = 0;
+var itemID = 0;
 var ds = new DataService();
 
 function onItemClick(e) {
     e.preventDefault();
 
     var item = $(this);
-    var itemID = item.data("itemid");
-    $("#purchaseItem").val(itemID);
+    itemID = item.data("itemid");
+    $("#itemIDOutput").val(itemID);
 };
 
 function onBalanceClick(e) {
@@ -15,34 +16,68 @@ function onBalanceClick(e) {
     var balance = $(this);
     var balanceAmt = balance.data("balanceid");
     runningTotal = runningTotal + balanceAmt;
-
-    $("#balanceInput").val((runningTotal / 100).toFixed(2));
+    $("#balanceOutput").val((runningTotal / 100).toFixed(2));
 }
 
 function onPurchaseClick(e) {
     e.preventDefault();
 
-    //Ajax call here probably
+    ds.getItemByID(itemID, (runningTotal / 100), onGetItemByIDSuccess, logError);
+    $("#balanceOutput").val(runningTotal.toFixed(2));
+}
+
+function onChangeClick(e) {
+    e.preventDefault();
     runningTotal = 0;
-    $("#balanceInput").val(runningTotal.toFixed(2));
+    resetForms();
+    ds.getAllItems(onGetAllItemsSuccess, logError);
 }
 
 
-function onGetAllItemsSuccess(reponse) {
+function onGetAllItemsSuccess(response) {
+    $("#items").empty();
+    for (var i = 0; i < response.length; i++) {
+        var itemFormat =
+            `<div class="vendingItem col-md-4" data-itemID="${response[i].id}">
+            <p class="text-left">${response[i].id}</p>
+            <p class="text-center">${response[i].name}</p>
+            <p class="text-center">$${response[i].price}</p>
+            <p class="text-center">Quantity Left: ${response[i].quantity}</p>
+        </div>`;
 
+        $("#items").append(itemFormat);
+    }
+}
+
+function onGetItemByIDSuccess(response) {
+    $("#messageOutput").val("Thank You!!!");
+    $("#changeOutput").val(
+        "Quarters: " + response.quarters +
+        " Dimes: " + response.dimes +
+        " Nickels: " + response.nickels
+    );
 }
 
 function logError(err) {
-    console.log(err);
+    $("#messageOutput").val(err.responseJSON.message);
 }
 
+function resetForms() {
+    $("#balanceOutput").val("");
+    $("#messageOutput").val("");
+    $("#itemIDOutput").val("");
+    $("#changeOutput").val("");
+}
 
 $(document).ready(function () {
-    //alert("All wired up!");
+    runningTotal = 0;
+    itemID = 0;
 
-    ds.getAllItems(onGetAllItemsSuccess);
+    resetForms();
+    ds.getAllItems(onGetAllItemsSuccess, logError);
 
     $(document).on("click", ".vendingItem", onItemClick);
     $(document).on("click", ".balanceButton", onBalanceClick);
     $(document).on("click", ".purchaseButton", onPurchaseClick);
+    $(document).on("click", "#changeButton", onChangeClick);
 });
