@@ -23,12 +23,14 @@ function onPurchaseClick(e) {
     e.preventDefault();
 
     ds.getItemByID(itemID, (runningTotal / 100), onGetItemByIDSuccess, logError);
-    $("#balanceOutput").val(runningTotal.toFixed(2));
+    $("#balanceOutput").val((runningTotal / 100).toFixed(2));
 }
 
 function onChangeClick(e) {
     e.preventDefault();
+
     runningTotal = 0;
+    itemID = 0;
     resetForms();
     ds.getAllItems(onGetAllItemsSuccess, logError);
 }
@@ -60,6 +62,7 @@ function onGetItemByIDSuccess(response) {
 
 function logError(err) {
     $("#messageOutput").val(err.responseJSON.message);
+    calculateChange(runningTotal);
 }
 
 function resetForms() {
@@ -67,6 +70,23 @@ function resetForms() {
     $("#messageOutput").val("");
     $("#itemIDOutput").val("");
     $("#changeOutput").val("");
+}
+
+function calculateChange(runningTotal) {
+    var quarters = Math.floor(runningTotal / 25);
+    runningTotal = runningTotal - (quarters * 25);
+
+    var dimes = Math.floor(runningTotal / 10);
+    runningTotal = runningTotal - (dimes * 10);
+
+    var nickels = Math.floor(runningTotal / 5);
+    runningTotal = runningTotal - (nickels * 5);
+
+    $("#changeOutput").val(
+        "Quarters: " + quarters +
+        " Dimes: " + dimes +
+        " Nickels: " + nickels
+    );
 }
 
 $(document).ready(function () {
