@@ -17,7 +17,5 @@ CREATE TABLE Rounds(
     result VARCHAR(7) NOT NULL,
     FOREIGN KEY (gameID) REFERENCES Games(gameID)
 );
-
-select * from games;
     
     
