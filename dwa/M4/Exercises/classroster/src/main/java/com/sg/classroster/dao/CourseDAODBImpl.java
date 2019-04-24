@@ -7,9 +7,9 @@ package com.sg.classroster.dao;
 
 import com.sg.classroster.dao.StudentDAODBImpl.StudentMapper;
 import com.sg.classroster.dao.TeacherDAODBImpl.TeacherMapper;
-import com.sg.classroster.dto.Course;
-import com.sg.classroster.dto.Student;
-import com.sg.classroster.dto.Teacher;
+import com.sg.classroster.entities.Course;
+import com.sg.classroster.entities.Student;
+import com.sg.classroster.entities.Teacher;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -113,7 +113,7 @@ public class CourseDAODBImpl implements CourseDAO {
     public void deleteCourseById(int id) {
         final String DELETE_COURSE_STUDENT = "DELETE FROM course_student WHERE courseId = ?";
         jdbc.update(DELETE_COURSE_STUDENT, id);
-
+        
         final String DELETE_COURSE = "DELETE FROM course WHERE id = ?";
         jdbc.update(DELETE_COURSE, id);
     }

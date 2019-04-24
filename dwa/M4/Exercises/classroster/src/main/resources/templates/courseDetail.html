@@ -30,42 +30,35 @@
                 </div>
             </div>
             <div class="row m-4 border border-dark">
-                <div class="col-3 text-center m-3">
-                    <span class="h3">Edit Teacher</span>
+                <div class="col-6 text-right"><strong>ID</strong></div>
+                <div class="col-6 text-left">
+                    <span th:text="${course.id}">display id</span>
                 </div>
-                <div class="col-7 text-center m-3">
-                    <form action="editTeacher" method="POST">
-                        <div class="form-group row">
-                            <label for="firstName" class="col-3 col-form-label">
-                                First Name</label>
-                            <div class="col-9">
-                                <input type="text" name="firstName" id="firstName" 
-                                       class="form-control" th:value="${teacher.firstName}"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="lastName" class="col-3 col-form-label">
-                                Last Name</label>
-                            <div class="col-9">
-                                <input type="text" name="lastName" id="lastName" 
-                                       class="form-control"  th:value="${teacher.lastName}"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="specialty" class="col-3 col-form-label">
-                                Specialty</label>
-                            <div class="col-9">
-                                <input type="text" name="specialty" id="specialty" 
-                                       class="form-control" th:value="${teacher.specialty}">
-                            </div>
-                        </div>
-                        <input type="hidden" name="id" th:value="${teacher.id}"/>
-                        <button type="submit" class="btn btn-primary">
-                            Update Teacher</button>
-                    </form>
+
+                <div class="col-6 text-right"><strong>Name</strong></div>
+                <div class="col-6 text-left">
+                    <span th:text="${course.name}">display name</span>
+                </div>
+
+                <div class="col-6 text-right"><strong>Description</strong></div>
+                <div class="col-6 text-left">
+                    <span th:text="${course.description}">display description</span>
+                </div>
+                <div class="col-6 text-right"><strong>Teacher</strong></div>
+                <div class="col-6 text-left">
+                    <span th:text="${course.teacher.firstName + ' ' + 
+                          course.teacher.lastName + ' - ' + 
+                          course.teacher.specialty}">display teacher</span>
+                </div>
+                <div class="col-6 text-right"><strong>Students</strong></div>
+                <div class="col-6 text-left">
+                    <span th:each="student : ${course.students}">
+                        <span th:text="${student.firstName + ' ' + student.lastName}">
+                            display student</span><br/>
+                    </span>
                 </div>
             </div>
-        </div> 
+        </div>
         <!-- End main body -->
 
         <!-- Optional JavaScript -->

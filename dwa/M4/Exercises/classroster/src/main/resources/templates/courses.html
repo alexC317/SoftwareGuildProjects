@@ -31,35 +31,54 @@
             </div>
             <div class="row m-4 border border-dark">
                 <div class="col-3 text-center m-3">
-                    <span class="h3">Add Teacher</span>
+                    <span class="h3">Add Course</span>
                 </div>
                 <div class="col-7 text-center m-3">
-                    <form action="addTeacher" method="POST">
+                    <form action="addCourse" method="POST">
                         <div class="form-group row">
-                            <label for="firstName" class="col-3 col-form-label">
-                                First Name</label>
+                            <label for="name" class="col-3 col-form-label">
+                                Name</label>
                             <div class="col-9">
-                                <input type="text" name="firstName" 
-                                       id="firstName" class="form-control"/>
+                                <input type="text" name="name" 
+                                       id="name" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="lastName" class="col-3 col-form-label">
-                                Last Name</label>
+                            <label for="description" class="col-3 col-form-label">
+                                Description</label>
                             <div class="col-9">
-                                <input type="text" name="lastName" 
-                                       id="lastName" class="form-control"/>
+                                <input type="text" name="description" 
+                                       id="description" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="specialty" class="col-3 col-form-label">
-                                Specialty</label>
+                            <label for="teacher" class="col-3 col-form-label">
+                                Teacher</label>
                             <div class="col-9">
-                                <input type="text" name="specialty" 
-                                       id="specialty" class="form-control"/>
+                                <select id="teacher" name="teacherId" class="form-control" >
+                                    <option th:each="teacher : ${teachers}" 
+                                            th:value="${teacher.id}" 
+                                            th:text="${teacher.firstName + ' ' 
+                                            + teacher.lastName}">
+                                        Teacher Name</option>
+                                </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Teacher</button>
+                        <div class="form-group row">
+                            <label for="students" class="col-3 col-form-label">
+                                Students</label>
+                            <div class="col-9">
+                                <select multiple id="students" name="studentId" 
+                                        class="form-control" >
+                                    <option th:each="student : ${students}" 
+                                            th:value="${student.id}" 
+                                            th:text="${student.firstName + ' ' 
+                                            + student.lastName}">
+                                        Student Name</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Course</button>
                     </form>
                 </div>
             </div>
@@ -69,27 +88,28 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Specialty</th>
+                                <th>Name</th>
+                                <th>Teacher</th>
+                                <th>Details</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="teacher : ${teachers}">
-                                <td th:text="${teacher.id}">Teacher ID</td>
-                                <td th:text="${teacher.firstName}">Teacher First Name</td>
-                                <td th:text="${teacher.lastName}">Teacher Last Name</td>
-                                <td th:text="${teacher.specialty}">Teacher Specialty</td>
-                                <td><a href="#" th:href="@{/editTeacher(id=${teacher.id})}">Edit</a></td>
-                                <td><a href="#" th:href="@{/deleteTeacher(id=${teacher.id})}">Delete</a></td>
+                            <tr th:each="course : ${courses}">
+                                <td th:text="${course.id}">Course ID</td>
+                                <td th:text='${course.name}'>Course Name</td>
+                                <td th:text="${course.teacher.firstName + ' ' 
+                                    + course.teacher.lastName}">Teacher Name</td>
+                                <td><a href="#" th:href="@{/courseDetail(id=${course.id})}">Details</a></td>
+                                <td><a href="#" th:href="@{/editCourse(id=${course.id})}">Edit</a></td>
+                                <td><a href="#" th:href="@{/deleteCourse(id=${course.id})}">Delete</a></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div> 
+        </div>
         <!-- End main body -->
 
         <!-- Optional JavaScript -->

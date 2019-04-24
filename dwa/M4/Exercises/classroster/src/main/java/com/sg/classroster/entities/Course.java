@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classroster.dto;
+package com.sg.classroster.entities;
 
 import java.util.List;
 import java.util.Objects;
@@ -63,11 +63,11 @@ public class Course {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 89 * hash + this.id;
-        hash = 89 * hash + Objects.hashCode(this.name);
-        hash = 89 * hash + Objects.hashCode(this.description);
-        hash = 89 * hash + Objects.hashCode(this.teacher);
-        hash = 89 * hash + Objects.hashCode(this.students);
+        hash = 97 * hash + this.id;
+        hash = 97 * hash + Objects.hashCode(this.name);
+        hash = 97 * hash + Objects.hashCode(this.description);
+        hash = 97 * hash + Objects.hashCode(this.teacher);
+        hash = 97 * hash + Objects.hashCode(this.students);
         return hash;
     }
 

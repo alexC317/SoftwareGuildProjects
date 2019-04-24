@@ -5,7 +5,7 @@
  */
 package com.sg.classroster.dao;
 
-import com.sg.classroster.dto.Teacher;
+import com.sg.classroster.entities.Teacher;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

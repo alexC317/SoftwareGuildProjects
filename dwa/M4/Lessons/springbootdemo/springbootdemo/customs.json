@@ -1,0 +1,14 @@
+{
+    "elements": {},
+    "attributes": {
+        "th:text": {
+            "context": "span"
+        },
+        "th:if": {
+            "context": "p"
+        },
+        "th:each": {
+            "context": "p"
+        }
+    }
+}

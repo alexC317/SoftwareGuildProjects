@@ -5,9 +5,9 @@
  */
 package com.sg.classroster.dao;
 
-import com.sg.classroster.dto.Course;
-import com.sg.classroster.dto.Student;
-import com.sg.classroster.dto.Teacher;
+import com.sg.classroster.entities.Course;
+import com.sg.classroster.entities.Student;
+import com.sg.classroster.entities.Teacher;
 import java.util.List;
 
 /**

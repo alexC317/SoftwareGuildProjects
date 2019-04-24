@@ -8,7 +8,7 @@ package com.sg.classroster.controller;
 import com.sg.classroster.dao.CourseDAO;
 import com.sg.classroster.dao.StudentDAO;
 import com.sg.classroster.dao.TeacherDAO;
-import com.sg.classroster.dto.Teacher;
+import com.sg.classroster.entities.Teacher;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TeacherController {
 
     @Autowired
-    TeacherDAO teacherDao;
+    TeacherDAO teacherDAO;
 
     @Autowired
-    StudentDAO studentDao;
+    StudentDAO studentDAO;
 
     @Autowired
-    CourseDAO courseDao;
+    CourseDAO courseDAO;
 
     @GetMapping("teachers")
     public String displayTeachers(Model model) {
-        List<Teacher> teachers = teacherDao.getAllTeachers();
+        List<Teacher> teachers = teacherDAO.getAllTeachers();
         model.addAttribute("teachers", teachers);
         return "teachers";
     }
@@ -51,7 +51,7 @@ public class TeacherController {
         teacher.setLastName(lastName);
         teacher.setSpecialty(specialty);
 
-        teacherDao.addTeacher(teacher);
+        teacherDAO.addTeacher(teacher);
 
         return "redirect:/teachers";
     }
@@ -59,7 +59,7 @@ public class TeacherController {
     @GetMapping("deleteTeacher")
     public String deleteTeacher(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        teacherDao.deleteTeacherById(id);
+        teacherDAO.deleteTeacherById(id);
 
         return "redirect:/teachers";
     }
@@ -67,23 +67,9 @@ public class TeacherController {
     @GetMapping("editTeacher")
     public String editTeacher(HttpServletRequest request, Model model) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Teacher teacher = teacherDao.getTeacherById(id);
+        Teacher teacher = teacherDAO.getTeacherById(id);
 
         model.addAttribute("teacher", teacher);
         return "editTeacher";
-    }
-    
-    @PostMapping("editTeacher")
-    public String performEditTeacher(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Teacher teacher = teacherDao.getTeacherById(id);
-        
-        teacher.setFirstName(request.getParameter("firstName"));
-        teacher.setLastName(request.getParameter("lastName"));
-        teacher.setSpecialty(request.getParameter("specialty"));
-        
-        teacherDao.updateTeacher(teacher);
-        
-        return "redirect:/teachers";
     }
 }
