@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Location {
 
     private int locationID;
+    private String locationName;
     private String locationDescription;
     private String locationAddress;
     private String locationLongitude;
@@ -25,6 +26,14 @@ public class Location {
 
     public void setLocationID(int locationID) {
         this.locationID = locationID;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 
     public String getLocationDescription() {
