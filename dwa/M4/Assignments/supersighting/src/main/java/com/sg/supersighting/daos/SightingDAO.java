@@ -5,9 +5,7 @@
  */
 package com.sg.supersighting.daos;
 
-import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Sighting;
-import com.sg.supersighting.dtos.Super;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,20 +22,15 @@ public interface SightingDAO {
     public List<Sighting> getAllSightings();
 
     //Read By ID
-    public Sighting getSightingByID(int ID);
+    public Sighting getSightingByID(int sightingID);
 
     //Update
     public void updateSighting(Sighting sighting);
 
     //Delete
-    public void deleteSighting(int ID);
+    public void deleteSighting(int sightingID);
 
     //Returns a List of Sightings for a specific Date
     public List<Sighting> getSightingsByDate(LocalDate date);
 
-    //Returns a List of Locations that a specific Super has been spotted in
-    public List<Location> getSightingsBySuper(Super s);
-
-    //Returns a List of Supers spotted in a specific Location
-    public List<Super> getSightingsByLocation(Location location);
 }

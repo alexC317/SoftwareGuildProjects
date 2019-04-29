@@ -6,6 +6,7 @@
 package com.sg.supersighting.daos;
 
 import com.sg.supersighting.dtos.Location;
+import com.sg.supersighting.dtos.Super;
 import java.util.List;
 
 /**
@@ -21,12 +22,15 @@ public interface LocationDAO {
     public List<Location> getAllLocations();
 
     //Read By ID
-    public Location getLocationByID(int ID);
+    public Location getLocationByID(int locationID);
 
     //Update
     public void updateLocation(Location location);
 
     //Delete
-    public void deleteLocation(int ID);
+    public void deleteLocation(int locationID);
+
+    //Returns a List of Locations that a specific Super has been spotted in
+    public List<Location> getSightingsBySuper(int superID);
 
 }

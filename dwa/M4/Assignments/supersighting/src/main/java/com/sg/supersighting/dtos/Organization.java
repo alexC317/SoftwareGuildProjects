@@ -17,7 +17,7 @@ public class Organization {
     private int organizationID;
     private String organizationName;
     private String organizationDescription;
-    private String organizationAddress;
+    private Location organizationAddress;
     private String organizationContact;
     private List<Super> supers;
 
@@ -45,11 +45,11 @@ public class Organization {
         this.organizationDescription = organizationDescription;
     }
 
-    public String getOrganizationAddress() {
+    public Location getOrganizationAddress() {
         return organizationAddress;
     }
 
-    public void setOrganizationAddress(String organizationAddress) {
+    public void setOrganizationAddress(Location organizationAddress) {
         this.organizationAddress = organizationAddress;
     }
 
@@ -72,12 +72,12 @@ public class Organization {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + this.organizationID;
-        hash = 53 * hash + Objects.hashCode(this.organizationName);
-        hash = 53 * hash + Objects.hashCode(this.organizationDescription);
-        hash = 53 * hash + Objects.hashCode(this.organizationAddress);
-        hash = 53 * hash + Objects.hashCode(this.organizationContact);
-        hash = 53 * hash + Objects.hashCode(this.supers);
+        hash = 17 * hash + this.organizationID;
+        hash = 17 * hash + Objects.hashCode(this.organizationName);
+        hash = 17 * hash + Objects.hashCode(this.organizationDescription);
+        hash = 17 * hash + Objects.hashCode(this.organizationAddress);
+        hash = 17 * hash + Objects.hashCode(this.organizationContact);
+        hash = 17 * hash + Objects.hashCode(this.supers);
         return hash;
     }
 
@@ -102,10 +102,10 @@ public class Organization {
         if (!Objects.equals(this.organizationDescription, other.organizationDescription)) {
             return false;
         }
-        if (!Objects.equals(this.organizationAddress, other.organizationAddress)) {
+        if (!Objects.equals(this.organizationContact, other.organizationContact)) {
             return false;
         }
-        if (!Objects.equals(this.organizationContact, other.organizationContact)) {
+        if (!Objects.equals(this.organizationAddress, other.organizationAddress)) {
             return false;
         }
         if (!Objects.equals(this.supers, other.supers)) {

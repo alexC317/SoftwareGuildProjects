@@ -5,7 +5,7 @@
  */
 package com.sg.supersighting.daos;
 
-import com.sg.supersighting.dtos.Organization;
+import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Super;
 import java.util.List;
 
@@ -22,15 +22,18 @@ public interface SuperDAO {
     public List<Super> getAllSupers();
 
     //Read By ID
-    public Super getSuperByID(int ID);
+    public Super getSuperByID(int superID);
 
     //Update
     public void updateSuper(Super s);
 
     //Delete
-    public void deleteSuper(int ID);
+    public void deleteSuper(int superID);
 
-    //Returns a List of Organizations that a Super belongs to
-    public List<Organization> getAffiliatedOrganizations(int ID);
+    //Returns a List of Supers for a particular Organization
+    public List<Super> getAllSuperByOrganization(int organizationID);
+
+    //Returns a List of Supers spotted in a specific Location
+    public List<Super> getSightingsByLocation(int locationID);
 
 }
