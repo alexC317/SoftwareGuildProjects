@@ -5,6 +5,7 @@
  */
 package com.sg.supersighting.dtos;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,6 +17,7 @@ public class Power {
     private int powerID;
     private String powerName;
     private String powerDescription;
+    private List<Super> poweredSupers;
 
     public int getPowerID() {
         return powerID;
@@ -41,12 +43,21 @@ public class Power {
         this.powerDescription = powerDescription;
     }
 
+    public List<Super> getPoweredSupers() {
+        return poweredSupers;
+    }
+
+    public void setPoweredSupers(List<Super> poweredSupers) {
+        this.poweredSupers = poweredSupers;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.powerID;
-        hash = 29 * hash + Objects.hashCode(this.powerName);
-        hash = 29 * hash + Objects.hashCode(this.powerDescription);
+        int hash = 7;
+        hash = 97 * hash + this.powerID;
+        hash = 97 * hash + Objects.hashCode(this.powerName);
+        hash = 97 * hash + Objects.hashCode(this.powerDescription);
+        hash = 97 * hash + Objects.hashCode(this.poweredSupers);
         return hash;
     }
 
@@ -69,6 +80,9 @@ public class Power {
             return false;
         }
         if (!Objects.equals(this.powerDescription, other.powerDescription)) {
+            return false;
+        }
+        if (!Objects.equals(this.poweredSupers, other.poweredSupers)) {
             return false;
         }
         return true;
