@@ -6,7 +6,6 @@
 package com.sg.supersighting.daos;
 
 import com.sg.supersighting.dtos.Location;
-import com.sg.supersighting.dtos.Super;
 import java.util.List;
 
 /**

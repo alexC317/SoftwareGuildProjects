@@ -21,12 +21,12 @@ public interface PowerDAO {
     public List<Power> getAllPowers();
 
     //Read By ID
-    public Power getPowerByID(int ID);
+    public Power getPowerByID(int powerID);
 
     //Update
     public void updatePower(Power power);
 
     //Delete
-    public void deletePower(int ID);
+    public void deletePower(int powerID);
 
 }
