@@ -51,7 +51,7 @@ public class PowerDAOJDBCImpl implements PowerDAO {
     @Override
     @Transactional
     public Boolean updatePower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbc.update(UPDATE_POWER, power.getPowerName(), power.getPowerDescription(), power.getPowerID()) > 0;
     }
 
     @Override
