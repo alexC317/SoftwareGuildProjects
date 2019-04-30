@@ -30,34 +30,37 @@ public class PowerDAOJDBCImpl implements PowerDAO {
     @Override
     @Transactional
     public Power addNewPower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbc.update(INSERT_NEW_POWER, power.getPowerName(), power.getPowerDescription());
+        int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        power.setPowerID(newID);
+        return power;
     }
 
     @Override
     @Transactional
     public List<Power> getAllPowers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbc.query(SELECT_ALL_POWERS, new PowerMapper());
     }
 
     @Override
     @Transactional
     public Power getPowerByID(int powerID) {
+        return jdbc.queryForObject(SELECT_POWER_BY_ID, new PowerMapper(), powerID);
+    }
+
+    @Override
+    @Transactional
+    public Boolean updatePower(Power power) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     @Transactional
-    public void updatePower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean deletePower(int powerID) {
+        return jdbc.update(DELETE_POWER, powerID) > 0;
     }
 
-    @Override
-    @Transactional
-    public void deletePower(int powerID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static final class powerMapper implements RowMapper<Power> {
+    public static final class PowerMapper implements RowMapper<Power> {
 
         @Override
         public Power mapRow(ResultSet rs, int i) throws SQLException {

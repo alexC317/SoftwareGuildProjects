@@ -24,9 +24,9 @@ public interface PowerDAO {
     public Power getPowerByID(int powerID);
 
     //Update
-    public void updatePower(Power power);
+    public Boolean updatePower(Power power);
 
     //Delete
-    public void deletePower(int powerID);
+    public Boolean deletePower(int powerID);
 
 }
