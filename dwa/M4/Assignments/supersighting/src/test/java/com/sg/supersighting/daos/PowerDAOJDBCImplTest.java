@@ -122,7 +122,7 @@ public class PowerDAOJDBCImplTest {
     public void testGetPowerByIDNull() {
         Power power = powerDAO.getPowerByID(0);
         assertNull(power);
-        
+
     }
 
     @Test
@@ -147,6 +147,23 @@ public class PowerDAOJDBCImplTest {
 
     @Test
     public void testDeletePower() {
+        Power power = new Power();
+        power.setPowerName("Flight");
+        power.setPowerDescription("Able to fly.");
+        powerDAO.addNewPower(power);
+
+        Power power2 = new Power();
+        power2.setPowerName("Invisibility");
+        power2.setPowerDescription("Able to turn invisible");
+        powerDAO.addNewPower(power2);
+
+        assertEquals(2, powerDAO.getAllPowers().size());
+
+        powerDAO.deletePower(power.getPowerID());
+        assertEquals(1, powerDAO.getAllPowers().size());
+
+        Power fromDAO = powerDAO.getPowerByID(power.getPowerID());
+        assertNull(fromDAO);
 
     }
 }
