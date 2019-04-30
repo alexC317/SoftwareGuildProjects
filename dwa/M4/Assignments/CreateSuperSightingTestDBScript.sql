@@ -15,6 +15,7 @@ CREATE TABLE Powers(
 );
 CREATE TABLE Locations(
 	locationID INT PRIMARY KEY AUTO_INCREMENT,
+    locationName VARCHAR(60) NOT NULL,
     locationDescription VARCHAR(60) NOT NULL,
     locationAddress VARCHAR(60) NOT NULL,
     locationLongitude VARCHAR(50), 
