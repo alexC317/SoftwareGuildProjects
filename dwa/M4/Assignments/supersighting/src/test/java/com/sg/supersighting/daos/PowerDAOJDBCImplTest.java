@@ -119,6 +119,13 @@ public class PowerDAOJDBCImplTest {
     }
 
     @Test
+    public void testGetPowerByIDNull() {
+        Power power = powerDAO.getPowerByID(0);
+        assertNull(power);
+        
+    }
+
+    @Test
     public void testUpdatePower() {
         Power power = new Power();
         power.setPowerName("Flight");
