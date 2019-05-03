@@ -88,8 +88,4 @@ public class Super {
         return true;
     }
 
-    public void getPowersForSuper(int superID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
