@@ -24,10 +24,10 @@ public interface SuperDAO {
     public Super getSuperByID(int superID);
 
     //Update
-    public void updateSuper(Super s);
+    public Boolean updateSuper(Super s);
 
     //Delete
-    public void deleteSuper(int superID);
+    public Boolean deleteSuper(int superID);
 
     //Returns a List of Supers for a particular Organization
     public List<Super> getAllSuperByOrganization(int organizationID);

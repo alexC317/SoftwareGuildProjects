@@ -26,16 +26,17 @@ CREATE TABLE Organizations(
 	organizationID INT PRIMARY KEY AUTO_INCREMENT, 
     organizationName VARCHAR(50) NOT NULL,
     organizatinDescription VARCHAR(50) NOT NULL,
-    organizationAddress VARCHAR(50) NOT NULL,
-    organizationContact VARCHAR(50) NOT NULL
+    organizationContact VARCHAR(50) NOT NULL,
+    locationID INT NOT NULL,
+    FOREIGN KEY (locationID) REFERENCES Locations(locationID)
 );
 
 CREATE TABLE Superpowers(
 	superID INT NOT NULL,
     powerID INT NOT NULL,
+    CONSTRAINT PK_Superpower PRIMARY KEY (superID, powerID),
     FOREIGN KEY (superID) REFERENCES Supers(superID),
-    FOREIGN KEY (powerID) REFERENCES Powers(powerID),
-    CONSTRAINT PK_Superpower PRIMARY KEY (superID, powerID)
+    FOREIGN KEY (powerID) REFERENCES Powers(powerID)
 );
 
 CREATE TABLE Sightings(

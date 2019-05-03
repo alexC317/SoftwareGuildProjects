@@ -62,6 +62,8 @@ public class PowerDAOJDBCImpl implements PowerDAO {
     @Override
     @Transactional
     public Boolean deletePower(int powerID) {
+        final String DELETE_FROM_SUPERPOWERS = "DELETE FROM superpowers WHERE powerID = ?";
+        jdbc.update(DELETE_FROM_SUPERPOWERS, powerID);
         return jdbc.update(DELETE_POWER, powerID) > 0;
     }
 
