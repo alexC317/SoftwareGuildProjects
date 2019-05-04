@@ -82,6 +82,46 @@ public class SuperDAOJDBCImplTest {
         Super fromDAO = superDAO.getSuperByID(s.getSuperID());
         assertEquals(fromDAO, s);
         assertTrue(fromDAO.getSuperPowers().contains(power));
+        
+    }
+    
+    @Test
+    public void testGetAllSupers(){
+        Super s = new Super();
+        s.setSuperName("Superman");
+        s.setSuperDescription("The greatest hero.");
+        List<Power> supermanPowers = new ArrayList<>();
+        
+        Power power = new Power();
+        power.setPowerName("Flight");
+        power.setPowerDescription("Able to fly");
+        powerDAO.addNewPower(power);
+        
+        supermanPowers.add(power);
+        
+        Super s2 = new Super();
+        s2.setSuperName("Womnder Woman");
+        s2.setSuperDescription("The Amazon");
+        List<Power> wonderWomanPower = new ArrayList<>();
+        
+//        Power power2 = new Power();
+//        power2.setPowerName("Photographic memory");
+//        power2.setPowerDescription("Able to perfectly recall memories");
+//        powerDAO.addNewPower(power2);
+        
+        wonderWomanPower.add(power);
+        
+        s.setSuperPowers(supermanPowers);
+        s2.setSuperPowers(wonderWomanPower);
+        
+        superDAO.addNewSuper(s);
+        superDAO.addNewSuper(s2);
+        
+        List<Super> fromDAO = superDAO.getAllSupers();
+        assertEquals(2, fromDAO.size());
+        assertTrue(fromDAO.contains(s));
+        assertTrue(fromDAO.contains(s2));
+        
     }
 
 //    /**

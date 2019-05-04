@@ -41,7 +41,11 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public List<Super> getAllSupers() {
-        return jdbc.query(SELECT_ALL_SUPERS, new SuperMapper());
+        List<Super> supers = jdbc.query(SELECT_ALL_SUPERS, new SuperMapper());
+        for (Super s : supers) {
+            s.setSuperPowers(getPowersForSuper(s.getSuperID()));
+        }
+        return supers;
     }
 
     @Override
