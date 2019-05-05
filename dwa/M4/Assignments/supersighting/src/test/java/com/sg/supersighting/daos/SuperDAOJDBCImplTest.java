@@ -191,17 +191,17 @@ public class SuperDAOJDBCImplTest {
         assertFalse(supers.contains(s));
     }
 
-//    /**
-//     * Test of getAllSuperByOrganization method, of class SuperDAOJDBCImpl.
-//     */
-//    @Test
-//    public void testGetAllSuperByOrganization() {
-//    }
-//
-//    /**
-//     * Test of getSightingsByLocation method, of class SuperDAOJDBCImpl.
-//     */
-//    @Test
-//    public void testGetSightingsByLocation() {
-//    }
+    /**
+     * Test of getAllSuperByOrganization method, of class SuperDAOJDBCImpl.
+     */
+    @Test
+    public void testGetAllSuperByOrganization() {
+    }
+
+    /**
+     * Test of getSightingsByLocation method, of class SuperDAOJDBCImpl.
+     */
+    @Test
+    public void testGetSightingsByLocation() {
+    }
 }
