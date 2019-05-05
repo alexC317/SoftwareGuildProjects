@@ -23,7 +23,12 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     private final String INSERT_NEW_SUPER = "INSERT INTO supers(superName, superDescription) VALUES (?, ?)";
     private final String SELECT_ALL_SUPERS = "SELECT superID, superName, superDescription FROM supers";
     private final String SELECT_SUPER_BY_ID = "SELECT superID, superName, superDescription FROM supers WHERE superID = ?";
+    private final String UPDATE_SUPER = "UPDATE supers SET superName = ?, superDescription = ? WHERE superID = ?";
     private final String DELETE_SUPER = "DELETE FROM supers WHERE superID = ?";
+
+    private final String INSERT_INTO_SUPERPOWERS = "INSERT INTO superpowers(superID, powerID) VALUES(?, ?)";
+    private final String SELECT_POWERS_FOR_SUPER = "SELECT p.* FROM powers p JOIN superpowers s ON s.powerID = p.powerID where s.superID = ?";
+    private final String DELETE_SUPERPOWERS = "DELETE FROM superpowers WHERE superID = ?";
 
     @Autowired
     private JdbcTemplate jdbc;
@@ -59,14 +64,15 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public Boolean updateSuper(Super s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        updateSuperpowers(s);
+        return jdbc.update(UPDATE_SUPER, s.getSuperName(), s.getSuperDescription(), s.getSuperID()) > 0;
+
     }
 
     @Override
     @Transactional
     public Boolean deleteSuper(int superID) {
-        final String DELETE_FROM_SUPERPOWERS = "DELETE FROM superpowers WHERE superID = ?";
-        jdbc.update(DELETE_FROM_SUPERPOWERS, superID);
+        jdbc.update(DELETE_SUPERPOWERS, superID);
         return jdbc.update(DELETE_SUPER, superID) > 0;
     }
 
@@ -83,16 +89,18 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     }
 
     private void addSuperpowers(Super s) {
-        final String INSERT_INTO_SUPERPOWERS = "INSERT INTO superpowers(superID, powerID) VALUES(?, ?)";
         for (Power power : s.getSuperPowers()) {
             jdbc.update(INSERT_INTO_SUPERPOWERS, s.getSuperID(), power.getPowerID());
         }
     }
 
     private List<Power> getPowersForSuper(int superID) {
-        final String SELECT_POWERS_FOR_COURSE = "SELECT p.* FROM powers p "
-                + "JOIN superpowers s ON s.powerID = p.powerID where s.superID = ?";
-        return jdbc.query(SELECT_POWERS_FOR_COURSE, new PowerMapper(), superID);
+        return jdbc.query(SELECT_POWERS_FOR_SUPER, new PowerMapper(), superID);
+    }
+
+    private void updateSuperpowers(Super s) {
+        jdbc.update(DELETE_SUPERPOWERS, s.getSuperID());
+        addSuperpowers(s);
     }
 
     public final static class SuperMapper implements RowMapper<Super> {
