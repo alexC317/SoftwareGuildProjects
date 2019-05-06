@@ -78,7 +78,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public List<Super> getAllSuperByOrganization(int organizationID) {
+    public List<Super> getAllSupersByOrganization(int organizationID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

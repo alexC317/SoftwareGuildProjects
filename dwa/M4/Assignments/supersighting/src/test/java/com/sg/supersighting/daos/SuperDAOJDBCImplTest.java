@@ -5,6 +5,7 @@
  */
 package com.sg.supersighting.daos;
 
+import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class SuperDAOJDBCImplTest {
     @Autowired
     SuperDAO superDAO;
 
+    @Autowired
+    LocationDAO locationDAO;
+
     public SuperDAOJDBCImplTest() {
     }
 
@@ -55,6 +59,11 @@ public class SuperDAOJDBCImplTest {
         List<Super> supers = superDAO.getAllSupers();
         for (Super s : supers) {
             superDAO.deleteSuper(s.getSuperID());
+        }
+
+        List<Location> locations = locationDAO.getAllLocations();
+        for (Location location : locations) {
+            locationDAO.deleteLocation(location.getLocationID());
         }
     }
 
@@ -192,7 +201,7 @@ public class SuperDAOJDBCImplTest {
     }
 
     /**
-     * Test of getAllSuperByOrganization method, of class SuperDAOJDBCImpl.
+     * Test of getAllSupersByOrganization method, of class SuperDAOJDBCImpl.
      */
     @Test
     public void testGetAllSuperByOrganization() {

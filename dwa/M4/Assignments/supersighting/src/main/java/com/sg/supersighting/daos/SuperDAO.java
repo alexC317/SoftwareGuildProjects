@@ -30,7 +30,7 @@ public interface SuperDAO {
     public Boolean deleteSuper(int superID);
 
     //Returns a List of Supers for a particular Organization
-    public List<Super> getAllSuperByOrganization(int organizationID);
+    public List<Super> getAllSupersByOrganization(int organizationID);
 
     //Returns a List of Supers spotted in a specific Location
     public List<Super> getSightingsByLocation(int locationID);
