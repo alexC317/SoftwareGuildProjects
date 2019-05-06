@@ -82,10 +82,31 @@ public class LocationDAOJDBCImplTest {
 
         Location fromDAO = locationDAO.getLocationByID(location.getLocationID());
         assertEquals(fromDAO, location);
+        
     }
 
     @Test
     public void testGetAllLocations() {
+        Location location = new Location();
+        location.setLocationName("Test location");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("A location to test");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude(("00"));
+        locationDAO.addNewLocation(location);
+
+        Location location2 = new Location();
+        location2.setLocationName("Test location 2");
+        location2.setLocationAddress("456 Sub Street");
+        location2.setLocationDescription("Another location to test");
+        location2.setLocationLatitude("-10");
+        location2.setLocationLongitude(("+10"));
+        locationDAO.addNewLocation(location2);
+
+        List<Location> fromDAO = locationDAO.getAllLocations();
+        assertEquals(2, fromDAO.size());
+        assertTrue(fromDAO.contains(location));
+        assertTrue(fromDAO.contains(location2));
 
     }
 
