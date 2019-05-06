@@ -84,6 +84,21 @@ public class LocationDAOJDBCImplTest {
         assertEquals(fromDAO, location);
     }
 
+    @Test
+    public void testGetAllLocations() {
+
+    }
+
+    @Test
+    public void testUpdateLocation() {
+
+    }
+
+    @Test
+    public void testDeleteLocation() {
+
+    }
+
     /**
      * Test of getSightingsBySuper method, of class LocationDAOJDBCImpl.
      */
