@@ -24,10 +24,10 @@ public interface LocationDAO {
     public Location getLocationByID(int locationID);
 
     //Update
-    public void updateLocation(Location location);
+    public Boolean updateLocation(Location location);
 
     //Delete
-    public void deleteLocation(int locationID);
+    public Boolean deleteLocation(int locationID);
 
     //Returns a List of Locations that a specific Super has been spotted in
     public List<Location> getSightingsBySuper(int superID);
