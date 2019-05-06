@@ -5,11 +5,7 @@
  */
 package com.sg.supersighting.daos;
 
-import com.sg.supersighting.dtos.Location;
-import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
-import com.sg.supersighting.dtos.Sighting;
-import com.sg.supersighting.dtos.Super;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,17 +29,6 @@ public class PowerDAOJDBCImplTest {
     @Autowired
     PowerDAO powerDAO;
 
-//    @Autowired
-//    SuperDAO superDAO;
-//
-//    @Autowired
-//    OrganizationDAO organizationDAO;
-//
-//    @Autowired
-//    LocationDAO locationDAO;
-//
-//    @Autowired
-//    SightingDAO sightingDAO;
     public PowerDAOJDBCImplTest() {
     }
 
@@ -61,26 +46,6 @@ public class PowerDAOJDBCImplTest {
         for (Power power : powers) {
             powerDAO.deletePower(power.getPowerID());
         }
-
-//        List<Super> supers = superDAO.getAllSupers();
-//        for (Super s : supers) {
-//            superDAO.deleteSuper(s.getSuperID());
-//        }
-//
-//        List<Organization> organizations = organizationDAO.getAllOrganizations();
-//        for (Organization organization : organizations) {
-//            organizationDAO.deleteOrganization(organization.getOrganizationID());
-//        }
-//
-//        List<Location> locations = locationDAO.getAllLocations();
-//        for (Location location : locations) {
-//            locationDAO.deleteLocation(location.getLocationID());
-//        }
-//
-//        List<Sighting> sightings = sightingDAO.getAllSightings();
-//        for (Sighting sighting : sightings) {
-//            sightingDAO.deleteSighting(sighting.getSightingID());
-//        }
     }
 
     @After
