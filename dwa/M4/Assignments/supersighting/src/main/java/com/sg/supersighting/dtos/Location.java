@@ -70,12 +70,13 @@ public class Location {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 31 * hash + this.locationID;
-        hash = 31 * hash + Objects.hashCode(this.locationDescription);
-        hash = 31 * hash + Objects.hashCode(this.locationAddress);
-        hash = 31 * hash + Objects.hashCode(this.locationLongitude);
-        hash = 31 * hash + Objects.hashCode(this.locationLatitude);
+        int hash = 7;
+        hash = 29 * hash + this.locationID;
+        hash = 29 * hash + Objects.hashCode(this.locationName);
+        hash = 29 * hash + Objects.hashCode(this.locationDescription);
+        hash = 29 * hash + Objects.hashCode(this.locationAddress);
+        hash = 29 * hash + Objects.hashCode(this.locationLongitude);
+        hash = 29 * hash + Objects.hashCode(this.locationLatitude);
         return hash;
     }
 
@@ -94,6 +95,9 @@ public class Location {
         if (this.locationID != other.locationID) {
             return false;
         }
+        if (!Objects.equals(this.locationName, other.locationName)) {
+            return false;
+        }
         if (!Objects.equals(this.locationDescription, other.locationDescription)) {
             return false;
         }
@@ -108,5 +112,7 @@ public class Location {
         }
         return true;
     }
+
+    
 
 }
