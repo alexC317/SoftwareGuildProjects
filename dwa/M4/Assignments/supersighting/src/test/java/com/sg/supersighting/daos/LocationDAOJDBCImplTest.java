@@ -164,7 +164,7 @@ public class LocationDAOJDBCImplTest {
     }
 
     /**
-     * Test of getSightingsBySuper method, of class LocationDAOJDBCImpl.
+     * Test of getLocationsBySuper method, of class LocationDAOJDBCImpl.
      */
     @Test
     public void testGetSightingsBySuper() {

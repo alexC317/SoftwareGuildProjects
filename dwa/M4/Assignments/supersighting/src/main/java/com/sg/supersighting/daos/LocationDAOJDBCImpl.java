@@ -62,7 +62,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     }
 
     @Override
-    public List<Location> getSightingsBySuper(int superID) {
+    public List<Location> getLocationsBySuper(int superID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

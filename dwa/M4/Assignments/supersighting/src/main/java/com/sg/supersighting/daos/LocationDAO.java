@@ -30,6 +30,6 @@ public interface LocationDAO {
     public Boolean deleteLocation(int locationID);
 
     //Returns a List of Locations that a specific Super has been spotted in
-    public List<Location> getSightingsBySuper(int superID);
+    public List<Location> getLocationsBySuper(int superID);
 
 }

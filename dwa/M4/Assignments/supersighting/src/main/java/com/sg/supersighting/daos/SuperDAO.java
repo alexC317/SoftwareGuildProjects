@@ -33,6 +33,6 @@ public interface SuperDAO {
     public List<Super> getAllSupersByOrganization(int organizationID);
 
     //Returns a List of Supers spotted in a specific Location
-    public List<Super> getSightingsByLocation(int locationID);
+    public List<Super> getSupersByLocation(int locationID);
 
 }

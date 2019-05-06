@@ -84,7 +84,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public List<Super> getSightingsByLocation(int locationID) {
+    public List<Super> getSupersByLocation(int locationID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
