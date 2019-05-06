@@ -20,13 +20,15 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     @Autowired
     JdbcTemplate jdbc;
 
-    private final String INSERT_NEW_LOCATION = "INSERT INTO locations(locationName, locationDescription, locationAddress, "
-            + "locationLongitude, locationLatitude) VALUES(?, ?, ?, ?, ?) ";
-    private final String SELECT_ALL_LOCATIONS = "SELECT locationID, locationName, locationDescription, locationAddress, locationLongitude, locationLatitude"
-            + " FROM locations";
-    private final String SELECT_LOCATION_BY_ID = "SELECT locationID, locationName, locationDescription, locationAddress, locationLongitude, locationLatitude"
-            + " FROM locations WHERE locationID = ?";
-    private final String DELETE_FROM_LOCATION = "DELETE FROM locations WHERE locationID = ?";
+    private final String INSERT_NEW_LOCATION = "INSERT INTO locations(locationName, locationDescription, "
+            + "locationAddress, locationLongitude, locationLatitude) VALUES (?, ?, ?, ?, ?) ";
+    private final String SELECT_ALL_LOCATIONS = "SELECT locationID, locationName, locationDescription, "
+            + "locationAddress, locationLongitude, locationLatitude FROM locations";
+    private final String SELECT_LOCATION_BY_ID = "SELECT locationID, locationName, locationDescription, "
+            + "locationAddress, locationLongitude, locationLatitude FROM locations WHERE locationID = ?";
+    private final String UPDATE_LOCATION = "UPDATE locations SET locationName = ?, locationDescription = ?,"
+            + "locationAddress = ?, locationLongitude = ?, locationLatitude = ? WHERE locationID = ?";
+    private final String DELETE_LOCATION = "DELETE FROM locations WHERE locationID = ?";
 
     @Override
     public Location addNewLocation(Location location) {
@@ -49,12 +51,14 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     public Boolean updateLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbc.update(UPDATE_LOCATION, location.getLocationName(), location.getLocationDescription(),
+                location.getLocationAddress(), location.getLocationLongitude(), location.getLocationLatitude(),
+                location.getLocationID()) > 0;
     }
 
     @Override
     public Boolean deleteLocation(int locationID) {
-        return jdbc.update(DELETE_FROM_LOCATION, locationID) > 0;
+        return jdbc.update(DELETE_LOCATION, locationID) > 0;
     }
 
     @Override

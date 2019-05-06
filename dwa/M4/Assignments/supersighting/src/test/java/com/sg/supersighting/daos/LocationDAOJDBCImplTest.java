@@ -77,12 +77,12 @@ public class LocationDAOJDBCImplTest {
         location.setLocationAddress("123 Main Street");
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
-        location.setLocationLongitude(("00"));
+        location.setLocationLongitude("00");
         locationDAO.addNewLocation(location);
 
         Location fromDAO = locationDAO.getLocationByID(location.getLocationID());
         assertEquals(fromDAO, location);
-        
+
     }
 
     @Test
@@ -92,7 +92,7 @@ public class LocationDAOJDBCImplTest {
         location.setLocationAddress("123 Main Street");
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
-        location.setLocationLongitude(("00"));
+        location.setLocationLongitude("00");
         locationDAO.addNewLocation(location);
 
         Location location2 = new Location();
@@ -112,6 +112,23 @@ public class LocationDAOJDBCImplTest {
 
     @Test
     public void testUpdateLocation() {
+        Location location = new Location();
+        location.setLocationName("Test location");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("A location to test");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Location fromDAO = locationDAO.getLocationByID(location.getLocationID());
+        assertEquals(fromDAO, location);
+
+        location.setLocationName("Alternate test location");
+        locationDAO.updateLocation(location);
+        assertNotEquals(fromDAO, location);
+
+        fromDAO = locationDAO.getLocationByID(location.getLocationID());
+        assertEquals(fromDAO, location);
 
     }
 
