@@ -99,6 +99,9 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
         final String SELECT_SUPERS_FOR_ORGANIZATION = "SELECT supers.superID, superName, superDescription FROM supers INNER JOIN supers_organizations "
                 + "ON supers.superID = supers_organizations.superID WHERE supers_organizations.organizationID = ?";
         List<Super> supers = jdbc.query(SELECT_SUPERS_FOR_ORGANIZATION, new SuperMapper(), organization.getOrganizationID());
+        if (supers.isEmpty()) {
+            supers = null;
+        }
         organization.setSupers(supers);
     }
 

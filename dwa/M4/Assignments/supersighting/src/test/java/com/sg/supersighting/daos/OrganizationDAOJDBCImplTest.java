@@ -60,7 +60,7 @@ public class OrganizationDAOJDBCImplTest {
         for (Super s : supers) {
             superDAO.deleteSuper(s.getSuperID());
         }
-        
+
         List<Location> locations = locationDAO.getAllLocations();
         for (Location location : locations) {
             locationDAO.deleteLocation(location.getLocationID());
@@ -95,6 +95,29 @@ public class OrganizationDAOJDBCImplTest {
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
         org.setSupers(supers);
+        organizationDAO.addNewOrganization(org);
+
+        Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
+
+        assertEquals(fromDAO, org);
+
+    }
+
+    @Test
+    public void testAddNewOrganizatonNoSuper() {
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Organization org = new Organization();
+        org.setOrganizationName("Justice League");
+        org.setOrganizationDescription("World's Finest Heroes");
+        org.setOrganizationContact("1-800-123-4567");
+        org.setOrganizationAddress(location);
         organizationDAO.addNewOrganization(org);
 
         Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
