@@ -24,12 +24,12 @@ public interface OrganizationDAO {
     public Organization getOrganizationByID(int organizationID);
 
     //Update
-    public void updateOrganization(Organization organization);
+    public Boolean updateOrganization(Organization organization);
 
     //Delete
-    public void deleteOrganization(int organizationID);
+    public Boolean deleteOrganization(int organizationID);
     
     //Returns a List of Organizations that a Super belongs to
-    public List<Organization> getAffiliatedOrganizations(int superID);
+    public List<Organization> getOrganizationsBySuper(int superID);
 
 }
