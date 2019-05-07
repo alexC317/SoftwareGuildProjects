@@ -95,6 +95,17 @@ public class SuperDAOJDBCImplTest {
     }
 
     @Test
+    public void testAddSuperNoPowers() {
+        Super s = new Super();
+        s.setSuperName("Superman");
+        s.setSuperDescription("The greatest hero.");
+        superDAO.addNewSuper(s);
+
+        Super fromDAO = superDAO.getSuperByID(s.getSuperID());
+        assertEquals(fromDAO, s);
+    }
+
+    @Test
     public void testGetAllSupers() {
         Super s = new Super();
         s.setSuperName("Superman");

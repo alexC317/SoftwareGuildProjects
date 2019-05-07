@@ -89,13 +89,21 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     }
 
     private void addSuperpowers(Super s) {
-        for (Power power : s.getSuperPowers()) {
-            jdbc.update(INSERT_INTO_SUPERPOWERS, s.getSuperID(), power.getPowerID());
+        if (s.getSuperPowers() == null || s.getSuperPowers().isEmpty()) {
+        } else {
+            for (Power power : s.getSuperPowers()) {
+                jdbc.update(INSERT_INTO_SUPERPOWERS, s.getSuperID(), power.getPowerID());
+            }
         }
     }
 
     private List<Power> getPowersForSuper(int superID) {
-        return jdbc.query(SELECT_POWERS_FOR_SUPER, new PowerMapper(), superID);
+        List<Power> powers = jdbc.query(SELECT_POWERS_FOR_SUPER, new PowerMapper(), superID);
+        if (powers.isEmpty()) {
+            return null;
+        } else {
+            return powers;
+        }
     }
 
     private void updateSuperpowers(Super s) {
