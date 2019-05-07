@@ -36,6 +36,11 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
             + "locationAddress, locationLongitude, locationLatitude FROM locations INNER JOIN organizations "
             + "ON locations.locationID = organizations.locationID WHERE organizationID = ?";
 
+    private final String INSERT_INTO_SUPERS_ORGANIZATIONS = "INSERT INTO supers_organizations (superID, organizationID) VALUES (?, ?)";
+    private final String SELECT_SUPERS_FOR_ORGANIZATION = "SELECT supers.superID, superName, superDescription FROM supers INNER JOIN supers_organizations "
+            + "ON supers.superID = supers_organizations.superID WHERE supers_organizations.organizationID = ?";
+    private final String DELETE_FROM_SUPERS_ORGANIZATION = "DELETE FROM supers_organizations WHERE organizationID = ?";
+
     @Override
     public Organization addNewOrganization(Organization org) {
         jdbc.update(INSERT_NEW_ORGANIZATION, org.getOrganizationName(), org.getOrganizationDescription(),
@@ -49,7 +54,9 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     @Override
     public List<Organization> getAllOrganizations() {
         List<Organization> organizations = jdbc.query(SELECT_ALL_ORGANIZATIONS, new OrganizationMapper());
-
+        for (Organization org : organizations) {
+            getLocationForOrganization(org);
+        }
         return organizations;
     }
 
@@ -69,7 +76,6 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     public Boolean deleteOrganization(int organizationID) {
-        final String DELETE_FROM_SUPERS_ORGANIZATION = "DELETE FROM supers_organizations WHERE organizationID = ?";
         jdbc.update(DELETE_FROM_SUPERS_ORGANIZATION, organizationID);
         return jdbc.update(DELETE_ORGANIZATION, organizationID) > 0;
     }
@@ -80,7 +86,6 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     }
 
     private void addSupersForOrganization(Organization org) {
-        final String INSERT_INTO_SUPERS_ORGANIZATIONS = "INSERT INTO supers_organizations (superID, organizationID) VALUES (?, ?)";
         if (org.getSupers() == null || org.getSupers().isEmpty()) {
         } else {
             for (Super s : org.getSupers()) {
@@ -96,8 +101,6 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     }
 
     private void getSupersForOrganization(Organization organization) {
-        final String SELECT_SUPERS_FOR_ORGANIZATION = "SELECT supers.superID, superName, superDescription FROM supers INNER JOIN supers_organizations "
-                + "ON supers.superID = supers_organizations.superID WHERE supers_organizations.organizationID = ?";
         List<Super> supers = jdbc.query(SELECT_SUPERS_FOR_ORGANIZATION, new SuperMapper(), organization.getOrganizationID());
         if (supers.isEmpty()) {
             supers = null;

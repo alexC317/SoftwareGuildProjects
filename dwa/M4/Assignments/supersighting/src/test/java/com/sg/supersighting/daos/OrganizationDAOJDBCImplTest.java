@@ -7,6 +7,7 @@ package com.sg.supersighting.daos;
 
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
+import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public class OrganizationDAOJDBCImplTest {
 
     @Autowired
     SuperDAO superDAO;
+
+    @Autowired
+    PowerDAO powerDAO;
 
     @Autowired
     LocationDAO locationDAO;
@@ -123,6 +127,37 @@ public class OrganizationDAOJDBCImplTest {
         Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
 
         assertEquals(fromDAO, org);
+
+    }
+
+    @Test
+    public void testGetAllOrganizations() {
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Organization org = new Organization();
+        org.setOrganizationName("Justice League");
+        org.setOrganizationDescription("World's Finest Heroes");
+        org.setOrganizationContact("1-800-123-4567");
+        org.setOrganizationAddress(location);
+        organizationDAO.addNewOrganization(org);
+
+        Organization org2 = new Organization();
+        org2.setOrganizationName("Justice League of America");
+        org2.setOrganizationDescription("America's Finest Heroes?");
+        org2.setOrganizationContact("1-800-123-7890");
+        org2.setOrganizationAddress(location);
+        organizationDAO.addNewOrganization(org2);
+
+        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        assertEquals(2, organizations.size());
+        assertTrue(organizations.contains(org));
+        assertTrue(organizations.contains(org2));
 
     }
 
