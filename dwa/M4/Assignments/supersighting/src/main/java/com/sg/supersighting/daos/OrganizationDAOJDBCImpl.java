@@ -30,6 +30,9 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
             + "organizationContact, locationID FROM organizations";
     private final String SELECT_ORGANIZATION_BY_ID = "SELECT organizationID, organizationName, organizationDescription, "
             + "organizationContact, locationID FROM organizations WHERE organizationID = ?";
+    private final String UPDATE_ORGANIZATION = "UPDATE organizations SET "
+            + "organizationName = ?, organizationDescription = ?, organizationContact = ?, locationID = ? "
+            + "WHERE organizationID = ?";
     private final String DELETE_ORGANIZATION = "DELETE FROM organizations WHERE organizationID = ?";
 
     private final String SELECT_LOCATION_FOR_ORGANIZATION = "SELECT locations.locationID, locationName, locationDescription, "
@@ -71,7 +74,9 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     public Boolean updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbc.update(UPDATE_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
+                organization.getOrganizationContact(), organization.getOrganizationAddress().getLocationID(),
+                organization.getOrganizationID()) > 0;
     }
 
     @Override

@@ -161,6 +161,40 @@ public class OrganizationDAOJDBCImplTest {
 
     }
 
+    @Test
+    public void testUpdateOrganization() {
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Organization org = new Organization();
+        org.setOrganizationName("Justice League");
+        org.setOrganizationDescription("World's Finest Heroes");
+        org.setOrganizationContact("1-800-123-4567");
+        org.setOrganizationAddress(location);
+        organizationDAO.addNewOrganization(org);
+
+        Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
+        assertEquals(fromDAO, org);
+
+        org.setOrganizationName("The Justice League of America");
+        org.setOrganizationContact("1-800-123-4567, contact@jla.com");
+        organizationDAO.updateOrganization(org);
+
+        assertNotEquals(fromDAO, org);
+        
+    }
+
+    @Test
+    public void testDeleteOrganization() {
+        
+        
+    }
+
     /**
      * Test of getOrganizationsBySuper method, of class OrganizationDAOJDBCImpl.
      */
