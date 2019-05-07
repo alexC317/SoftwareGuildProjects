@@ -28,6 +28,8 @@ public class PowerDAOJDBCImpl implements PowerDAO {
     private final String UPDATE_POWER = "UPDATE powers SET powerName = ?, powerDescription = ? WHERE powerID = ?";
     private final String DELETE_POWER = "DELETE FROM powers WHERE powerID = ?";
 
+    private final String DELETE_FROM_SUPERPOWERS = "DELETE FROM superpowers WHERE powerID = ?";
+
     @Override
     @Transactional
     public Power addNewPower(Power power) {
@@ -62,7 +64,6 @@ public class PowerDAOJDBCImpl implements PowerDAO {
     @Override
     @Transactional
     public Boolean deletePower(int powerID) {
-        final String DELETE_FROM_SUPERPOWERS = "DELETE FROM superpowers WHERE powerID = ?";
         jdbc.update(DELETE_FROM_SUPERPOWERS, powerID);
         return jdbc.update(DELETE_POWER, powerID) > 0;
     }
