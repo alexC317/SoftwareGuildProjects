@@ -25,7 +25,7 @@ CREATE TABLE Locations(
 CREATE TABLE Organizations(
 	organizationID INT PRIMARY KEY AUTO_INCREMENT, 
     organizationName VARCHAR(50) NOT NULL,
-    organizatinDescription VARCHAR(50) NOT NULL,
+    organizationDescription VARCHAR(50) NOT NULL,
     organizationContact VARCHAR(50) NOT NULL,
     locationID INT NOT NULL,
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
@@ -48,12 +48,12 @@ CREATE TABLE Sightings(
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
 );
 
-CREATE TABLE Supers_Organzations(
+CREATE TABLE Supers_Organizations(
 	superID INT NOT NULL,
-    organzationID INT NOT NULL,
+    organizationID INT NOT NULL,
     FOREIGN KEY (superID) REFERENCES Supers(superID),
-    FOREIGN KEY (organzationID) REFERENCES Organizations(organizationID),
-    CONSTRAINT PK_SuperOrganization PRIMARY KEY (superID, organzationID)
+    FOREIGN KEY (organizationID) REFERENCES Organizations(organizationID),
+    CONSTRAINT PK_SuperOrganization PRIMARY KEY (superID, organizationID)
 );
 
 
