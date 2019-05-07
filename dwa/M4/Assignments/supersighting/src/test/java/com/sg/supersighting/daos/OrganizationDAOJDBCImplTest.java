@@ -186,13 +186,60 @@ public class OrganizationDAOJDBCImplTest {
         organizationDAO.updateOrganization(org);
 
         assertNotEquals(fromDAO, org);
-        
+
     }
 
     @Test
     public void testDeleteOrganization() {
-        
-        
+        List<Power> powers = new ArrayList<>();
+        Power power = new Power();
+        power.setPowerName("Flight");
+        power.setPowerDescription("Able to fly.");
+        powerDAO.addNewPower(power);
+        powers.add(power);
+
+        List<Super> supers = new ArrayList<>();
+        Super s = new Super();
+        s.setSuperName("Superman");
+        s.setSuperDescription("The greatest hero.");
+        s.setSuperPowers(powers);
+        superDAO.addNewSuper(s);
+        supers.add(s);
+
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Organization org = new Organization();
+        org.setOrganizationName("Justice League");
+        org.setOrganizationDescription("World's Finest Heroes");
+        org.setOrganizationContact("1-800-123-4567");
+        org.setOrganizationAddress(location);
+        org.setSupers(supers);
+        organizationDAO.addNewOrganization(org);
+
+        Organization org2 = new Organization();
+        org2.setOrganizationName("Young Justice");
+        org2.setOrganizationDescription("The Junior Members of the Justice League");
+        org2.setOrganizationContact("titans@jla.com");
+        org2.setOrganizationAddress(location);
+        organizationDAO.addNewOrganization(org2);
+
+        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        assertEquals(2, organizations.size());
+        assertTrue(organizations.contains(org));
+        assertTrue(organizations.contains(org2));
+
+        organizationDAO.deleteOrganization(org.getOrganizationID());
+        organizations = organizationDAO.getAllOrganizations();
+        assertEquals(1, organizations.size());
+        assertTrue(organizations.contains(org2));
+        assertFalse(organizations.contains(org));
+
     }
 
     /**

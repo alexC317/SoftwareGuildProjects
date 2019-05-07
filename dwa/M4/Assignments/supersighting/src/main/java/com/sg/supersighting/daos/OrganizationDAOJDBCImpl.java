@@ -6,9 +6,11 @@
 package com.sg.supersighting.daos;
 
 import com.sg.supersighting.daos.LocationDAOJDBCImpl.LocationMapper;
+import com.sg.supersighting.daos.PowerDAOJDBCImpl.PowerMapper;
 import com.sg.supersighting.daos.SuperDAOJDBCImpl.SuperMapper;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
+import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,6 +62,11 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
         for (Organization org : organizations) {
             getLocationForOrganization(org);
         }
+
+        for (Organization org : organizations) {
+            getSupersForOrganization(org);
+        }
+
         return organizations;
     }
 
@@ -109,6 +116,16 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
         List<Super> supers = jdbc.query(SELECT_SUPERS_FOR_ORGANIZATION, new SuperMapper(), organization.getOrganizationID());
         if (supers.isEmpty()) {
             supers = null;
+        } else {
+            for (Super s : supers) {
+                List<Power> powers = jdbc.query("SELECT p.* FROM powers p JOIN superpowers s ON s.powerID = p.powerID where s.superID = ?",
+                        new PowerMapper(), s.getSuperID());
+                if (powers.isEmpty()) {
+                    s.setSuperPowers(null);
+                } else {
+                    s.setSuperPowers(powers);
+                }
+            }
         }
         organization.setSupers(supers);
     }
