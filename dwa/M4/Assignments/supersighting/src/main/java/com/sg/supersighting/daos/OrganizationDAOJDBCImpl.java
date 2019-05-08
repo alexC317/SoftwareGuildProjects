@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class OrganizationDAOJDBCImpl implements OrganizationDAO {
@@ -47,33 +48,30 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     private final String DELETE_FROM_SUPERS_ORGANIZATION = "DELETE FROM supers_organizations WHERE organizationID = ?";
 
     @Override
-    public Organization addNewOrganization(Organization org) {
-        jdbc.update(INSERT_NEW_ORGANIZATION, org.getOrganizationName(), org.getOrganizationDescription(),
-                org.getOrganizationContact(), org.getOrganizationAddress().getLocationID());
+    @Transactional
+    public Organization addNewOrganization(Organization organization) {
+        jdbc.update(INSERT_NEW_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
+                organization.getOrganizationContact(), organization.getOrganizationAddress().getLocationID());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        org.setOrganizationID(newID);
-        addSupersForOrganization(org);
-        return org;
+        organization.setOrganizationID(newID);
+        addSupersForOrganization(organization);
+        return organization;
     }
 
     @Override
+    @Transactional
     public List<Organization> getAllOrganizations() {
         List<Organization> organizations = jdbc.query(SELECT_ALL_ORGANIZATIONS, new OrganizationMapper());
-        for (Organization org : organizations) {
-            getLocationForOrganization(org);
+        for (Organization organization : organizations) {
+            getLocationForOrganization(organization);
+            getSupersForOrganization(organization);
         }
-
-        for (Organization org : organizations) {
-            getSupersForOrganization(org);
-        }
-
         return organizations;
     }
 
     @Override
     public Organization getOrganizationByID(int organizationID) {
-        Organization organization = new Organization();
-        organization = jdbc.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationID);
+        Organization organization = jdbc.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationID);
         getLocationForOrganization(organization);
         getSupersForOrganization(organization);
         return organization;
@@ -94,14 +92,23 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     public List<Organization> getOrganizationsBySuper(int superID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_ORGANIZATION_BY_SUPER = "SELECT o.organizationID, o.organizationName, o.organizationDescription, "
+                + "o.organizationContact, o.locationID FROM organizations o INNER JOIN supers_organizations so "
+                + "ON o.organizationID = so.organizationID WHERE so.superID = ?";
+
+        List<Organization> organizations = jdbc.query(SELECT_ORGANIZATION_BY_SUPER, new OrganizationMapper(), superID);
+        for (Organization organization : organizations) {
+            getLocationForOrganization(organization);
+            getSupersForOrganization(organization);
+        }
+        return organizations;
     }
 
-    private void addSupersForOrganization(Organization org) {
-        if (org.getSupers() == null || org.getSupers().isEmpty()) {
+    private void addSupersForOrganization(Organization organization) {
+        if (organization.getSupers() == null || organization.getSupers().isEmpty()) {
         } else {
-            for (Super s : org.getSupers()) {
-                jdbc.update(INSERT_INTO_SUPERS_ORGANIZATIONS, s.getSuperID(), org.getOrganizationID());
+            for (Super s : organization.getSupers()) {
+                jdbc.update(INSERT_INTO_SUPERS_ORGANIZATIONS, s.getSuperID(), organization.getOrganizationID());
             }
         }
     }

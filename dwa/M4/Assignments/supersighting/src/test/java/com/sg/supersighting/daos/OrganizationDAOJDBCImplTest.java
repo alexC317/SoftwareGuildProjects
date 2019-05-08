@@ -247,6 +247,43 @@ public class OrganizationDAOJDBCImplTest {
      */
     @Test
     public void testGetOrganizationsBySuper() {
+        List<Super> supers = new ArrayList<>();
+
+        Super batman = new Super();
+        batman.setSuperName("Batman");
+        batman.setSuperDescription("The World's Greatest Detective");
+        superDAO.addNewSuper(batman);
+        supers.add(batman);
+
+        Location batcave = new Location();
+        batcave.setLocationName("The Bat-Cave");
+        batcave.setLocationDescription("Batman's HQ");
+        batcave.setLocationAddress("Wayne Manor");
+        batcave.setLocationLatitude("+10");
+        batcave.setLocationLongitude("+48");
+        locationDAO.addNewLocation(batcave);
+
+        Organization outsiders = new Organization();
+        outsiders.setOrganizationName("The Outsiders");
+        outsiders.setOrganizationDescription("Batman's Black Ops team");
+        outsiders.setOrganizationContact("outsiders@wayneenterprises.com");
+        outsiders.setOrganizationAddress(batcave);
+        outsiders.setSupers(supers);
+        organizationDAO.addNewOrganization(outsiders);
+
+        Organization batmanInc = new Organization();
+        batmanInc.setOrganizationName("Batman Inc.");
+        batmanInc.setOrganizationDescription("Batman's worldwide team");
+        batmanInc.setOrganizationContact("batmaninc@wayneenterprises.com");
+        batmanInc.setOrganizationAddress(batcave);
+        batmanInc.setSupers(supers);
+        organizationDAO.addNewOrganization(batmanInc);
+
+        List<Organization> batmanOrgs = organizationDAO.getOrganizationsBySuper(batman.getSuperID());
+        assertEquals(2, batmanOrgs.size());
+        assertTrue(batmanOrgs.contains(outsiders));
+        assertTrue(batmanOrgs.contains(batmanInc));
+
     }
 
 }
