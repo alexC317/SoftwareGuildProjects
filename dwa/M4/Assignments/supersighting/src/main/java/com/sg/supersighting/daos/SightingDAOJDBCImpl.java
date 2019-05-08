@@ -29,6 +29,10 @@ public class SightingDAOJDBCImpl implements SightingDAO {
 
     private final String INSERT_NEW_SIGHTING = "INSERT INTO sightings(sightingID, sightingDate, superID, locationID) VALUES (?, ?, ?, ?)";
     private final String SELECT_ALL_SIGHTINGS = "SELECT sightingID, sightingDate, superID, locationID FROM sightings";
+    private final String SELECT_SIGHTING_BY_ID = "SELECT sightingID, sightingDate, superID, locationID FROM sightings "
+            + "WHERE sightingID = ?";
+    private final String UPDATE_SIGHTING = "UPDATE sightings SET sightingDate = ?, superID = ?, locationID = ? "
+            + "WHERE sightingID = ?";
 
     private final String SELECT_SUPER_FOR_SIGHTING = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
             + "INNER JOIN sightings c ON s.superID = c.superID WHERE c.sightingID = ?";
@@ -60,8 +64,6 @@ public class SightingDAOJDBCImpl implements SightingDAO {
     @Override
     @Transactional
     public Sighting getSightingByID(int sightingID) {
-        final String SELECT_SIGHTING_BY_ID = "SELECT sightingID, sightingDate, superID, locationID FROM sightings "
-                + "WHERE sightingID = ?";
         Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), sightingID);
         getSuperForSighting(sighting);
         getLocationForSighting(sighting);
@@ -72,7 +74,8 @@ public class SightingDAOJDBCImpl implements SightingDAO {
     @Override
     @Transactional
     public boolean updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbc.update(UPDATE_SIGHTING, sighting.getSightingDate().toString(), sighting.getSightingSuper().getSuperID(),
+                sighting.getSightingLocation().getLocationID(), sighting.getSightingID()) > 0;
     }
 
     @Override

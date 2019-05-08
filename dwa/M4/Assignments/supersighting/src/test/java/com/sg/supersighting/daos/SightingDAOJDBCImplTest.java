@@ -157,6 +157,54 @@ public class SightingDAOJDBCImplTest {
         assertTrue(sightings.contains(sighting2));
 
     }
+
+    @Test
+    public void testUpdateSighting() {
+        Location location = new Location();
+        location.setLocationName("Test Location");
+        location.setLocationDescription("A location to test");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        List<Power> powers = new ArrayList<>();
+        Power power = new Power();
+        power.setPowerName("Test power");
+        power.setPowerDescription("A power to test");
+        powerDAO.addNewPower(power);
+        powers.add(power);
+
+        Super s = new Super();
+        s.setSuperName("Testman");
+        s.setSuperDescription("A super to test");
+        s.setSuperPowers(powers);
+        superDAO.addNewSuper(s);
+
+        Super s2 = new Super();
+        s2.setSuperName("Testman Jr");
+        s2.setSuperDescription("Another super to test");
+        s2.setSuperPowers(powers);
+        superDAO.addNewSuper(s2);
+
+        Sighting sighting = new Sighting();
+        sighting.setSightingDate(LocalDate.now());
+        sighting.setSightingLocation(location);
+        sighting.setSightingSuper(s);
+        sightingDAO.addNewSighting(sighting);
+
+        Sighting fromDAO = sightingDAO.getSightingByID(sighting.getSightingID());
+        assertEquals(fromDAO, sighting);
+
+        sighting.setSightingSuper(s2);
+        sightingDAO.updateSighting(sighting);
+        assertNotEquals(fromDAO, sighting);
+
+        fromDAO = sightingDAO.getSightingByID(sighting.getSightingID());
+        assertEquals(fromDAO, sighting);
+
+    }
+
 //    /**
 //     * Test of getSightingsByDate method, of class SightingDAOJDBCImpl.
 //     */
