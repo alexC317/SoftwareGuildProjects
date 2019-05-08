@@ -27,7 +27,7 @@ CREATE TABLE Organizations(
     organizationName VARCHAR(50) NOT NULL,
     organizationDescription VARCHAR(50) NOT NULL,
     organizationContact VARCHAR(50) NOT NULL,
-    locationID INT NOT NULL,
+    locationID INT NULL,
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
 );
 
