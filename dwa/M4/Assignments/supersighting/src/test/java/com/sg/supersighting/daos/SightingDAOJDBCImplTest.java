@@ -205,6 +205,54 @@ public class SightingDAOJDBCImplTest {
 
     }
 
+    @Test
+    public void testDeleteSighting() {
+        Location location = new Location();
+        location.setLocationName("Test Location");
+        location.setLocationDescription("A location to test");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        List<Power> powers = new ArrayList<>();
+        Power power = new Power();
+        power.setPowerName("Test power");
+        power.setPowerDescription("A power to test");
+        powerDAO.addNewPower(power);
+        powers.add(power);
+
+        Super s = new Super();
+        s.setSuperName("Testman");
+        s.setSuperDescription("A super to test");
+        s.setSuperPowers(powers);
+        superDAO.addNewSuper(s);
+
+        Sighting sighting = new Sighting();
+        sighting.setSightingDate(LocalDate.now());
+        sighting.setSightingLocation(location);
+        sighting.setSightingSuper(s);
+        sightingDAO.addNewSighting(sighting);
+
+        Sighting sighting2 = new Sighting();
+        sighting2.setSightingDate(LocalDate.parse("2019-01-01"));
+        sighting2.setSightingLocation(location);
+        sighting2.setSightingSuper(s);
+        sightingDAO.addNewSighting(sighting2);
+
+        List<Sighting> sightings = sightingDAO.getAllSightings();
+        assertEquals(2, sightings.size());
+        assertTrue(sightings.contains(sighting));
+        assertTrue(sightings.contains(sighting2));
+
+        sightingDAO.deleteSighting(sighting.getSightingID());
+        sightings = sightingDAO.getAllSightings();
+        assertEquals(1, sightings.size());
+        assertTrue(sightings.contains(sighting2));
+        assertFalse(sightings.contains(sighting));
+
+    }
+
 //    /**
 //     * Test of getSightingsByDate method, of class SightingDAOJDBCImpl.
 //     */
