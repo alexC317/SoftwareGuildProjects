@@ -33,6 +33,9 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
             + "organizationContact, locationID FROM organizations";
     private final String SELECT_ORGANIZATION_BY_ID = "SELECT organizationID, organizationName, organizationDescription, "
             + "organizationContact, locationID FROM organizations WHERE organizationID = ?";
+    private final String SELECT_ORGANIZATION_BY_SUPER = "SELECT o.organizationID, o.organizationName, o.organizationDescription, "
+            + "o.organizationContact, o.locationID FROM organizations o INNER JOIN supers_organizations so "
+            + "ON o.organizationID = so.organizationID WHERE so.superID = ?";
     private final String UPDATE_ORGANIZATION = "UPDATE organizations SET "
             + "organizationName = ?, organizationDescription = ?, organizationContact = ?, locationID = ? "
             + "WHERE organizationID = ?";
@@ -70,6 +73,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     }
 
     @Override
+    @Transactional
     public Organization getOrganizationByID(int organizationID) {
         Organization organization = jdbc.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationID);
         getLocationForOrganization(organization);
@@ -78,6 +82,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     }
 
     @Override
+    @Transactional
     public Boolean updateOrganization(Organization organization) {
         return jdbc.update(UPDATE_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
                 organization.getOrganizationContact(), organization.getOrganizationAddress().getLocationID(),
@@ -85,17 +90,15 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     }
 
     @Override
+    @Transactional
     public Boolean deleteOrganization(int organizationID) {
         jdbc.update(DELETE_FROM_SUPERS_ORGANIZATION, organizationID);
         return jdbc.update(DELETE_ORGANIZATION, organizationID) > 0;
     }
 
     @Override
+    @Transactional
     public List<Organization> getOrganizationsBySuper(int superID) {
-        final String SELECT_ORGANIZATION_BY_SUPER = "SELECT o.organizationID, o.organizationName, o.organizationDescription, "
-                + "o.organizationContact, o.locationID FROM organizations o INNER JOIN supers_organizations so "
-                + "ON o.organizationID = so.organizationID WHERE so.superID = ?";
-
         List<Organization> organizations = jdbc.query(SELECT_ORGANIZATION_BY_SUPER, new OrganizationMapper(), superID);
         for (Organization organization : organizations) {
             getLocationForOrganization(organization);

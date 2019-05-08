@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class LocationDAOJDBCImpl implements LocationDAO {
@@ -35,6 +36,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     private final String DELETE_FROM_ORGANIZATIONS = "UPDATE organizations SET locationID = NULL WHERE locationID = ?";
 
     @Override
+    @Transactional
     public Location addNewLocation(Location location) {
         jdbc.update(INSERT_NEW_LOCATION, location.getLocationName(), location.getLocationDescription(), location.getLocationAddress(),
                 location.getLocationLongitude(), location.getLocationLatitude());
@@ -44,16 +46,19 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     }
 
     @Override
+    @Transactional
     public List<Location> getAllLocations() {
         return jdbc.query(SELECT_ALL_LOCATIONS, new LocationMapper());
     }
 
     @Override
+    @Transactional
     public Location getLocationByID(int locationID) {
         return jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationMapper(), locationID);
     }
 
     @Override
+    @Transactional
     public Boolean updateLocation(Location location) {
         return jdbc.update(UPDATE_LOCATION, location.getLocationName(), location.getLocationDescription(),
                 location.getLocationAddress(), location.getLocationLongitude(), location.getLocationLatitude(),
@@ -61,6 +66,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     }
 
     @Override
+    @Transactional
     public Boolean deleteLocation(int locationID) {
         jdbc.update(DELETE_FROM_SIGHTINGS, locationID);
         jdbc.update(DELETE_FROM_ORGANIZATIONS, locationID);
@@ -68,6 +74,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     }
 
     @Override
+    @Transactional
     public List<Location> getLocationsBySuper(int superID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
