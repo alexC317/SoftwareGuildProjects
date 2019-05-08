@@ -30,6 +30,10 @@ public class LocationDAOJDBCImpl implements LocationDAO {
             + "locationAddress = ?, locationLongitude = ?, locationLatitude = ? WHERE locationID = ?";
     private final String DELETE_LOCATION = "DELETE FROM locations WHERE locationID = ?";
 
+    private final String DELETE_FROM_SIGHTINGS = "DELETE FROM sightings WHERE locationID = ?";
+
+    private final String DELETE_FROM_ORGANIZATIONS = "UPDATE organizations SET locationID = NULL WHERE locationID = ?";
+
     @Override
     public Location addNewLocation(Location location) {
         jdbc.update(INSERT_NEW_LOCATION, location.getLocationName(), location.getLocationDescription(), location.getLocationAddress(),
@@ -58,6 +62,8 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     public Boolean deleteLocation(int locationID) {
+        jdbc.update(DELETE_FROM_SIGHTINGS, locationID);
+        jdbc.update(DELETE_FROM_ORGANIZATIONS, locationID);
         return jdbc.update(DELETE_LOCATION, locationID) > 0;
     }
 

@@ -30,6 +30,10 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     private final String SELECT_POWERS_FOR_SUPER = "SELECT p.* FROM powers p JOIN superpowers s ON s.powerID = p.powerID where s.superID = ?";
     private final String DELETE_SUPERPOWERS = "DELETE FROM superpowers WHERE superID = ?";
 
+    private final String DELETE_FROM_SIGHTINGS = "DELETE FROM sightings WHERE superID =?";
+
+    private final String DELETE_FROM_SUPERS_ORGANIZATIONS = "DELETE FROM supers_organizations WHERE superID = ?";
+
     @Autowired
     private JdbcTemplate jdbc;
 
@@ -72,6 +76,8 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public Boolean deleteSuper(int superID) {
+        jdbc.update(DELETE_FROM_SIGHTINGS, superID);
+        jdbc.update(DELETE_FROM_SUPERS_ORGANIZATIONS, superID);
         jdbc.update(DELETE_SUPERPOWERS, superID);
         return jdbc.update(DELETE_SUPER, superID) > 0;
     }
