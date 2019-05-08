@@ -25,10 +25,10 @@ public interface SightingDAO {
     public Sighting getSightingByID(int sightingID);
 
     //Update
-    public void updateSighting(Sighting sighting);
+    public boolean updateSighting(Sighting sighting);
 
     //Delete
-    public void deleteSighting(int sightingID);
+    public boolean deleteSighting(int sightingID);
 
     //Returns a List of Sightings for a specific Date
     public List<Sighting> getSightingsByDate(LocalDate date);
