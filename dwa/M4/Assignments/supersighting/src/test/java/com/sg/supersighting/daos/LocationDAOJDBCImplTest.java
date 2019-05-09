@@ -7,7 +7,9 @@ package com.sg.supersighting.daos;
 
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Power;
+import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -37,6 +39,9 @@ public class LocationDAOJDBCImplTest {
     @Autowired
     LocationDAO locationDAO;
 
+    @Autowired
+    SightingDAO sightingDAO;
+
     public LocationDAOJDBCImplTest() {
     }
 
@@ -63,6 +68,11 @@ public class LocationDAOJDBCImplTest {
         List<Location> locations = locationDAO.getAllLocations();
         for (Location location : locations) {
             locationDAO.deleteLocation(location.getLocationID());
+        }
+
+        List<Sighting> sightings = sightingDAO.getAllSightings();
+        for (Sighting sighting : sightings) {
+            sightingDAO.deleteSighting(sighting.getSightingID());
         }
     }
 
@@ -168,6 +178,60 @@ public class LocationDAOJDBCImplTest {
      */
     @Test
     public void testGetSightingsBySuper() {
+        Super superman = new Super();
+        superman.setSuperName("Superman");
+        superman.setSuperDescription("The Last Son of Krypton");
+        superDAO.addNewSuper(superman);
+
+        Location hallOfJustice = new Location();
+        hallOfJustice.setLocationName("The Hall of Justice");
+        hallOfJustice.setLocationDescription("Justice League HQ");
+        hallOfJustice.setLocationAddress("123 Main Street");
+        hallOfJustice.setLocationLatitude("00");
+        hallOfJustice.setLocationLongitude("00");
+
+        Location dailyPlanet = new Location();
+        dailyPlanet.setLocationName("The Daily Planet");
+        dailyPlanet.setLocationDescription("Metropolis' Premier Newspaper");
+        dailyPlanet.setLocationAddress("465 Main Street");
+        dailyPlanet.setLocationLatitude("+01");
+        dailyPlanet.setLocationLongitude("+01");
+
+        Location fortressOfSolitude = new Location();
+        fortressOfSolitude.setLocationName("The Fortress of Solitude");
+        fortressOfSolitude.setLocationDescription("Superman's Home Base");
+        fortressOfSolitude.setLocationAddress("Somewhere in Antartica");
+        fortressOfSolitude.setLocationLatitude("-90");
+        fortressOfSolitude.setLocationLongitude("-90");
+
+        locationDAO.addNewLocation(hallOfJustice);
+        locationDAO.addNewLocation(dailyPlanet);
+        locationDAO.addNewLocation(fortressOfSolitude);
+
+        Sighting sighting = new Sighting();
+        sighting.setSightingDate(LocalDate.now());
+        sighting.setSightingLocation(hallOfJustice);
+        sighting.setSightingSuper(superman);
+
+        Sighting sighting2 = new Sighting();
+        sighting2.setSightingDate(LocalDate.now());
+        sighting2.setSightingLocation(dailyPlanet);
+        sighting2.setSightingSuper(superman);
+
+        Sighting sighting3 = new Sighting();
+        sighting3.setSightingDate(LocalDate.now());
+        sighting3.setSightingLocation(fortressOfSolitude);
+        sighting3.setSightingSuper(superman);
+
+        sightingDAO.addNewSighting(sighting);
+        sightingDAO.addNewSighting(sighting2);
+        sightingDAO.addNewSighting(sighting3);
+
+        List<Location> locations = locationDAO.getLocationsBySuper(superman.getSuperID());
+        assertEquals(3, locations.size());
+        assertTrue(locations.contains(hallOfJustice));
+        assertTrue(locations.contains(dailyPlanet));
+        assertTrue(locations.contains(fortressOfSolitude));
     }
 
 }

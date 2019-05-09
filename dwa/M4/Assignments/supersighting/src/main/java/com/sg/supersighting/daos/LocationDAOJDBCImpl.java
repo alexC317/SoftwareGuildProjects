@@ -76,7 +76,11 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     @Override
     @Transactional
     public List<Location> getLocationsBySuper(int superID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_LOCATIONS_BY_SUPER = "SELECT l.locationID, l.locationName, l.locationAddress, l.locationDescription, "
+                + "l.locationLatitude, l.locationLongitude FROM locations l INNER JOIN sightings s ON s.locationID = l.locationID "
+                + "WHERE s.superID = ?";
+        List<Location> locations = jdbc.query(SELECT_LOCATIONS_BY_SUPER, new LocationMapper(), superID);
+        return locations;
     }
 
     public static final class LocationMapper implements RowMapper<Location> {
