@@ -27,6 +27,9 @@ public class LocationDAOJDBCImpl implements LocationDAO {
             + "locationAddress, locationLongitude, locationLatitude FROM locations";
     private final String SELECT_LOCATION_BY_ID = "SELECT locationID, locationName, locationDescription, "
             + "locationAddress, locationLongitude, locationLatitude FROM locations WHERE locationID = ?";
+    private final String SELECT_LOCATIONS_BY_SUPER = "SELECT l.locationID, l.locationName, l.locationAddress, l.locationDescription, "
+            + "l.locationLatitude, l.locationLongitude FROM locations l INNER JOIN sightings s ON s.locationID = l.locationID "
+            + "WHERE s.superID = ?";
     private final String UPDATE_LOCATION = "UPDATE locations SET locationName = ?, locationDescription = ?,"
             + "locationAddress = ?, locationLongitude = ?, locationLatitude = ? WHERE locationID = ?";
     private final String DELETE_LOCATION = "DELETE FROM locations WHERE locationID = ?";
@@ -76,9 +79,6 @@ public class LocationDAOJDBCImpl implements LocationDAO {
     @Override
     @Transactional
     public List<Location> getLocationsBySuper(int superID) {
-        final String SELECT_LOCATIONS_BY_SUPER = "SELECT l.locationID, l.locationName, l.locationAddress, l.locationDescription, "
-                + "l.locationLatitude, l.locationLongitude FROM locations l INNER JOIN sightings s ON s.locationID = l.locationID "
-                + "WHERE s.superID = ?";
         List<Location> locations = jdbc.query(SELECT_LOCATIONS_BY_SUPER, new LocationMapper(), superID);
         return locations;
     }
