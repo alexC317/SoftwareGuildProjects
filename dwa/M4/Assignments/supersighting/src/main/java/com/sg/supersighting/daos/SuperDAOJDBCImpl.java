@@ -23,6 +23,10 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     private final String INSERT_NEW_SUPER = "INSERT INTO supers(superName, superDescription) VALUES (?, ?)";
     private final String SELECT_ALL_SUPERS = "SELECT superID, superName, superDescription FROM supers";
     private final String SELECT_SUPER_BY_ID = "SELECT superID, superName, superDescription FROM supers WHERE superID = ?";
+    private final String SELECT_SUPERS_BY_ORGANIZATION = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
+            + "INNER JOIN supers_organizations so ON s.superID = so.superID WHERE so.organizationID = ?";
+    private final String SELECT_SUPERS_BY_LOCATION = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
+            + "INNER JOIN sightings c ON s.superID = c.superID WHERE c.locationID = ?";
     private final String UPDATE_SUPER = "UPDATE supers SET superName = ?, superDescription = ? WHERE superID = ?";
     private final String DELETE_SUPER = "DELETE FROM supers WHERE superID = ?";
 
@@ -85,21 +89,21 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public List<Super> getAllSupersByOrganization(int organizationID) {
-        final String SELECT_SUPERS_BY_ORGANIZATION = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
-                + "INNER JOIN supers_organizations so ON s.superID = so.superID WHERE so.organizationID = ?";
-
         List<Super> supers = jdbc.query(SELECT_SUPERS_BY_ORGANIZATION, new SuperMapper(), organizationID);
         for (Super s : supers) {
             getPowersForSuper(s.getSuperID());
         }
-
         return supers;
     }
 
     @Override
     @Transactional
     public List<Super> getSupersByLocation(int locationID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Super> supers = jdbc.query(SELECT_SUPERS_BY_LOCATION, new SuperMapper(), locationID);
+        for (Super s : supers) {
+            getPowersForSuper(s.getSuperID());
+        }
+        return supers;
     }
 
     private void addSuperpowers(Super s) {

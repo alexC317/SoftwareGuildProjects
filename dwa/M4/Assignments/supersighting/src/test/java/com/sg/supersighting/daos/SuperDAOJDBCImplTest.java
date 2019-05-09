@@ -8,7 +8,9 @@ package com.sg.supersighting.daos;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
+import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -42,6 +44,9 @@ public class SuperDAOJDBCImplTest {
     @Autowired
     OrganizationDAO organizationDAO;
 
+    @Autowired
+    SightingDAO sightingDAO;
+
     public SuperDAOJDBCImplTest() {
     }
 
@@ -72,6 +77,11 @@ public class SuperDAOJDBCImplTest {
         List<Organization> organizations = organizationDAO.getAllOrganizations();
         for (Organization organization : organizations) {
             organizationDAO.deleteOrganization(organization.getOrganizationID());
+        }
+
+        List<Sighting> sightings = sightingDAO.getAllSightings();
+        for (Sighting sighting : sightings) {
+            sightingDAO.deleteSighting(sighting.getSightingID());
         }
     }
 
@@ -274,5 +284,54 @@ public class SuperDAOJDBCImplTest {
      */
     @Test
     public void testGetSightingsByLocation() {
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Super superman = new Super();
+        superman.setSuperName("Superman");
+        superman.setSuperDescription("The Last Son of Krypton");
+
+        Super batman = new Super();
+        batman.setSuperName("Batman");
+        batman.setSuperDescription("The Dark Knight");
+
+        Super wonderWoman = new Super();
+        wonderWoman.setSuperName("Wonder Woman");
+        wonderWoman.setSuperDescription("The Amazon of Themyscira");
+
+        superDAO.addNewSuper(superman);
+        superDAO.addNewSuper(batman);
+        superDAO.addNewSuper(wonderWoman);
+
+        Sighting supermanSighting = new Sighting();
+        supermanSighting.setSightingDate(LocalDate.now());
+        supermanSighting.setSightingSuper(superman);
+        supermanSighting.setSightingLocation(location);
+
+        Sighting batmanSighting = new Sighting();
+        batmanSighting.setSightingDate(LocalDate.now());
+        batmanSighting.setSightingSuper(batman);
+        batmanSighting.setSightingLocation(location);
+
+        Sighting wonderWomanSighting = new Sighting();
+        wonderWomanSighting.setSightingDate(LocalDate.now());
+        wonderWomanSighting.setSightingSuper(wonderWoman);
+        wonderWomanSighting.setSightingLocation(location);
+
+        sightingDAO.addNewSighting(supermanSighting);
+        sightingDAO.addNewSighting(batmanSighting);
+        sightingDAO.addNewSighting(wonderWomanSighting);
+
+        List<Super> superSightings = superDAO.getSupersByLocation(location.getLocationID());
+        assertEquals(3, superSightings.size());
+        assertTrue(superSightings.contains(superman));
+        assertTrue(superSightings.contains(batman));
+        assertTrue(superSightings.contains(wonderWoman));
+        
     }
 }
