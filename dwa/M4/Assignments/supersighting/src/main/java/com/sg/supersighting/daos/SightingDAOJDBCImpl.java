@@ -31,8 +31,11 @@ public class SightingDAOJDBCImpl implements SightingDAO {
     private final String SELECT_ALL_SIGHTINGS = "SELECT sightingID, sightingDate, superID, locationID FROM sightings";
     private final String SELECT_SIGHTING_BY_ID = "SELECT sightingID, sightingDate, superID, locationID FROM sightings "
             + "WHERE sightingID = ?";
+    private final String SELECT_SIGHTINGS_BY_DATE = "SELECT sightingID, sightingDate, superID, locationID FROM sightings "
+            + "WHERE sightingDate = ?";
     private final String UPDATE_SIGHTING = "UPDATE sightings SET sightingDate = ?, superID = ?, locationID = ? "
             + "WHERE sightingID = ?";
+    private final String DELETE_SIGHTING = "DELETE FROM sightings WHERE sightingID = ?";
 
     private final String SELECT_SUPER_FOR_SIGHTING = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
             + "INNER JOIN sightings c ON s.superID = c.superID WHERE c.sightingID = ?";
@@ -81,14 +84,18 @@ public class SightingDAOJDBCImpl implements SightingDAO {
     @Override
     @Transactional
     public boolean deleteSighting(int sightingID) {
-        final String DELETE_SIGHTING = "DELETE FROM sightings WHERE sightingID = ?";
         return jdbc.update(DELETE_SIGHTING, sightingID) > 0;
     }
 
     @Override
     @Transactional
     public List<Sighting> getSightingsByDate(LocalDate date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Sighting> sightings = jdbc.query(SELECT_SIGHTINGS_BY_DATE, new SightingMapper(), date.toString());
+        for (Sighting sighting : sightings) {
+            getSuperForSighting(sighting);
+            getLocationForSighting(sighting);
+        }
+        return sightings;
     }
 
     private void getSuperForSighting(Sighting sighting) {
