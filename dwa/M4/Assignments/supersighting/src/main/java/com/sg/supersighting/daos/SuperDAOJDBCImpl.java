@@ -85,7 +85,15 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public List<Super> getAllSupersByOrganization(int organizationID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        final String SELECT_SUPERS_BY_ORGANIZATION = "SELECT s.superID, s.superName, s.superDescription FROM supers s "
+                + "INNER JOIN supers_organizations so ON s.superID = so.superID WHERE so.organizationID = ?";
+
+        List<Super> supers = jdbc.query(SELECT_SUPERS_BY_ORGANIZATION, new SuperMapper(), organizationID);
+        for (Super s : supers) {
+            getPowersForSuper(s.getSuperID());
+        }
+
+        return supers;
     }
 
     @Override

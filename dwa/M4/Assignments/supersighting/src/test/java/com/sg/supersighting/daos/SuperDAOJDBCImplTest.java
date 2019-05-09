@@ -6,6 +6,7 @@
 package com.sg.supersighting.daos;
 
 import com.sg.supersighting.dtos.Location;
+import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class SuperDAOJDBCImplTest {
     @Autowired
     LocationDAO locationDAO;
 
+    @Autowired
+    OrganizationDAO organizationDAO;
+
     public SuperDAOJDBCImplTest() {
     }
 
@@ -64,6 +68,10 @@ public class SuperDAOJDBCImplTest {
         List<Location> locations = locationDAO.getAllLocations();
         for (Location location : locations) {
             locationDAO.deleteLocation(location.getLocationID());
+        }
+        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        for (Organization organization : organizations) {
+            organizationDAO.deleteOrganization(organization.getOrganizationID());
         }
     }
 
@@ -216,6 +224,49 @@ public class SuperDAOJDBCImplTest {
      */
     @Test
     public void testGetAllSuperByOrganization() {
+        Location location = new Location();
+        location.setLocationName("Hall of Justice");
+        location.setLocationAddress("123 Main Street");
+        location.setLocationDescription("Justice League Headquarters");
+        location.setLocationLatitude("00");
+        location.setLocationLongitude("00");
+        locationDAO.addNewLocation(location);
+
+        Super superman = new Super();
+        superman.setSuperName("Superman");
+        superman.setSuperDescription("The Last Son of Krypton");
+
+        Super batman = new Super();
+        batman.setSuperName("Batman");
+        batman.setSuperDescription("The Dark Knight");
+
+        Super wonderWoman = new Super();
+        wonderWoman.setSuperName("Wonder Woman");
+        wonderWoman.setSuperDescription("The Amazon of Themyscira");
+
+        superDAO.addNewSuper(superman);
+        superDAO.addNewSuper(batman);
+        superDAO.addNewSuper(wonderWoman);
+
+        List<Super> supers = new ArrayList<>();
+        supers.add(superman);
+        supers.add(batman);
+        supers.add(wonderWoman);
+
+        Organization justiceLeague = new Organization();
+        justiceLeague.setOrganizationName("The Justice League");
+        justiceLeague.setOrganizationDescription("The World's Finest");
+        justiceLeague.setOrganizationContact("jl@dc.com");
+        justiceLeague.setSupers(supers);
+        justiceLeague.setOrganizationAddress(location);
+        organizationDAO.addNewOrganization(justiceLeague);
+
+        List<Super> justiceLeagueRoster = superDAO.getAllSupersByOrganization(justiceLeague.getOrganizationID());
+        assertEquals(3, justiceLeagueRoster.size());
+        assertTrue(justiceLeagueRoster.contains(superman));
+        assertTrue(justiceLeagueRoster.contains(batman));
+        assertTrue(justiceLeagueRoster.contains(wonderWoman));
+
     }
 
     /**
