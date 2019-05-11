@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.supersighting.service;
+package com.sg.supersighting.services;
 
 import com.sg.supersighting.dtos.Super;
 import java.util.List;
