@@ -63,8 +63,32 @@ and open the template in the editor.
                             <input type="text" name="powerDescription" id="powerDescription" class="form-control" />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Student</button>
+                    <button type="submit" class="btn btn-primary">Add Power</button>
                 </form>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+            <div class="col text-center m-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>PowerID</th>
+                            <th>Power</th>
+                            <th>Description</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="power: ${powers}">
+                            <td th:text="${power.powerID}">ID</td>
+                            <td th:text="${power.powerName}">Power</td>
+                            <td th:text="${power.powerDescription}">Description</td>
+                            <td><a href="#" th:href="@{/editPower(powerID=${power.powerID})}">Edit</a></td>
+                            <td><a href="#" th:href="@{/deletePower(powerID=${power.powerID})}">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
