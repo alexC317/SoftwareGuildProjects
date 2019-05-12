@@ -23,7 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1>Super Sightings</h1>
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -41,6 +41,67 @@ and open the template in the editor.
             </div>
             <div class="col text-center m-3">
                 <a href="Sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+            <div class="col-3 text-center m-3">
+                <span class="h3">Add Super</span>
+            </div>
+            <div class="col-7 text-center m-3">
+                <form action="addSuper" method="POST">
+                    <div class="form-group row">
+                        <label for="superName" class="col-3 col-form-label">
+                            Super Name</label>
+                        <div class="col-9">
+                            <input type="text" name="superName" id="superName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superDescription" class="col-3 col-form-label">
+                            Super Description</label>
+                        <div class="col-9">
+                            <input type="text" name="superDescription" id="superDescription" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="superPowers" class="col-3 col-form-label">
+                            Superpowers</label>
+                        <div class="col-9">
+                            <select name="powerID" id="superPowers" class="form-control">
+                                <option th:each="power : ${powers}" th:value="${power.powerID}"
+                                    th:text="${power.powerName}">Power</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Super</button>
+                </form>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+            <div class="col text-center m-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="super: ${supers}">
+                            <td th:text="${super.superID}">ID</td>
+                            <td th:text="${super.superName}">Name</td>
+                            <td th:text="${super.superDescription}">Description</td>
+                            <td>Details</td>
+                            <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
+                            <td><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
