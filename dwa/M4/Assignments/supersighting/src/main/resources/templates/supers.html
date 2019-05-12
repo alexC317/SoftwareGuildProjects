@@ -95,7 +95,7 @@ and open the template in the editor.
                             <td th:text="${super.superID}">ID</td>
                             <td th:text="${super.superName}">Name</td>
                             <td th:text="${super.superDescription}">Description</td>
-                            <td>Details</td>
+                            <td><a href="#" th:href="@{/detailSuper(superID=${super.superID})}">Details</a></td>
                             <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
                             <td><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
                             </td>

@@ -51,7 +51,7 @@ public class SuperController {
     }
 
     @GetMapping("Supers")
-    public String displaysSupers(Model model) {
+    public String displaySupers(Model model) {
         List<Super> supers = superDAO.getAllSupers();
         List<Power> powers = powerDAO.getAllPowers();
         List<Organization> organizations = organizationDAO.getAllOrganizations();
@@ -59,6 +59,15 @@ public class SuperController {
         model.addAttribute("powers", powers);
         model.addAttribute("organzations", organizations);
         return "Supers";
+    }
+
+    @GetMapping("detailSuper")
+    public String detailSuper(Integer superID, Model model) {
+        Super s = superDAO.getSuperByID(superID);
+        List<Organization> organizations = organizationDAO.getOrganizationsBySuper(superID);
+        model.addAttribute("super", s);
+        model.addAttribute("organizations", organizations);
+        return "detailSuper";
     }
 
     @GetMapping("editSuper")
@@ -82,6 +91,12 @@ public class SuperController {
         s.setSuperPowers(powers);
         superDAO.updateSuper(s);
 
+        return "redirect:/Supers";
+    }
+
+    @GetMapping("deleteSuper")
+    public String deleteSuper(Integer superID) {
+        superDAO.deleteSuper(superID);
         return "redirect:/Supers";
     }
 }
