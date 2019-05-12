@@ -11,7 +11,9 @@ import com.sg.supersighting.daos.SuperDAO;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,16 @@ public class SuperController {
     OrganizationDAO organizationDAO;
 
     @PostMapping("addSuper")
-    public String addSuper() {
+    public String addSuper(Super s, HttpServletRequest request) {
+        String[] powerIDs = request.getParameterValues("powerID");
+
+        List<Power> powers = new ArrayList<>();
+        for (String powerID : powerIDs) {
+            powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+        }
+
+        s.setSuperPowers(powers);
+        superDAO.addNewSuper(s);
         return "redirect:/Supers";
     }
 
@@ -48,5 +59,29 @@ public class SuperController {
         model.addAttribute("powers", powers);
         model.addAttribute("organzations", organizations);
         return "Supers";
+    }
+
+    @GetMapping("editSuper")
+    public String editSuper(Integer superID, Model model) {
+        Super s = superDAO.getSuperByID(superID);
+        List<Power> powers = powerDAO.getAllPowers();
+        model.addAttribute("super", s);
+        model.addAttribute("powers", powers);
+        return "editSuper";
+    }
+
+    @PostMapping("editSuper")
+    public String performEditSuper(Super s, HttpServletRequest request) {
+        String[] powerIDs = request.getParameterValues("powerID");
+
+        List<Power> powers = new ArrayList<>();
+        for (String powerID : powerIDs) {
+            powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+        }
+
+        s.setSuperPowers(powers);
+        superDAO.updateSuper(s);
+
+        return "redirect:/Supers";
     }
 }
