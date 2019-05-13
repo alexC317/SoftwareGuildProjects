@@ -23,7 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1>Super Sightings</h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -46,16 +46,17 @@ and open the template in the editor.
         <div class="row m-4 border border-dark">
             <div class="col-3 text-center m-3">
                 <span class="h3">
-                    Add Organization
+                    Edit Organization
                 </span>
             </div>
             <div class="col-7 text-center m-3">
-                <form action="addOrganization" method="POST">
+                <form action="editOrganization" method="POST">
                     <div class="form-group row">
                         <label for="organizationName" class="col-3 col-form-label">
                             Organization Name</label>
                         <div class="col-9">
-                            <input type="text" name="organizationName" id="organizationName" class="form-control">
+                            <input type="text" name="organizationName" id="organizationName" class="form-control"
+                                th:value="${organization.organizationName}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -63,14 +64,15 @@ and open the template in the editor.
                             Organization Description</label>
                         <div class="col-9">
                             <input type="text" name="organizationDescription" id="organizationDescription"
-                                class="form-control">
+                                class="form-control" th:value="${organization.organizationDescription}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="organizationContact" class="col-3 col-form-label">
                             Organization Contact</label>
                         <div class="col-9">
-                            <input type="text" name="organizationContact" id="organizationContact" class="form-control">
+                            <input type="text" name="organizationContact" id="organizationContact" class="form-control"
+                                th:value="${organization.organizationContact}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -93,40 +95,9 @@ and open the template in the editor.
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Organization</button>
+                    <input type="hidden" name="organizationID" th:value="${organization.organizationID}">
+                    <button type="submit" class="btn btn-primary">Edit Organization</button>
                 </form>
-            </div>
-        </div>
-        <div class="row m-4 border border-dark">
-            <div class="col text-center m-3">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Details</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="organization : ${organizations}">
-                            <td th:text="${organization.organizationID}">ID</td>
-                            <td th:text="${organization.organizationName}">Name</td>
-                            <td th:text="${organization.organizationDescription}">Description</td>
-                            <td><a href="#"
-                                    th:href="@{/detailOrganization(organizationID=${organization.organizationID})}">Details</a>
-                            </td>
-                            <td><a href="#"
-                                    th:href="@{/editOrganization(organizationID=${organization.organizationID})}">Edit</a>
-                            </td>
-                            <td><a href="#"
-                                    th:href="@{/deleteOrganization(organizationID=${organization.organizationID})}">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

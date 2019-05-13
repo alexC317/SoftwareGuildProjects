@@ -85,6 +85,8 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
     @Override
     @Transactional
     public Boolean updateOrganization(Organization organization) {
+        jdbc.update(DELETE_FROM_SUPERS_ORGANIZATION, organization.getOrganizationID());
+        addSupersForOrganization(organization);
         return jdbc.update(UPDATE_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
                 organization.getOrganizationContact(), organization.getOrganizationAddress().getLocationID(),
                 organization.getOrganizationID()) > 0;
