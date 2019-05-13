@@ -23,7 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1>Super Sightings</h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -45,15 +45,16 @@ and open the template in the editor.
         </div>
         <div class="row m-4 border border-dark">
             <div class="col-3 text-center m-3">
-                <span class="h3">Add Sighting</span>
+                <span class="h3">Edit Sighting</span>
             </div>
             <div class="col-7 text-center m-3">
-                <form action="addSighting" method="POST">
+                <form action="editSighting" method="POST">
                     <div class="form-group row">
                         <label for="sightingDate" class="col-3 col-form-label">
                             Sighting Date</label>
                         <div class="col-9">
-                            <input type="date" name="sightingDate" id="sightingDate" class="form-control">
+                            <input type="date" name="sightingDate" id="sightingDate" class="form-control"
+                                th:value="${sighting.sightingDate}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -76,35 +77,9 @@ and open the template in the editor.
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Sighting</button>
+                    <input type="hidden" name="sightingID" th:value="${sighting.sightingID}">
+                    <button type="submit" class="btn btn-primary">Edit Sighting</button>
                 </form>
-            </div>
-        </div>
-        <div class="row m-4 border border-dark">
-            <div class="col text-center m-3">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Super</th>
-                            <th>Location</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="sighting : ${sightings}">
-                            <td th:text="${sighting.sightingID}">ID</td>
-                            <td th:text="${sighting.sightingDate}">Date</td>
-                            <td th:text="${sighting.sightingSuper.superName}">Name</td>
-                            <td th:text="${sighting.sightingLocation.locationName}">Description</td>
-                            <td><a href="#" th:href="@{/editSighting(sightingID=${sighting.sightingID})}">Edit</a></td>
-                            <td><a href="#" th:href="@{/deleteSighting(sightingID=${sighting.sightingID})}">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
