@@ -38,14 +38,17 @@ public class SuperController {
 
     @PostMapping("addSuper")
     public String addSuper(Super s, HttpServletRequest request) {
-        String[] powerIDs = request.getParameterValues("powerID");
+        if (request.getParameterValues("powerID") != null) {
+            String[] powerIDs = request.getParameterValues("powerID");
 
-        List<Power> powers = new ArrayList<>();
-        for (String powerID : powerIDs) {
-            powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+            List<Power> powers = new ArrayList<>();
+            for (String powerID : powerIDs) {
+                powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+            }
+
+            s.setSuperPowers(powers);
         }
 
-        s.setSuperPowers(powers);
         superDAO.addNewSuper(s);
         return "redirect:/Supers";
     }
@@ -90,7 +93,6 @@ public class SuperController {
 
         s.setSuperPowers(powers);
         superDAO.updateSuper(s);
-
         return "redirect:/Supers";
     }
 
