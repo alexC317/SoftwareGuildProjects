@@ -7,10 +7,17 @@ package com.sg.supersighting.controllers;
 
 import com.sg.supersighting.daos.LocationDAO;
 import com.sg.supersighting.dtos.Location;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -20,6 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class LocationController {
+
+    Set<ConstraintViolation<Location>> violations = new HashSet<>();
 
     @Autowired
     LocationDAO locationDAO;
@@ -33,7 +42,11 @@ public class LocationController {
         location.setLocationAddress(locationAddress);
         location.setLocationLatitude(locationLatitude);
         location.setLocationLongitude(locationLongitude);
-        locationDAO.addNewLocation(location);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(location);
+        if (violations.isEmpty()) {
+            locationDAO.addNewLocation(location);
+        }
         return "redirect:/Locations";
     }
 
@@ -41,6 +54,7 @@ public class LocationController {
     public String displayLocations(Model model) {
         List<Location> locations = locationDAO.getAllLocations();
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", violations);
         return "Locations";
     }
 
@@ -52,7 +66,10 @@ public class LocationController {
     }
 
     @PostMapping("editLocation")
-    public String performEditLocation(Location location) {
+    public String performEditLocation(@Valid Location location, BindingResult result) {
+        if(result.hasErrors()){
+            return "editLocation";
+        }
         locationDAO.updateLocation(location);
         return "redirect:/Locations";
     }

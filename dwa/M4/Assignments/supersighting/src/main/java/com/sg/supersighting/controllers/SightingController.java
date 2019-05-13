@@ -12,9 +12,13 @@ import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +30,9 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @author Alex
  */
 @Controller
-public class SightingsController {
+public class SightingController {
+
+    Set<ConstraintViolation<Sighting>> violations = new HashSet<>();
 
     @Autowired
     SightingDAO sightingDAO;
@@ -59,7 +65,11 @@ public class SightingsController {
         sighting.setSightingDate(LocalDate.parse(sightingDate));
         sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
         sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
-        sightingDAO.addNewSighting(sighting);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+        if (violations.isEmpty()) {
+            sightingDAO.addNewSighting(sighting);
+        }
         return "redirect:/Sightings";
     }
 
@@ -71,6 +81,7 @@ public class SightingsController {
         model.addAttribute("sightings", sightings);
         model.addAttribute("supers", supers);
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", violations);
         return "Sightings";
     }
 
@@ -96,7 +107,11 @@ public class SightingsController {
         sighting.setSightingDate(LocalDate.parse(sightingDate));
         sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
         sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
-        sightingDAO.updateSighting(sighting);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(sighting);
+        if (violations.isEmpty()) {
+            sightingDAO.updateSighting(sighting);
+        }
         return "redirect:/Sightings";
     }
 

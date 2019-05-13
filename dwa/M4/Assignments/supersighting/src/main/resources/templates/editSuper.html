@@ -55,6 +55,10 @@ and open the template in the editor.
                         <div class="col-9">
                             <input type="text" name="superName" id="superName" class="form-control"
                                 th:value="${super.superName}" />
+                            <div th:if="${#fields.hasErrors('super.superName')}">
+                                <p th:each="error : ${#fields.errors('super.superName')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad super name</p>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -63,6 +67,10 @@ and open the template in the editor.
                         <div class="col-9">
                             <input type="text" name="superDescription" id="superDescription" class="form-control"
                                 th:value="${super.superDescription}" />
+                            <div th:if="${#fields.hasErrors('super.superDescription')}">
+                                <p th:each="error : ${#fields.errors('super.superDescription')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad super description </p>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">

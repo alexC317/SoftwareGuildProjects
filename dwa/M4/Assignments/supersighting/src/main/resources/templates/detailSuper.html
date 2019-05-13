@@ -68,6 +68,12 @@ and open the template in the editor.
                     <span th:text="${organization.OrganizationName}">displayOrganizations</span><br />
                 </span>
             </div>
+            <div class="col-6 text-right"><strong>Sightings</strong></div>
+            <div class="col-6 text-left">
+                <span th:each="sighting : ${sightings}">
+                    <span th:text="${sighting.sightingLocation.locationName}">displayLocations</span><br />
+                </span>
+            </div>
         </div>
     </div>
     <!-- End main body -->

@@ -55,6 +55,10 @@ and open the template in the editor.
                         <div class="col-9">
                             <input type="text" name="powerName" id="powerName" class="form-control"
                                 th:value="${power.powerName}" />
+                            <div th:if="${#fields.hasErrors('power.powerName')}">
+                                <p th:each="error : ${#fields.errors('power.powerName')}" class="alert alert-danger"
+                                th:text="${error}">Bad power name</p>
+                            </div>  
                         </div>
                     </div>
                     <div class="form-group row">
@@ -63,6 +67,10 @@ and open the template in the editor.
                         <div class="col-9">
                             <input type="text" name="powerDescription" id="powerDescription" class="form-control"
                                 th:value="${power.powerDescription}" />
+                            <div th:if="${#fields.hasErrors('power.powerDescription')}">
+                                <p th:each="error : ${#fields.errors('power.powerDescription')}" class="alert alert-danger"
+                                th:text="${error}">Bad power description</p>
+                            </div> 
                         </div>
                     </div>
                     <input type="hidden" name="powerID" th:value="${power.powerID}" />

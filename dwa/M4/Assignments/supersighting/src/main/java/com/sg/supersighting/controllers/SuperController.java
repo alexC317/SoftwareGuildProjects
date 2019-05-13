@@ -12,11 +12,18 @@ import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -26,6 +33,8 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class SuperController {
+
+    Set<ConstraintViolation<Super>> violations = new HashSet<>();
 
     @Autowired
     SuperDAO superDAO;
@@ -38,18 +47,19 @@ public class SuperController {
 
     @PostMapping("addSuper")
     public String addSuper(Super s, HttpServletRequest request) {
-        if (request.getParameterValues("powerID") != null) {
-            String[] powerIDs = request.getParameterValues("powerID");
-
+        String[] powerIDs = request.getParameterValues("powerID");
+        if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();
             for (String powerID : powerIDs) {
                 powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
             }
-
             s.setSuperPowers(powers);
         }
-
-        superDAO.addNewSuper(s);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(s);
+        if (violations.isEmpty()) {
+            superDAO.addNewSuper(s);
+        }
         return "redirect:/Supers";
     }
 
@@ -61,6 +71,7 @@ public class SuperController {
         model.addAttribute("supers", supers);
         model.addAttribute("powers", powers);
         model.addAttribute("organzations", organizations);
+        model.addAttribute("errors", violations);
         return "Supers";
     }
 
@@ -83,15 +94,20 @@ public class SuperController {
     }
 
     @PostMapping("editSuper")
-    public String performEditSuper(Super s, HttpServletRequest request) {
+    public String performEditSuper(@Valid Super s, BindingResult result, HttpServletRequest request, Model model) {
         String[] powerIDs = request.getParameterValues("powerID");
-
-        List<Power> powers = new ArrayList<>();
-        for (String powerID : powerIDs) {
-            powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+        if (powerIDs != null) {
+            List<Power> powers = new ArrayList<>();
+            for (String powerID : powerIDs) {
+                powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+            }
+            s.setSuperPowers(powers);
         }
-
-        s.setSuperPowers(powers);
+        if (result.hasErrors()) {
+            model.addAttribute("powers", powerDAO.getAllPowers());
+            model.addAttribute("super", s);
+            return "editSuper";
+        }
         superDAO.updateSuper(s);
         return "redirect:/Supers";
     }

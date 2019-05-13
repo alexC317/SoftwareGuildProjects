@@ -13,11 +13,18 @@ import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Super;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -27,6 +34,8 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class OrganizationController {
+
+    Set<ConstraintViolation<Organization>> violations = new HashSet<>();
 
     @Autowired
     OrganizationDAO organizationDAO;
@@ -42,23 +51,24 @@ public class OrganizationController {
 
     @PostMapping("addOrganization")
     public String addOrganization(Organization organization, HttpServletRequest request) {
-        if (request.getParameter("locationID") != null) {
-            String locationID = request.getParameter("locationID");
+        String locationID = request.getParameter("locationID");
+        String[] superIDs = request.getParameterValues("superID");
+
+        if (locationID != null) {
             organization.setOrganizationAddress(locationDAO.getLocationByID(Integer.parseInt(locationID)));
         }
-
-        if (request.getParameterValues("superID") != null) {
-            String[] superIDs = request.getParameterValues("superID");
+        if (superIDs != null) {
             List<Super> supers = new ArrayList<>();
             for (String superID : superIDs) {
                 supers.add(superDAO.getSuperByID(Integer.parseInt(superID)));
             }
-
             organization.setSupers(supers);
-
         }
-
-        organizationDAO.addNewOrganization(organization);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
+        if (violations.isEmpty()) {
+            organizationDAO.addNewOrganization(organization);
+        }
         return "redirect:/Organizations";
     }
 
@@ -70,6 +80,7 @@ public class OrganizationController {
         model.addAttribute("organizations", organizations);
         model.addAttribute("locations", locations);
         model.addAttribute("supers", supers);
+        model.addAttribute("errors", violations);
         return "Organizations";
     }
 
@@ -96,20 +107,24 @@ public class OrganizationController {
     }
 
     @PostMapping("editOrganization")
-    public String performEditOrganization(Organization organization, HttpServletRequest request) {
+    public String performEditOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request, Model model) {
         String locationID = request.getParameter("locationID");
+        String[] superIDs = request.getParameterValues("superID");
         organization.setOrganizationAddress(locationDAO.getLocationByID(Integer.parseInt(locationID)));
 
-        if (request.getParameterValues("superID") != null) {
-            String[] superIDs = request.getParameterValues("superID");
+        if (superIDs != null) {
             List<Super> supers = new ArrayList<>();
             for (String superID : superIDs) {
                 supers.add(superDAO.getSuperByID(Integer.parseInt(superID)));
             }
-
             organization.setSupers(supers);
         }
-
+        if (result.hasErrors()) {
+            model.addAttribute("organization", organization);
+            model.addAttribute("locations", locationDAO.getAllLocations());
+            model.addAttribute("supers", superDAO.getAllSupers());
+            return "editOrganization";
+        }
         organizationDAO.updateOrganization(organization);
         return "redirect:/Organizations";
     }
