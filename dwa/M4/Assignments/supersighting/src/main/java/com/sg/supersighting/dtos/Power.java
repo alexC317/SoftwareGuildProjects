@@ -7,6 +7,8 @@ package com.sg.supersighting.dtos;
 
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -15,9 +17,14 @@ import java.util.Objects;
 public class Power {
 
     private int powerID;
+
+    @NotBlank(message = "Power name must not be empty.")
+    @Size(max = 50, message = "Cannot be more than 50 characters")
     private String powerName;
+
+    @NotBlank(message = "Power description must not be empty.")
+    @Size(max = 50, message = "Cannot be more than 50 characters")
     private String powerDescription;
-    private List<Super> poweredSupers;
 
     public int getPowerID() {
         return powerID;
@@ -43,21 +50,12 @@ public class Power {
         this.powerDescription = powerDescription;
     }
 
-    public List<Super> getPoweredSupers() {
-        return poweredSupers;
-    }
-
-    public void setPoweredSupers(List<Super> poweredSupers) {
-        this.poweredSupers = poweredSupers;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + this.powerID;
         hash = 97 * hash + Objects.hashCode(this.powerName);
         hash = 97 * hash + Objects.hashCode(this.powerDescription);
-        hash = 97 * hash + Objects.hashCode(this.poweredSupers);
         return hash;
     }
 
@@ -80,9 +78,6 @@ public class Power {
             return false;
         }
         if (!Objects.equals(this.powerDescription, other.powerDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this.poweredSupers, other.poweredSupers)) {
             return false;
         }
         return true;

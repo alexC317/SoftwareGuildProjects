@@ -7,6 +7,8 @@ package com.sg.supersighting.dtos;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -15,8 +17,12 @@ import java.util.Objects;
 public class Sighting {
 
     private int sightingID;
+
+    @NotBlank(message = "Date must not be empty.")
     private LocalDate sightingDate;
+
     private Super sightingSuper;
+
     private Location sightingLocation;
 
     public int getSightingID() {

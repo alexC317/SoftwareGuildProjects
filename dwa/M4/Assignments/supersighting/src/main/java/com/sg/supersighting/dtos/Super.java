@@ -7,6 +7,8 @@ package com.sg.supersighting.dtos;
 
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -15,8 +17,15 @@ import java.util.Objects;
 public class Super {
 
     private int superID;
+
+    @NotBlank(message = "Super name must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String superName;
+
+    @NotBlank(message = "Super description must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String superDescription;
+
     private List<Power> superPowers;
 
     public int getSuperID() {

@@ -6,6 +6,8 @@
 package com.sg.supersighting.dtos;
 
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -14,10 +16,25 @@ import java.util.Objects;
 public class Location {
 
     private int locationID;
+
+    @NotBlank(message = "Location name must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String locationName;
+
+    @NotBlank(message = "Location description must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String locationDescription;
+
+    @NotBlank(message = "Location address must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String locationAddress;
+
+    @NotBlank(message = "Location longitude must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String locationLongitude;
+
+    @NotBlank(message = "Location latitude must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String locationLatitude;
 
     public int getLocationID() {
@@ -112,7 +129,5 @@ public class Location {
         }
         return true;
     }
-
-    
 
 }

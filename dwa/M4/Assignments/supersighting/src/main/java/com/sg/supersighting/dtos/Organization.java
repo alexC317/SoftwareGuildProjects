@@ -7,6 +7,8 @@ package com.sg.supersighting.dtos;
 
 import java.util.List;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -15,10 +17,21 @@ import java.util.Objects;
 public class Organization {
 
     private int organizationID;
+
+    @NotBlank(message = "Organization name must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String organizationName;
+
+    @NotBlank(message = "Organization description must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String organizationDescription;
+
     private Location organizationAddress;
+
+    @NotBlank(message = "Organization contact information must not be empty.")
+    @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String organizationContact;
+
     private List<Super> supers;
 
     public int getOrganizationID() {
