@@ -23,7 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1>Super Sightings</h1>
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -55,6 +55,10 @@ and open the template in the editor.
                         <div class="col-9">
                             <input type="date" name="sightingDate" id="sightingDate" class="form-control"
                                 th:value="${sighting.sightingDate}">
+                            <div th:if="${#fields.hasErrors('sighting.sightingDate')}">
+                                <p th:each="error : ${#fields.errors('sighting.sightingDate')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad organization contact </p>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -63,7 +67,8 @@ and open the template in the editor.
                         <div class="col-9">
                             <select id="supers" name="superID" class="form-control">
                                 <option th:each="super : ${supers}" th:value="${super.superID}"
-                                    th:text="${super.superName}">Supers</option>
+                                    th:selected="${super.equals(existingSuper)}" th:text="${super.superName}">
+                                    Supers</option>
                             </select>
                         </div>
                     </div>
@@ -73,6 +78,7 @@ and open the template in the editor.
                         <div class="col-9">
                             <select id="sightingLocation" name="locationID" class="form-control">
                                 <option th:each="location : ${locations}" th:value="${location.locationID}"
+                                    th:selected="${location.equals(existingLocation)}"
                                     th:text="${location.locationName}">Sighting Location</option>
                             </select>
                         </div>

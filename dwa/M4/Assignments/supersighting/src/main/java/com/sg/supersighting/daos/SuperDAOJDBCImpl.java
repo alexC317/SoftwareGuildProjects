@@ -91,7 +91,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     public List<Super> getAllSupersByOrganization(int organizationID) {
         List<Super> supers = jdbc.query(SELECT_SUPERS_BY_ORGANIZATION, new SuperMapper(), organizationID);
         for (Super s : supers) {
-            getPowersForSuper(s.getSuperID());
+            s.setSuperPowers(getPowersForSuper(s.getSuperID()));
         }
         return supers;
     }
@@ -101,7 +101,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     public List<Super> getSupersByLocation(int locationID) {
         List<Super> supers = jdbc.query(SELECT_SUPERS_BY_LOCATION, new SuperMapper(), locationID);
         for (Super s : supers) {
-            getPowersForSuper(s.getSuperID());
+            s.setSuperPowers(getPowersForSuper(s.getSuperID()));
         }
         return supers;
     }

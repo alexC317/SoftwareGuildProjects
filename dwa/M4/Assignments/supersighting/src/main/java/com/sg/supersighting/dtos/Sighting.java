@@ -7,8 +7,9 @@ package com.sg.supersighting.dtos;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -32,6 +33,9 @@ public class Sighting {
         this.sightingID = sightingID;
     }
 
+    @PastOrPresent(message = "Date must be valid")
+    @NotNull(message = "Date must be valid")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public LocalDate getSightingDate() {
         return sightingDate;
     }

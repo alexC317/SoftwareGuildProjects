@@ -5,9 +5,12 @@
  */
 package com.sg.supersighting.controllers;
 
+import com.sg.supersighting.daos.LocationDAO;
 import com.sg.supersighting.daos.OrganizationDAO;
 import com.sg.supersighting.daos.PowerDAO;
+import com.sg.supersighting.daos.SightingDAO;
 import com.sg.supersighting.daos.SuperDAO;
+import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
@@ -45,6 +48,12 @@ public class SuperController {
     @Autowired
     OrganizationDAO organizationDAO;
 
+    @Autowired
+    SightingDAO sightingDAO;
+
+    @Autowired
+    LocationDAO locationDAO;
+
     @PostMapping("addSuper")
     public String addSuper(Super s, HttpServletRequest request) {
         String[] powerIDs = request.getParameterValues("powerID");
@@ -79,8 +88,10 @@ public class SuperController {
     public String detailSuper(Integer superID, Model model) {
         Super s = superDAO.getSuperByID(superID);
         List<Organization> organizations = organizationDAO.getOrganizationsBySuper(superID);
+        List<Location> locations = locationDAO.getLocationsBySuper(superID);
         model.addAttribute("super", s);
         model.addAttribute("organizations", organizations);
+        model.addAttribute("locations", locations);
         return "detailSuper";
     }
 
@@ -90,6 +101,7 @@ public class SuperController {
         List<Power> powers = powerDAO.getAllPowers();
         model.addAttribute("super", s);
         model.addAttribute("powers", powers);
+        model.addAttribute("existingPowers", s.getSuperPowers());
         return "editSuper";
     }
 

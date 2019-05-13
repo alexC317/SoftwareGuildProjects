@@ -98,11 +98,19 @@ public class OrganizationController {
     @GetMapping("editOrganization")
     public String editOrganization(Integer organizationID, Model model) {
         Organization organization = organizationDAO.getOrganizationByID(organizationID);
+        Location existingLocation = organization.getOrganizationAddress();
         List<Location> locations = locationDAO.getAllLocations();
         List<Super> supers = superDAO.getAllSupers();
+        List<Super> existingSupers = superDAO.getAllSupersByOrganization(organizationID);
         model.addAttribute("organization", organization);
+        model.addAttribute("existingLocation", existingLocation);
+        model.addAttribute("existingSupers", existingSupers);
         model.addAttribute("locations", locations);
         model.addAttribute("supers", supers);
+        
+        for(Super s : supers){
+            System.out.println(s.getSuperName() + ": " + existingSupers.contains(s));
+        }
         return "editOrganization";
     }
 

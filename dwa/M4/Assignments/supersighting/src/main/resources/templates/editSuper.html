@@ -23,6 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
                 <h1>Super Sightings</h1>
             </div>
         </div>
@@ -78,7 +79,7 @@ and open the template in the editor.
                             Superpowers</label>
                         <div class="col-9">
                             <select multiple name="powerID" id="superPowers" class="form-control">
-                                <option th:each="power : ${powers}" th:value="${power.powerID}"
+                                <option th:each="power : ${powers}" th:value="${power.powerID}" th:selected="${existingPowers.contains(power)}"
                                     th:text="${power.powerName}">Power</option>
                             </select>
                         </div>

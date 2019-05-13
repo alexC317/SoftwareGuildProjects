@@ -23,7 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1>Super Sightings</h1>
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -92,7 +92,8 @@ and open the template in the editor.
                             Organization Location</label>
                         <div class="col-9">
                             <select id="organizationAddress" name="locationID" class="form-control">
-                                <option th:each="location : ${locations}" th:value="${location.locationID}"
+                                <option th:each="location : ${locations}" th:value="${location.locationID}" 
+                                th:selected="${location.equals(existingLocation)}"
                                     th:text="${location.locationName}">organizationAddress</option>
                             </select>
                         </div>
@@ -102,7 +103,7 @@ and open the template in the editor.
                             Supers</label>
                         <div class="col-9">
                             <select multiple id="supers" name="superID" class="form-control">
-                                <option th:each="super : ${supers}" th:value="${super.superID}"
+                                <option th:each="super : ${supers}" th:value="${super.superID}" th:selected="${existingSupers.contains(super)}"
                                     th:text="${super.superName}">Supers</option>
                             </select>
                         </div>

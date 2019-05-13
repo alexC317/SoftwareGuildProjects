@@ -23,6 +23,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
                 <h1>Super Sightings</h1>
             </div>
         </div>
@@ -70,8 +71,8 @@ and open the template in the editor.
             </div>
             <div class="col-6 text-right"><strong>Sightings</strong></div>
             <div class="col-6 text-left">
-                <span th:each="sighting : ${sightings}">
-                    <span th:text="${sighting.sightingLocation.locationName}">displayLocations</span><br />
+                <span th:each="location : ${locations}">
+                    <span th:text="${location.locationName}">displayLocations</span><br />
                 </span>
             </div>
         </div>

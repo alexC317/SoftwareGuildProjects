@@ -242,9 +242,19 @@ public class SuperDAOJDBCImplTest {
         location.setLocationLongitude("00");
         locationDAO.addNewLocation(location);
 
+        List<Power> supermanPowers = new ArrayList<>();
+
+        Power power = new Power();
+        power.setPowerName("Flight");
+        power.setPowerDescription("Able to fly");
+        powerDAO.addNewPower(power);
+
+        supermanPowers.add(power);
+
         Super superman = new Super();
         superman.setSuperName("Superman");
         superman.setSuperDescription("The Last Son of Krypton");
+        superman.setSuperPowers(supermanPowers);
 
         Super batman = new Super();
         batman.setSuperName("Batman");
@@ -332,6 +342,6 @@ public class SuperDAOJDBCImplTest {
         assertTrue(superSightings.contains(superman));
         assertTrue(superSightings.contains(batman));
         assertTrue(superSightings.contains(wonderWoman));
-        
+
     }
 }

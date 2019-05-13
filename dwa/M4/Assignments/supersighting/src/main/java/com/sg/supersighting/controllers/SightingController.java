@@ -11,17 +11,18 @@ import com.sg.supersighting.daos.SuperDAO;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -57,12 +58,9 @@ public class SightingController {
     }
 
     @PostMapping("addSighting")
-    public String addSighting(HttpServletRequest request) {
-        Sighting sighting = new Sighting();
-        String sightingDate = request.getParameter("sightingDate");
+    public String addSighting(Sighting sighting, HttpServletRequest request) {
         String superID = request.getParameter("superID");
         String locationID = request.getParameter("locationID");
-        sighting.setSightingDate(LocalDate.parse(sightingDate));
         sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
         sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
@@ -88,30 +86,35 @@ public class SightingController {
     @GetMapping("editSighting")
     public String editSighting(Integer sightingID, Model model) {
         Sighting sighting = sightingDAO.getSightingByID(sightingID);
+        Super existingSuper = sighting.getSightingSuper();
+        Location existingLocation = sighting.getSightingLocation();
         List<Super> supers = superDAO.getAllSupers();
         List<Location> locations = locationDAO.getAllLocations();
         model.addAttribute("sighting", sighting);
+        model.addAttribute("existingSuper", existingSuper);
+        model.addAttribute("existingLocation", existingLocation);
         model.addAttribute("supers", supers);
         model.addAttribute("locations", locations);
         return "editSighting";
     }
 
     @PostMapping("editSighting")
-    public String performEditSighting(HttpServletRequest request) {
-        Sighting sighting = new Sighting();
+    public String performEditSighting(@Valid Sighting sighting, BindingResult result, HttpServletRequest request, Model model) {
         String sightingID = request.getParameter("sightingID");
-        String sightingDate = request.getParameter("sightingDate");
         String superID = request.getParameter("superID");
         String locationID = request.getParameter("locationID");
         sighting.setSightingID(Integer.parseInt(sightingID));
-        sighting.setSightingDate(LocalDate.parse(sightingDate));
         sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
         sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-        violations = validate.validate(sighting);
-        if (violations.isEmpty()) {
-            sightingDAO.updateSighting(sighting);
+        if (result.hasErrors()) {
+            model.addAttribute("sighting", sighting);
+            model.addAttribute("existingSuper", sighting.getSightingSuper());
+            model.addAttribute("existingLocation", sighting.getSightingLocation());
+            model.addAttribute("supers", superDAO.getAllSupers());
+            model.addAttribute("locations", locationDAO.getAllLocations());
+            return "editSighting";
         }
+        sightingDAO.updateSighting(sighting);
         return "redirect:/Sightings";
     }
 
