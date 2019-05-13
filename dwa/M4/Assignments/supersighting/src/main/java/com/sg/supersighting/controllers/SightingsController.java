@@ -12,6 +12,7 @@ import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,29 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class SightingsController {
-    
+
     @Autowired
     SightingDAO sightingDAO;
-    
+
     @Autowired
     SuperDAO superDAO;
-    
+
     @Autowired
     LocationDAO locationDAO;
-    
+
+    @GetMapping("/")
+    public String displayRecentSightings(Model model) {
+        List<Sighting> sightings = sightingDAO.getAllSightings();
+        if (sightings.size() > 10) {
+            List<Sighting> displaySightings = sightings.subList(sightings.size() - 10, sightings.size());
+            model.addAttribute("sightings", displaySightings);
+        } else {
+            model.addAttribute("sightings", sightings);
+        }
+
+        return "index";
+    }
+
     @PostMapping("addSighting")
     public String addSighting(HttpServletRequest request) {
         Sighting sighting = new Sighting();
@@ -48,7 +62,7 @@ public class SightingsController {
         sightingDAO.addNewSighting(sighting);
         return "redirect:/Sightings";
     }
-    
+
     @GetMapping("Sightings")
     public String displaySightings(Model model) {
         List<Sighting> sightings = sightingDAO.getAllSightings();
@@ -59,7 +73,7 @@ public class SightingsController {
         model.addAttribute("locations", locations);
         return "Sightings";
     }
-    
+
     @GetMapping("editSighting")
     public String editSighting(Integer sightingID, Model model) {
         Sighting sighting = sightingDAO.getSightingByID(sightingID);
@@ -70,7 +84,7 @@ public class SightingsController {
         model.addAttribute("locations", locations);
         return "editSighting";
     }
-    
+
     @PostMapping("editSighting")
     public String performEditSighting(HttpServletRequest request) {
         Sighting sighting = new Sighting();
@@ -85,7 +99,7 @@ public class SightingsController {
         sightingDAO.updateSighting(sighting);
         return "redirect:/Sightings";
     }
-    
+
     @GetMapping("deleteSighting")
     public String deleteSighting(Integer sightingID) {
         sightingDAO.deleteSighting(sightingID);

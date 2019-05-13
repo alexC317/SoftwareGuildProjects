@@ -63,18 +63,18 @@ and open the template in the editor.
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>SightingID</th>
+                            <th>ID</th>
+                            <th>Date</th>
                             <th>Super</th>
                             <th>Location</th>
-                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>ID</td>
-                            <td>Super</td>
-                            <td>Location</td>
-                            <td>Date</td>
+                        <tr th:each="sighting : ${sightings}">
+                            <td th:text="${sighting.sightingID}">ID</td>
+                            <td th:text="${sighting.sightingDate}">Date</td>
+                            <td th:text="${sighting.sightingSuper.superName}">Super</td>
+                            <td th:text="${sighting.sightingLocation.locationName}">Location</td>
                         </tr>
                     </tbody>
                 </table>
