@@ -5,8 +5,8 @@
  */
 package com.sg.supersighting.controllers;
 
-import com.sg.supersighting.daos.PowerDAO;
 import com.sg.supersighting.dtos.Power;
+import com.sg.supersighting.services.PowerService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PowerController {
 
     @Autowired
-    PowerDAO powerDAO;
+    PowerService powerService;
 
     Set<ConstraintViolation<Power>> violations = new HashSet<>();
 
@@ -42,14 +42,14 @@ public class PowerController {
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(power);
         if (violations.isEmpty()) {
-            powerDAO.addNewPower(power);
+            powerService.create(power);
         }
         return "redirect:/Powers";
     }
 
     @GetMapping("Powers")
     public String displayPowers(Model model) {
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Power> powers = powerService.readAll();
         model.addAttribute("powers", powers);
         model.addAttribute("errors", violations);
         return "Powers";
@@ -57,7 +57,7 @@ public class PowerController {
 
     @GetMapping("editPower")
     public String editPower(Integer powerID, Model model) {
-        Power power = powerDAO.getPowerByID(powerID);
+        Power power = powerService.readByID(powerID);
         model.addAttribute("power", power);
         return "editPower";
     }
@@ -67,13 +67,13 @@ public class PowerController {
         if (result.hasErrors()) {
             return "editPower";
         }
-        powerDAO.updatePower(power);
+        powerService.update(power);
         return "redirect:/Powers";
     }
 
     @GetMapping("deletePower")
     public String deletePower(Integer powerID) {
-        powerDAO.deletePower(powerID);
+        powerService.delete(powerID);
         return "redirect:/Powers";
     }
 
