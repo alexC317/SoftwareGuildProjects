@@ -7,7 +7,6 @@ package com.sg.supersighting.services;
 
 import com.sg.supersighting.daos.OrganizationDAO;
 import com.sg.supersighting.dtos.Organization;
-import com.sg.supersighting.dtos.Super;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
