@@ -6,6 +6,7 @@
 package com.sg.supersighting.services;
 
 import com.sg.supersighting.dtos.Sighting;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -14,13 +15,15 @@ import java.util.List;
  */
 public interface SightingService {
 
-    public Sighting create();
+    public Sighting create(Sighting sighting);
 
     public List<Sighting> readAll();
 
-    public Sighting readByID();
+    public Sighting readByID(int sightingID);
 
-    public void update();
+    public List<Sighting> readSightingsByDate(LocalDate date);
 
-    public void delete();
+    public void update(Sighting sighting);
+
+    public void delete(int sightingID);
 }

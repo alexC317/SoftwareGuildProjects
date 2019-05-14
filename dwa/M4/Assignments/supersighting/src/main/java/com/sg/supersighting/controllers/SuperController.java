@@ -5,14 +5,14 @@
  */
 package com.sg.supersighting.controllers;
 
-import com.sg.supersighting.daos.OrganizationDAO;
-import com.sg.supersighting.daos.SightingDAO;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
 import com.sg.supersighting.services.LocationService;
+import com.sg.supersighting.services.OrganizationService;
 import com.sg.supersighting.services.PowerService;
+import com.sg.supersighting.services.SightingService;
 import com.sg.supersighting.services.SuperService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,10 +46,10 @@ public class SuperController {
     PowerService powerService;
 
     @Autowired
-    OrganizationDAO organizationDAO;
+    OrganizationService organizationService;
 
     @Autowired
-    SightingDAO sightingDAO;
+    SightingService sightingService;
 
     @Autowired
     LocationService locationService;
@@ -76,7 +76,7 @@ public class SuperController {
     public String displaySupers(Model model) {
         List<Super> supers = superService.readAll();
         List<Power> powers = powerService.readAll();
-        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        List<Organization> organizations = organizationService.readAll();
         model.addAttribute("supers", supers);
         model.addAttribute("powers", powers);
         model.addAttribute("organzations", organizations);
@@ -87,7 +87,7 @@ public class SuperController {
     @GetMapping("detailSuper")
     public String detailSuper(Integer superID, Model model) {
         Super s = superService.readByID(superID);
-        List<Organization> organizations = organizationDAO.getOrganizationsBySuper(superID);
+        List<Organization> organizations = organizationService.readAllBySuper(superID);
         List<Location> locations = locationService.readLocationsBySuper(superID);
         model.addAttribute("super", s);
         model.addAttribute("organizations", organizations);

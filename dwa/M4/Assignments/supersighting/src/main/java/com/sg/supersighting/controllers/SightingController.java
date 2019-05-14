@@ -5,12 +5,12 @@
  */
 package com.sg.supersighting.controllers;
 
-import com.sg.supersighting.daos.LocationDAO;
-import com.sg.supersighting.daos.SightingDAO;
-import com.sg.supersighting.daos.SuperDAO;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Sighting;
 import com.sg.supersighting.dtos.Super;
+import com.sg.supersighting.services.LocationService;
+import com.sg.supersighting.services.SightingService;
+import com.sg.supersighting.services.SuperService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,17 +36,17 @@ public class SightingController {
     Set<ConstraintViolation<Sighting>> violations = new HashSet<>();
 
     @Autowired
-    SightingDAO sightingDAO;
+    SightingService sightingService;
 
     @Autowired
-    SuperDAO superDAO;
+    SuperService superService;
 
     @Autowired
-    LocationDAO locationDAO;
+    LocationService locationService;
 
     @GetMapping("/")
     public String displayRecentSightings(Model model) {
-        List<Sighting> sightings = sightingDAO.getAllSightings();
+        List<Sighting> sightings = sightingService.readAll();
         if (sightings.size() > 10) {
             List<Sighting> displaySightings = sightings.subList(sightings.size() - 10, sightings.size());
             model.addAttribute("sightings", displaySightings);
@@ -61,21 +61,21 @@ public class SightingController {
     public String addSighting(Sighting sighting, HttpServletRequest request) {
         String superID = request.getParameter("superID");
         String locationID = request.getParameter("locationID");
-        sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
-        sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
+        sighting.setSightingSuper(superService.readByID(Integer.parseInt(superID)));
+        sighting.setSightingLocation(locationService.readByID(Integer.parseInt(locationID)));
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(sighting);
         if (violations.isEmpty()) {
-            sightingDAO.addNewSighting(sighting);
+            sightingService.create(sighting);
         }
         return "redirect:/Sightings";
     }
 
     @GetMapping("Sightings")
     public String displaySightings(Model model) {
-        List<Sighting> sightings = sightingDAO.getAllSightings();
-        List<Super> supers = superDAO.getAllSupers();
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Sighting> sightings = sightingService.readAll();
+        List<Super> supers = superService.readAll();
+        List<Location> locations = locationService.readAll();
         model.addAttribute("sightings", sightings);
         model.addAttribute("supers", supers);
         model.addAttribute("locations", locations);
@@ -85,11 +85,11 @@ public class SightingController {
 
     @GetMapping("editSighting")
     public String editSighting(Integer sightingID, Model model) {
-        Sighting sighting = sightingDAO.getSightingByID(sightingID);
+        Sighting sighting = sightingService.readByID(sightingID);
         Super existingSuper = sighting.getSightingSuper();
         Location existingLocation = sighting.getSightingLocation();
-        List<Super> supers = superDAO.getAllSupers();
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Super> supers = superService.readAll();
+        List<Location> locations = locationService.readAll();
         model.addAttribute("sighting", sighting);
         model.addAttribute("existingSuper", existingSuper);
         model.addAttribute("existingLocation", existingLocation);
@@ -104,23 +104,23 @@ public class SightingController {
         String superID = request.getParameter("superID");
         String locationID = request.getParameter("locationID");
         sighting.setSightingID(Integer.parseInt(sightingID));
-        sighting.setSightingSuper(superDAO.getSuperByID(Integer.parseInt(superID)));
-        sighting.setSightingLocation(locationDAO.getLocationByID(Integer.parseInt(locationID)));
+        sighting.setSightingSuper(superService.readByID(Integer.parseInt(superID)));
+        sighting.setSightingLocation(locationService.readByID(Integer.parseInt(locationID)));
         if (result.hasErrors()) {
             model.addAttribute("sighting", sighting);
             model.addAttribute("existingSuper", sighting.getSightingSuper());
             model.addAttribute("existingLocation", sighting.getSightingLocation());
-            model.addAttribute("supers", superDAO.getAllSupers());
-            model.addAttribute("locations", locationDAO.getAllLocations());
+            model.addAttribute("supers", superService.readAll());
+            model.addAttribute("locations", locationService.readAll());
             return "editSighting";
         }
-        sightingDAO.updateSighting(sighting);
+        sightingService.update(sighting);
         return "redirect:/Sightings";
     }
 
     @GetMapping("deleteSighting")
     public String deleteSighting(Integer sightingID) {
-        sightingDAO.deleteSighting(sightingID);
+        sightingService.delete(sightingID);
         return "redirect:/Sightings";
     }
 }

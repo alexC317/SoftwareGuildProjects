@@ -9,8 +9,9 @@ import com.sg.supersighting.daos.OrganizationDAO;
 import com.sg.supersighting.dtos.Organization;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
