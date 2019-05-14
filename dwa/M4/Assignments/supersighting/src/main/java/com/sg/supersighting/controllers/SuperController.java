@@ -5,15 +5,15 @@
  */
 package com.sg.supersighting.controllers;
 
-import com.sg.supersighting.daos.LocationDAO;
 import com.sg.supersighting.daos.OrganizationDAO;
-import com.sg.supersighting.daos.PowerDAO;
 import com.sg.supersighting.daos.SightingDAO;
-import com.sg.supersighting.daos.SuperDAO;
 import com.sg.supersighting.dtos.Location;
 import com.sg.supersighting.dtos.Organization;
 import com.sg.supersighting.dtos.Power;
 import com.sg.supersighting.dtos.Super;
+import com.sg.supersighting.services.LocationService;
+import com.sg.supersighting.services.PowerService;
+import com.sg.supersighting.services.SuperService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,10 +40,10 @@ public class SuperController {
     Set<ConstraintViolation<Super>> violations = new HashSet<>();
 
     @Autowired
-    SuperDAO superDAO;
+    SuperService superService;
 
     @Autowired
-    PowerDAO powerDAO;
+    PowerService powerService;
 
     @Autowired
     OrganizationDAO organizationDAO;
@@ -52,7 +52,7 @@ public class SuperController {
     SightingDAO sightingDAO;
 
     @Autowired
-    LocationDAO locationDAO;
+    LocationService locationService;
 
     @PostMapping("addSuper")
     public String addSuper(Super s, HttpServletRequest request) {
@@ -60,22 +60,22 @@ public class SuperController {
         if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();
             for (String powerID : powerIDs) {
-                powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+                powers.add(powerService.readByID(Integer.parseInt(powerID)));
             }
             s.setSuperPowers(powers);
         }
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(s);
         if (violations.isEmpty()) {
-            superDAO.addNewSuper(s);
+            superService.create(s);
         }
         return "redirect:/Supers";
     }
 
     @GetMapping("Supers")
     public String displaySupers(Model model) {
-        List<Super> supers = superDAO.getAllSupers();
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Super> supers = superService.readAll();
+        List<Power> powers = powerService.readAll();
         List<Organization> organizations = organizationDAO.getAllOrganizations();
         model.addAttribute("supers", supers);
         model.addAttribute("powers", powers);
@@ -86,9 +86,9 @@ public class SuperController {
 
     @GetMapping("detailSuper")
     public String detailSuper(Integer superID, Model model) {
-        Super s = superDAO.getSuperByID(superID);
+        Super s = superService.readByID(superID);
         List<Organization> organizations = organizationDAO.getOrganizationsBySuper(superID);
-        List<Location> locations = locationDAO.getLocationsBySuper(superID);
+        List<Location> locations = locationService.readLocationsBySuper(superID);
         model.addAttribute("super", s);
         model.addAttribute("organizations", organizations);
         model.addAttribute("locations", locations);
@@ -97,8 +97,8 @@ public class SuperController {
 
     @GetMapping("editSuper")
     public String editSuper(Integer superID, Model model) {
-        Super s = superDAO.getSuperByID(superID);
-        List<Power> powers = powerDAO.getAllPowers();
+        Super s = superService.readByID(superID);
+        List<Power> powers = powerService.readAll();
         model.addAttribute("super", s);
         model.addAttribute("powers", powers);
         model.addAttribute("existingPowers", s.getSuperPowers());
@@ -111,22 +111,22 @@ public class SuperController {
         if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();
             for (String powerID : powerIDs) {
-                powers.add(powerDAO.getPowerByID(Integer.parseInt(powerID)));
+                powers.add(powerService.readByID(Integer.parseInt(powerID)));
             }
             s.setSuperPowers(powers);
         }
         if (result.hasErrors()) {
-            model.addAttribute("powers", powerDAO.getAllPowers());
+            model.addAttribute("powers", powerService.readAll());
             model.addAttribute("super", s);
             return "editSuper";
         }
-        superDAO.updateSuper(s);
+        superService.update(s);
         return "redirect:/Supers";
     }
 
     @GetMapping("deleteSuper")
     public String deleteSuper(Integer superID) {
-        superDAO.deleteSuper(superID);
+        superService.delete(superID);
         return "redirect:/Supers";
     }
 }
