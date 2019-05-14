@@ -6,6 +6,7 @@
 package com.sg.supersighting.services;
 
 import com.sg.supersighting.dtos.Organization;
+import com.sg.supersighting.dtos.Super;
 import java.util.List;
 
 /**
@@ -14,13 +15,15 @@ import java.util.List;
  */
 public interface OrganizationService {
 
-    public Organization create();
+    public Organization create(Organization organization);
 
     public List<Organization> readAll();
 
-    public Organization readByID();
+    public Organization readByID(int organizationID);
 
-    public void update();
+    public List<Organization> readAllBySuper(int superID);
 
-    public void delete();
+    public void update(Organization organization);
+
+    public void delete(int organizationID);
 }
