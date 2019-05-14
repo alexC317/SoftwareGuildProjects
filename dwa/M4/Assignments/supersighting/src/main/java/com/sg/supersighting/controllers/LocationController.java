@@ -5,8 +5,8 @@
  */
 package com.sg.supersighting.controllers;
 
-import com.sg.supersighting.daos.LocationDAO;
 import com.sg.supersighting.dtos.Location;
+import com.sg.supersighting.services.LocationService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class LocationController {
     Set<ConstraintViolation<Location>> violations = new HashSet<>();
 
     @Autowired
-    LocationDAO locationDAO;
+    LocationService locationService;
 
     @PostMapping("addLocation")
     public String addLocation(String locationName, String locationDescription, String locationAddress,
@@ -45,14 +45,14 @@ public class LocationController {
         Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
         violations = validate.validate(location);
         if (violations.isEmpty()) {
-            locationDAO.addNewLocation(location);
+            locationService.create(location);
         }
         return "redirect:/Locations";
     }
 
     @GetMapping("Locations")
     public String displayLocations(Model model) {
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Location> locations = locationService.readAll();
         model.addAttribute("locations", locations);
         model.addAttribute("errors", violations);
         return "Locations";
@@ -60,23 +60,23 @@ public class LocationController {
 
     @GetMapping("editLocation")
     public String editLocation(Integer locationID, Model model) {
-        Location location = locationDAO.getLocationByID(locationID);
+        Location location = locationService.readByID(locationID);
         model.addAttribute("location", location);
         return "editLocation";
     }
 
     @PostMapping("editLocation")
     public String performEditLocation(@Valid Location location, BindingResult result) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "editLocation";
         }
-        locationDAO.updateLocation(location);
+        locationService.update(location);
         return "redirect:/Locations";
     }
 
     @GetMapping("deleteLocation")
     public String deleteLocation(Integer locationID) {
-        locationDAO.deleteLocation(locationID);
+        locationService.delete(locationID);
         return "redirect:/Locations";
     }
 

@@ -19,6 +19,8 @@ public interface LocationService {
     public List<Location> readAll();
 
     public Location readByID(int locationID);
+    
+    public List<Location> readLocationsBySuper(int superID);
 
     public void update(Location location);
 
