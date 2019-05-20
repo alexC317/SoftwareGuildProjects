@@ -19,32 +19,32 @@ public class OrganizationServiceImpl implements OrganizationService {
     
     @Override
     public Organization create(Organization organization) {
-        return organizationDAO.addNewOrganization(organization);
+        return organizationDAO.create(organization);
     }
 
     @Override
     public List<Organization> readAll() {
-        return organizationDAO.getAllOrganizations();
+        return organizationDAO.readAll();
     }
 
     @Override
     public Organization readByID(int organizationID) {
-        return organizationDAO.getOrganizationByID(organizationID);
+        return organizationDAO.readByID(organizationID);
     }
 
     @Override
     public List<Organization> readAllBySuper(int superID) {
-        return organizationDAO.getOrganizationsBySuper(superID);
+        return organizationDAO.readBySuperID(superID);
     }
 
     @Override
     public void update(Organization organization) {
-        organizationDAO.updateOrganization(organization);
+        organizationDAO.update(organization);
     }
 
     @Override
     public void delete(int organizationID) {
-        organizationDAO.deleteOrganization(organizationID);
+        organizationDAO.delete(organizationID);
     }
     
 }

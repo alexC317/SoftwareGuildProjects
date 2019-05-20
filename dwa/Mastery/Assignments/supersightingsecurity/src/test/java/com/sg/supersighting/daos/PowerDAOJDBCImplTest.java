@@ -43,9 +43,9 @@ public class PowerDAOJDBCImplTest {
 
     @Before
     public void setUp() {
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Power> powers = powerDAO.readAll();
         for (Power power : powers) {
-            powerDAO.deletePower(power.getPowerID());
+            powerDAO.delete(power.getPowerID());
         }
     }
 
@@ -58,9 +58,9 @@ public class PowerDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
-        Power fromDAO = powerDAO.getPowerByID(power.getPowerID());
+        Power fromDAO = powerDAO.readByID(power.getPowerID());
         assertEquals(fromDAO, power);
 
     }
@@ -70,14 +70,14 @@ public class PowerDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         Power power2 = new Power();
         power2.setPowerName("Telekinesis");
         power2.setPowerDescription("Able to move stuff with your mind.");
-        powerDAO.addNewPower(power2);
+        powerDAO.create(power2);
 
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Power> powers = powerDAO.readAll();
         assertEquals(2, powers.size());
         assertTrue(powers.contains(power));
         assertTrue(powers.contains(power2));
@@ -86,7 +86,7 @@ public class PowerDAOJDBCImplTest {
 
     @Test
     public void testGetPowerByIDNull() {
-        Power power = powerDAO.getPowerByID(0);
+        Power power = powerDAO.readByID(0);
         assertNull(power);
 
     }
@@ -96,17 +96,17 @@ public class PowerDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
-        Power fromDAO = powerDAO.getPowerByID(power.getPowerID());
+        Power fromDAO = powerDAO.readByID(power.getPowerID());
         assertEquals(fromDAO, power);
 
         power.setPowerName("Ice Breath");
         power.setPowerDescription("Able to freeze with breath.");
-        powerDAO.updatePower(power);
+        powerDAO.update(power);
         assertNotEquals(fromDAO, power);
 
-        fromDAO = powerDAO.getPowerByID(power.getPowerID());
+        fromDAO = powerDAO.readByID(power.getPowerID());
         assertEquals(fromDAO, power);
 
     }
@@ -116,19 +116,19 @@ public class PowerDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         Power power2 = new Power();
         power2.setPowerName("Invisibility");
         power2.setPowerDescription("Able to turn invisible");
-        powerDAO.addNewPower(power2);
+        powerDAO.create(power2);
 
-        assertEquals(2, powerDAO.getAllPowers().size());
+        assertEquals(2, powerDAO.readAll().size());
 
-        powerDAO.deletePower(power.getPowerID());
-        assertEquals(1, powerDAO.getAllPowers().size());
+        powerDAO.delete(power.getPowerID());
+        assertEquals(1, powerDAO.readAll().size());
 
-        Power fromDAO = powerDAO.getPowerByID(power.getPowerID());
+        Power fromDAO = powerDAO.readByID(power.getPowerID());
         assertNull(fromDAO);
 
     }

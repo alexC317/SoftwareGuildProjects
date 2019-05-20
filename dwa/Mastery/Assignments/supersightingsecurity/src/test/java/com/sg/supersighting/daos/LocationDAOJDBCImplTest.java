@@ -59,24 +59,24 @@ public class LocationDAOJDBCImplTest {
 
     @Before
     public void setUp() {
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Power> powers = powerDAO.readAll();
         for (Power power : powers) {
-            powerDAO.deletePower(power.getPowerID());
+            powerDAO.delete(power.getPowerID());
         }
 
-        List<Super> supers = superDAO.getAllSupers();
+        List<Super> supers = superDAO.readAll();
         for (Super s : supers) {
-            superDAO.deleteSuper(s.getSuperID());
+            superDAO.delete(s.getSuperID());
         }
 
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Location> locations = locationDAO.readAll();
         for (Location location : locations) {
-            locationDAO.deleteLocation(location.getLocationID());
+            locationDAO.delete(location.getLocationID());
         }
 
-        List<Sighting> sightings = sightingDAO.getAllSightings();
+        List<Sighting> sightings = sightingDAO.readAll();
         for (Sighting sighting : sightings) {
-            sightingDAO.deleteSighting(sighting.getSightingID());
+            sightingDAO.delete(sighting.getSightingID());
         }
     }
 
@@ -92,9 +92,9 @@ public class LocationDAOJDBCImplTest {
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
-        Location fromDAO = locationDAO.getLocationByID(location.getLocationID());
+        Location fromDAO = locationDAO.readByID(location.getLocationID());
         assertEquals(fromDAO, location);
 
     }
@@ -107,7 +107,7 @@ public class LocationDAOJDBCImplTest {
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Location location2 = new Location();
         location2.setLocationName("Test location 2");
@@ -115,9 +115,9 @@ public class LocationDAOJDBCImplTest {
         location2.setLocationDescription("Another location to test");
         location2.setLocationLatitude("-10");
         location2.setLocationLongitude(("+10"));
-        locationDAO.addNewLocation(location2);
+        locationDAO.create(location2);
 
-        List<Location> fromDAO = locationDAO.getAllLocations();
+        List<Location> fromDAO = locationDAO.readAll();
         assertEquals(2, fromDAO.size());
         assertTrue(fromDAO.contains(location));
         assertTrue(fromDAO.contains(location2));
@@ -132,16 +132,16 @@ public class LocationDAOJDBCImplTest {
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
-        Location fromDAO = locationDAO.getLocationByID(location.getLocationID());
+        Location fromDAO = locationDAO.readByID(location.getLocationID());
         assertEquals(fromDAO, location);
 
         location.setLocationName("Alternate test location");
-        locationDAO.updateLocation(location);
+        locationDAO.update(location);
         assertNotEquals(fromDAO, location);
 
-        fromDAO = locationDAO.getLocationByID(location.getLocationID());
+        fromDAO = locationDAO.readByID(location.getLocationID());
         assertEquals(fromDAO, location);
 
     }
@@ -154,7 +154,7 @@ public class LocationDAOJDBCImplTest {
         location.setLocationDescription("A location to test");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Location location2 = new Location();
         location2.setLocationName("Test location 2");
@@ -162,15 +162,15 @@ public class LocationDAOJDBCImplTest {
         location2.setLocationDescription("Another location to test");
         location2.setLocationLatitude("-10");
         location2.setLocationLongitude(("+10"));
-        locationDAO.addNewLocation(location2);
+        locationDAO.create(location2);
 
-        List<Location> fromDAO = locationDAO.getAllLocations();
+        List<Location> fromDAO = locationDAO.readAll();
         assertEquals(2, fromDAO.size());
         assertTrue(fromDAO.contains(location));
         assertTrue(fromDAO.contains(location2));
 
-        locationDAO.deleteLocation(location.getLocationID());
-        fromDAO = locationDAO.getAllLocations();
+        locationDAO.delete(location.getLocationID());
+        fromDAO = locationDAO.readAll();
         assertEquals(1, fromDAO.size());
         assertTrue(fromDAO.contains(location2));
         assertFalse(fromDAO.contains(location));
@@ -178,14 +178,14 @@ public class LocationDAOJDBCImplTest {
     }
 
     /**
-     * Test of getLocationsBySuper method, of class LocationDAOJDBCImpl.
+     * Test of readBySuperID method, of class LocationDAOJDBCImpl.
      */
     @Test
     public void testGetSightingsBySuper() {
         Super superman = new Super();
         superman.setSuperName("Superman");
         superman.setSuperDescription("The Last Son of Krypton");
-        superDAO.addNewSuper(superman);
+        superDAO.create(superman);
 
         Location hallOfJustice = new Location();
         hallOfJustice.setLocationName("The Hall of Justice");
@@ -208,9 +208,9 @@ public class LocationDAOJDBCImplTest {
         fortressOfSolitude.setLocationLatitude("-90");
         fortressOfSolitude.setLocationLongitude("-90");
 
-        locationDAO.addNewLocation(hallOfJustice);
-        locationDAO.addNewLocation(dailyPlanet);
-        locationDAO.addNewLocation(fortressOfSolitude);
+        locationDAO.create(hallOfJustice);
+        locationDAO.create(dailyPlanet);
+        locationDAO.create(fortressOfSolitude);
 
         Sighting sighting = new Sighting();
         sighting.setSightingDate(LocalDate.now());
@@ -227,11 +227,11 @@ public class LocationDAOJDBCImplTest {
         sighting3.setSightingLocation(fortressOfSolitude);
         sighting3.setSightingSuper(superman);
 
-        sightingDAO.addNewSighting(sighting);
-        sightingDAO.addNewSighting(sighting2);
-        sightingDAO.addNewSighting(sighting3);
+        sightingDAO.create(sighting);
+        sightingDAO.create(sighting2);
+        sightingDAO.create(sighting3);
 
-        List<Location> locations = locationDAO.getLocationsBySuper(superman.getSuperID());
+        List<Location> locations = locationDAO.readBySuperID(superman.getSuperID());
         assertEquals(3, locations.size());
         assertTrue(locations.contains(hallOfJustice));
         assertTrue(locations.contains(dailyPlanet));

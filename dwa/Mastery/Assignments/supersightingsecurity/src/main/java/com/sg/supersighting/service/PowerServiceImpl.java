@@ -19,27 +19,27 @@ public class PowerServiceImpl implements PowerService {
 
     @Override
     public Power create(Power power) {
-        return powerDAO.addNewPower(power);
+        return powerDAO.create(power);
     }
 
     @Override
     public List<Power> readAll() {
-        return powerDAO.getAllPowers();
+        return powerDAO.readAll();
     }
 
     @Override
     public Power readByID(int powerID) {
-        return powerDAO.getPowerByID(powerID);
+        return powerDAO.readByID(powerID);
     }
 
     @Override
     public void update(Power power) {
-        powerDAO.updatePower(power);
+        powerDAO.update(power);
     }
 
     @Override
     public void delete(int powerID) {
-        powerDAO.deletePower(powerID);
+        powerDAO.delete(powerID);
     }
 
 }

@@ -15,21 +15,21 @@ import java.util.List;
 public interface LocationDAO {
 
     //Create
-    public Location addNewLocation(Location location);
+    public Location create(Location location);
 
     //Read All
-    public List<Location> getAllLocations();
+    public List<Location> readAll();
 
     //Read By ID
-    public Location getLocationByID(int locationID);
+    public Location readByID(int locationID);
 
     //Update
-    public Boolean updateLocation(Location location);
+    public Boolean update(Location location);
 
     //Delete
-    public Boolean deleteLocation(int locationID);
+    public Boolean delete(int locationID);
 
     //Returns a List of Locations that a specific Super has been spotted in
-    public List<Location> getLocationsBySuper(int superID);
+    public List<Location> readBySuperID(int superID);
 
 }

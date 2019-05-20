@@ -15,24 +15,24 @@ import java.util.List;
 public interface SuperDAO {
 
     //Create
-    public Super addNewSuper(Super s);
+    public Super create(Super s);
 
     //Read All
-    public List<Super> getAllSupers();
+    public List<Super> readAll();
 
     //Read By ID
-    public Super getSuperByID(int superID);
+    public Super readByID(int superID);
 
     //Update
-    public Boolean updateSuper(Super s);
+    public Boolean update(Super s);
 
     //Delete
-    public Boolean deleteSuper(int superID);
+    public Boolean delete(int superID);
 
     //Returns a List of Supers for a particular Organization
-    public List<Super> getAllSupersByOrganization(int organizationID);
+    public List<Super> readByOrganizationID(int organizationID);
 
     //Returns a List of Supers spotted in a specific Location
-    public List<Super> getSupersByLocation(int locationID);
+    public List<Super> readByLocationID(int locationID);
 
 }

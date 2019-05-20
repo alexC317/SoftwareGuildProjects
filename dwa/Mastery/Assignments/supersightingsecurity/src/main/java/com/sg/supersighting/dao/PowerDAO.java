@@ -15,18 +15,18 @@ import java.util.List;
 public interface PowerDAO {
 
     //Create
-    public Power addNewPower(Power power);
+    public Power create(Power power);
 
     //Read All
-    public List<Power> getAllPowers();
+    public List<Power> readAll();
 
     //Read By ID
-    public Power getPowerByID(int powerID);
+    public Power readByID(int powerID);
 
     //Update
-    public Boolean updatePower(Power power);
+    public Boolean update(Power power);
 
     //Delete
-    public Boolean deletePower(int powerID);
+    public Boolean delete(int powerID);
 
 }

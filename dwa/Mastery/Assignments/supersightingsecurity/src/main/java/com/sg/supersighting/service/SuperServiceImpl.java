@@ -19,37 +19,37 @@ public class SuperServiceImpl implements SuperService {
 
     @Override
     public Super create(Super s) {
-        return superDAO.addNewSuper(s);
+        return superDAO.create(s);
     }
 
     @Override
     public List<Super> readAll() {
-        return superDAO.getAllSupers();
+        return superDAO.readAll();
     }
 
     @Override
     public Super readByID(int superID) {
-        return superDAO.getSuperByID(superID);
+        return superDAO.readByID(superID);
     }
 
     @Override
     public List<Super> readSupersByOrganization(int organizationID) {
-        return superDAO.getAllSupersByOrganization(organizationID);
+        return superDAO.readByOrganizationID(organizationID);
     }
 
     @Override
     public List<Super> readSupersByLocation(int locationID) {
-        return superDAO.getSupersByLocation(locationID);
+        return superDAO.readByLocationID(locationID);
     }
 
     @Override
     public void update(Super s) {
-        superDAO.updateSuper(s);
+        superDAO.update(s);
     }
 
     @Override
     public void delete(int superID) {
-        superDAO.deleteSuper(superID);
+        superDAO.delete(superID);
     }
 
 }

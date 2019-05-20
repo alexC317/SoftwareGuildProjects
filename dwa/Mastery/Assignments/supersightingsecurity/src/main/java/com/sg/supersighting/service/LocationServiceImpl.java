@@ -19,32 +19,32 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location create(Location location) {
-        return locationDAO.addNewLocation(location);
+        return locationDAO.create(location);
     }
 
     @Override
     public List<Location> readAll() {
-        return locationDAO.getAllLocations();
+        return locationDAO.readAll();
     }
 
     @Override
     public Location readByID(int locationID) {
-        return locationDAO.getLocationByID(locationID);
+        return locationDAO.readByID(locationID);
     }
 
     @Override
     public List<Location> readLocationsBySuper(int superID) {
-        return locationDAO.getLocationsBySuper(superID);
+        return locationDAO.readBySuperID(superID);
     }
 
     @Override
     public void update(Location location) {
-        locationDAO.updateLocation(location);
+        locationDAO.update(location);
     }
 
     @Override
     public void delete(int locationID) {
-        locationDAO.deleteLocation(locationID);
+        locationDAO.delete(locationID);
     }
 
 }

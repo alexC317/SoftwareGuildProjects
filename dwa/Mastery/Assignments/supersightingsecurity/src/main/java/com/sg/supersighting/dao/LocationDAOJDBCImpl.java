@@ -40,7 +40,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     @Transactional
-    public Location addNewLocation(Location location) {
+    public Location create(Location location) {
         jdbc.update(INSERT_NEW_LOCATION, location.getLocationName(), location.getLocationDescription(), location.getLocationAddress(),
                 location.getLocationLongitude(), location.getLocationLatitude());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -50,19 +50,19 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     @Transactional
-    public List<Location> getAllLocations() {
+    public List<Location> readAll() {
         return jdbc.query(SELECT_ALL_LOCATIONS, new LocationMapper());
     }
 
     @Override
     @Transactional
-    public Location getLocationByID(int locationID) {
+    public Location readByID(int locationID) {
         return jdbc.queryForObject(SELECT_LOCATION_BY_ID, new LocationMapper(), locationID);
     }
 
     @Override
     @Transactional
-    public Boolean updateLocation(Location location) {
+    public Boolean update(Location location) {
         return jdbc.update(UPDATE_LOCATION, location.getLocationName(), location.getLocationDescription(),
                 location.getLocationAddress(), location.getLocationLongitude(), location.getLocationLatitude(),
                 location.getLocationID()) > 0;
@@ -70,7 +70,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     @Transactional
-    public Boolean deleteLocation(int locationID) {
+    public Boolean delete(int locationID) {
         jdbc.update(DELETE_FROM_SIGHTINGS, locationID);
         jdbc.update(DELETE_FROM_ORGANIZATIONS, locationID);
         return jdbc.update(DELETE_LOCATION, locationID) > 0;
@@ -78,7 +78,7 @@ public class LocationDAOJDBCImpl implements LocationDAO {
 
     @Override
     @Transactional
-    public List<Location> getLocationsBySuper(int superID) {
+    public List<Location> readBySuperID(int superID) {
         List<Location> locations = jdbc.query(SELECT_LOCATIONS_BY_SUPER, new LocationMapper(), superID);
         return locations;
     }

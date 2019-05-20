@@ -15,21 +15,21 @@ import java.util.List;
 public interface OrganizationDAO {
 
     //Create
-    public Organization addNewOrganization(Organization organization);
+    public Organization create(Organization organization);
 
     //Read All
-    public List<Organization> getAllOrganizations();
+    public List<Organization> readAll();
 
     //Read By ID
-    public Organization getOrganizationByID(int organizationID);
+    public Organization readByID(int organizationID);
 
     //Update
-    public Boolean updateOrganization(Organization organization);
+    public Boolean update(Organization organization);
 
     //Delete
-    public Boolean deleteOrganization(int organizationID);
+    public Boolean delete(int organizationID);
     
     //Returns a List of Organizations that a Super belongs to
-    public List<Organization> getOrganizationsBySuper(int superID);
+    public List<Organization> readBySuperID(int superID);
 
 }

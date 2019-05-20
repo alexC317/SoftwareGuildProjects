@@ -20,32 +20,32 @@ public class SightingServiceImpl implements SightingService {
 
     @Override
     public Sighting create(Sighting sighting) {
-        return sightingDAO.addNewSighting(sighting);
+        return sightingDAO.create(sighting);
     }
 
     @Override
     public List<Sighting> readAll() {
-        return sightingDAO.getAllSightings();
+        return sightingDAO.readAll();
     }
 
     @Override
     public Sighting readByID(int sightingID) {
-        return sightingDAO.getSightingByID(sightingID);
+        return sightingDAO.readByID(sightingID);
     }
 
     @Override
     public List<Sighting> readSightingsByDate(LocalDate date) {
-        return sightingDAO.getSightingsByDate(date);
+        return sightingDAO.readByDate(date);
     }
 
     @Override
     public void update(Sighting sighting) {
-        sightingDAO.updateSighting(sighting);
+        sightingDAO.update(sighting);
     }
 
     @Override
     public void delete(int sightingID) {
-        sightingDAO.deleteSighting(sightingID);
+        sightingDAO.delete(sightingID);
     }
 
 }

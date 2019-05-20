@@ -45,7 +45,7 @@ public class SightingDAOJDBCImpl implements SightingDAO {
 
     @Override
     @Transactional
-    public Sighting addNewSighting(Sighting sighting) {
+    public Sighting create(Sighting sighting) {
         jdbc.update(INSERT_NEW_SIGHTING, sighting.getSightingID(), sighting.getSightingDate().toString(),
                 sighting.getSightingSuper().getSuperID(), sighting.getSightingLocation().getLocationID());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -55,7 +55,7 @@ public class SightingDAOJDBCImpl implements SightingDAO {
 
     @Override
     @Transactional
-    public List<Sighting> getAllSightings() {
+    public List<Sighting> readAll() {
         List<Sighting> sightings = jdbc.query(SELECT_ALL_SIGHTINGS, new SightingMapper());
         for (Sighting sighting : sightings) {
             getSuperForSighting(sighting);
@@ -66,7 +66,7 @@ public class SightingDAOJDBCImpl implements SightingDAO {
 
     @Override
     @Transactional
-    public Sighting getSightingByID(int sightingID) {
+    public Sighting readByID(int sightingID) {
         Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), sightingID);
         getSuperForSighting(sighting);
         getLocationForSighting(sighting);
@@ -76,20 +76,20 @@ public class SightingDAOJDBCImpl implements SightingDAO {
 
     @Override
     @Transactional
-    public boolean updateSighting(Sighting sighting) {
+    public boolean update(Sighting sighting) {
         return jdbc.update(UPDATE_SIGHTING, sighting.getSightingDate().toString(), sighting.getSightingSuper().getSuperID(),
                 sighting.getSightingLocation().getLocationID(), sighting.getSightingID()) > 0;
     }
 
     @Override
     @Transactional
-    public boolean deleteSighting(int sightingID) {
+    public boolean delete(int sightingID) {
         return jdbc.update(DELETE_SIGHTING, sightingID) > 0;
     }
 
     @Override
     @Transactional
-    public List<Sighting> getSightingsByDate(LocalDate date) {
+    public List<Sighting> readByDate(LocalDate date) {
         List<Sighting> sightings = jdbc.query(SELECT_SIGHTINGS_BY_DATE, new SightingMapper(), date.toString());
         for (Sighting sighting : sightings) {
             getSuperForSighting(sighting);

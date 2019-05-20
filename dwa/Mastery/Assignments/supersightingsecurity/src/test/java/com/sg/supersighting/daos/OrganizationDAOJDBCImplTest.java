@@ -59,19 +59,19 @@ public class OrganizationDAOJDBCImplTest {
 
     @Before
     public void setUp() {
-        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        List<Organization> organizations = organizationDAO.readAll();
         for (Organization organzation : organizations) {
-            organizationDAO.deleteOrganization(organzation.getOrganizationID());
+            organizationDAO.delete(organzation.getOrganizationID());
         }
 
-        List<Super> supers = superDAO.getAllSupers();
+        List<Super> supers = superDAO.readAll();
         for (Super s : supers) {
-            superDAO.deleteSuper(s.getSuperID());
+            superDAO.delete(s.getSuperID());
         }
 
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Location> locations = locationDAO.readAll();
         for (Location location : locations) {
-            locationDAO.deleteLocation(location.getLocationID());
+            locationDAO.delete(location.getLocationID());
         }
     }
 
@@ -86,7 +86,7 @@ public class OrganizationDAOJDBCImplTest {
         Super s = new Super();
         s.setSuperName("Superman");
         s.setSuperDescription("The greatest hero.");
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
         supers.add(s);
 
         Location location = new Location();
@@ -95,7 +95,7 @@ public class OrganizationDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Organization org = new Organization();
         org.setOrganizationName("Justice League");
@@ -103,9 +103,9 @@ public class OrganizationDAOJDBCImplTest {
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
         org.setSupers(supers);
-        organizationDAO.addNewOrganization(org);
+        organizationDAO.create(org);
 
-        Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
+        Organization fromDAO = organizationDAO.readByID(org.getOrganizationID());
 
         assertEquals(fromDAO, org);
 
@@ -119,16 +119,16 @@ public class OrganizationDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Organization org = new Organization();
         org.setOrganizationName("Justice League");
         org.setOrganizationDescription("World's Finest Heroes");
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(org);
+        organizationDAO.create(org);
 
-        Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
+        Organization fromDAO = organizationDAO.readByID(org.getOrganizationID());
 
         assertEquals(fromDAO, org);
 
@@ -142,23 +142,23 @@ public class OrganizationDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Organization org = new Organization();
         org.setOrganizationName("Justice League");
         org.setOrganizationDescription("World's Finest Heroes");
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(org);
+        organizationDAO.create(org);
 
         Organization org2 = new Organization();
         org2.setOrganizationName("Justice League of America");
         org2.setOrganizationDescription("America's Finest Heroes?");
         org2.setOrganizationContact("1-800-123-7890");
         org2.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(org2);
+        organizationDAO.create(org2);
 
-        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        List<Organization> organizations = organizationDAO.readAll();
         assertEquals(2, organizations.size());
         assertTrue(organizations.contains(org));
         assertTrue(organizations.contains(org2));
@@ -173,21 +173,21 @@ public class OrganizationDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Organization org = new Organization();
         org.setOrganizationName("Justice League");
         org.setOrganizationDescription("World's Finest Heroes");
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(org);
+        organizationDAO.create(org);
 
-        Organization fromDAO = organizationDAO.getOrganizationByID(org.getOrganizationID());
+        Organization fromDAO = organizationDAO.readByID(org.getOrganizationID());
         assertEquals(fromDAO, org);
 
         org.setOrganizationName("The Justice League of America");
         org.setOrganizationContact("1-800-123-4567, contact@jla.com");
-        organizationDAO.updateOrganization(org);
+        organizationDAO.update(org);
 
         assertNotEquals(fromDAO, org);
 
@@ -199,7 +199,7 @@ public class OrganizationDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
         powers.add(power);
 
         List<Super> supers = new ArrayList<>();
@@ -207,7 +207,7 @@ public class OrganizationDAOJDBCImplTest {
         s.setSuperName("Superman");
         s.setSuperDescription("The greatest hero.");
         s.setSuperPowers(powers);
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
         supers.add(s);
 
         Location location = new Location();
@@ -216,7 +216,7 @@ public class OrganizationDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Organization org = new Organization();
         org.setOrganizationName("Justice League");
@@ -224,22 +224,22 @@ public class OrganizationDAOJDBCImplTest {
         org.setOrganizationContact("1-800-123-4567");
         org.setOrganizationAddress(location);
         org.setSupers(supers);
-        organizationDAO.addNewOrganization(org);
+        organizationDAO.create(org);
 
         Organization org2 = new Organization();
         org2.setOrganizationName("Young Justice");
         org2.setOrganizationDescription("The Junior Members of the Justice League");
         org2.setOrganizationContact("titans@jla.com");
         org2.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(org2);
+        organizationDAO.create(org2);
 
-        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        List<Organization> organizations = organizationDAO.readAll();
         assertEquals(2, organizations.size());
         assertTrue(organizations.contains(org));
         assertTrue(organizations.contains(org2));
 
-        organizationDAO.deleteOrganization(org.getOrganizationID());
-        organizations = organizationDAO.getAllOrganizations();
+        organizationDAO.delete(org.getOrganizationID());
+        organizations = organizationDAO.readAll();
         assertEquals(1, organizations.size());
         assertTrue(organizations.contains(org2));
         assertFalse(organizations.contains(org));
@@ -247,7 +247,7 @@ public class OrganizationDAOJDBCImplTest {
     }
 
     /**
-     * Test of getOrganizationsBySuper method, of class OrganizationDAOJDBCImpl.
+     * Test of readBySuperID method, of class OrganizationDAOJDBCImpl.
      */
     @Test
     public void testGetOrganizationsBySuper() {
@@ -256,7 +256,7 @@ public class OrganizationDAOJDBCImplTest {
         Super batman = new Super();
         batman.setSuperName("Batman");
         batman.setSuperDescription("The World's Greatest Detective");
-        superDAO.addNewSuper(batman);
+        superDAO.create(batman);
         supers.add(batman);
 
         Location batcave = new Location();
@@ -265,7 +265,7 @@ public class OrganizationDAOJDBCImplTest {
         batcave.setLocationAddress("Wayne Manor");
         batcave.setLocationLatitude("+10");
         batcave.setLocationLongitude("+48");
-        locationDAO.addNewLocation(batcave);
+        locationDAO.create(batcave);
 
         Organization outsiders = new Organization();
         outsiders.setOrganizationName("The Outsiders");
@@ -273,7 +273,7 @@ public class OrganizationDAOJDBCImplTest {
         outsiders.setOrganizationContact("outsiders@wayneenterprises.com");
         outsiders.setOrganizationAddress(batcave);
         outsiders.setSupers(supers);
-        organizationDAO.addNewOrganization(outsiders);
+        organizationDAO.create(outsiders);
 
         Organization batmanInc = new Organization();
         batmanInc.setOrganizationName("Batman Inc.");
@@ -281,9 +281,9 @@ public class OrganizationDAOJDBCImplTest {
         batmanInc.setOrganizationContact("batmaninc@wayneenterprises.com");
         batmanInc.setOrganizationAddress(batcave);
         batmanInc.setSupers(supers);
-        organizationDAO.addNewOrganization(batmanInc);
+        organizationDAO.create(batmanInc);
 
-        List<Organization> batmanOrgs = organizationDAO.getOrganizationsBySuper(batman.getSuperID());
+        List<Organization> batmanOrgs = organizationDAO.readBySuperID(batman.getSuperID());
         assertEquals(2, batmanOrgs.size());
         assertTrue(batmanOrgs.contains(outsiders));
         assertTrue(batmanOrgs.contains(batmanInc));

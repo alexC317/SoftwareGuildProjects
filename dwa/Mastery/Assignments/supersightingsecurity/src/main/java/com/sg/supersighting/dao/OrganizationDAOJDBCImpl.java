@@ -53,7 +53,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     @Transactional
-    public Organization addNewOrganization(Organization organization) {
+    public Organization create(Organization organization) {
         jdbc.update(INSERT_NEW_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
                 organization.getOrganizationContact(), organization.getOrganizationAddress().getLocationID());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -64,7 +64,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     @Transactional
-    public List<Organization> getAllOrganizations() {
+    public List<Organization> readAll() {
         List<Organization> organizations = jdbc.query(SELECT_ALL_ORGANIZATIONS, new OrganizationMapper());
         for (Organization organization : organizations) {
             getLocationForOrganization(organization);
@@ -75,7 +75,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     @Transactional
-    public Organization getOrganizationByID(int organizationID) {
+    public Organization readByID(int organizationID) {
         Organization organization = jdbc.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationID);
         getLocationForOrganization(organization);
         getSupersForOrganization(organization);
@@ -84,7 +84,7 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     @Transactional
-    public Boolean updateOrganization(Organization organization) {
+    public Boolean update(Organization organization) {
         jdbc.update(DELETE_FROM_SUPERS_ORGANIZATION, organization.getOrganizationID());
         addSupersForOrganization(organization);
         return jdbc.update(UPDATE_ORGANIZATION, organization.getOrganizationName(), organization.getOrganizationDescription(),
@@ -94,14 +94,14 @@ public class OrganizationDAOJDBCImpl implements OrganizationDAO {
 
     @Override
     @Transactional
-    public Boolean deleteOrganization(int organizationID) {
+    public Boolean delete(int organizationID) {
         jdbc.update(DELETE_FROM_SUPERS_ORGANIZATION, organizationID);
         return jdbc.update(DELETE_ORGANIZATION, organizationID) > 0;
     }
 
     @Override
     @Transactional
-    public List<Organization> getOrganizationsBySuper(int superID) {
+    public List<Organization> readBySuperID(int superID) {
         List<Organization> organizations = jdbc.query(SELECT_ORGANIZATION_BY_SUPER, new OrganizationMapper(), superID);
         for (Organization organization : organizations) {
             getLocationForOrganization(organization);

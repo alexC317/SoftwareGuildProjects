@@ -16,21 +16,21 @@ import java.util.List;
 public interface SightingDAO {
 
     //Create
-    public Sighting addNewSighting(Sighting sighting);
+    public Sighting create(Sighting sighting);
 
     //Read All
-    public List<Sighting> getAllSightings();
+    public List<Sighting> readAll();
 
     //Read By ID
-    public Sighting getSightingByID(int sightingID);
+    public Sighting readByID(int sightingID);
 
     //Update
-    public boolean updateSighting(Sighting sighting);
+    public boolean update(Sighting sighting);
 
     //Delete
-    public boolean deleteSighting(int sightingID);
+    public boolean delete(int sightingID);
 
     //Returns a List of Sightings for a specific Date
-    public List<Sighting> getSightingsByDate(LocalDate date);
+    public List<Sighting> readByDate(LocalDate date);
 
 }

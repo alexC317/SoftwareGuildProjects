@@ -65,28 +65,28 @@ public class SuperDAOJDBCImplTest {
 
     @Before
     public void setUp() {
-        List<Power> powers = powerDAO.getAllPowers();
+        List<Power> powers = powerDAO.readAll();
         for (Power power : powers) {
-            powerDAO.deletePower(power.getPowerID());
+            powerDAO.delete(power.getPowerID());
         }
 
-        List<Super> supers = superDAO.getAllSupers();
+        List<Super> supers = superDAO.readAll();
         for (Super s : supers) {
-            superDAO.deleteSuper(s.getSuperID());
+            superDAO.delete(s.getSuperID());
         }
 
-        List<Location> locations = locationDAO.getAllLocations();
+        List<Location> locations = locationDAO.readAll();
         for (Location location : locations) {
-            locationDAO.deleteLocation(location.getLocationID());
+            locationDAO.delete(location.getLocationID());
         }
-        List<Organization> organizations = organizationDAO.getAllOrganizations();
+        List<Organization> organizations = organizationDAO.readAll();
         for (Organization organization : organizations) {
-            organizationDAO.deleteOrganization(organization.getOrganizationID());
+            organizationDAO.delete(organization.getOrganizationID());
         }
 
-        List<Sighting> sightings = sightingDAO.getAllSightings();
+        List<Sighting> sightings = sightingDAO.readAll();
         for (Sighting sighting : sightings) {
-            sightingDAO.deleteSighting(sighting.getSightingID());
+            sightingDAO.delete(sighting.getSightingID());
         }
     }
 
@@ -104,14 +104,14 @@ public class SuperDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly.");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         powers.add(power);
 
         s.setSuperPowers(powers);
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
 
-        Super fromDAO = superDAO.getSuperByID(s.getSuperID());
+        Super fromDAO = superDAO.readByID(s.getSuperID());
         assertEquals(fromDAO, s);
         assertTrue(fromDAO.getSuperPowers().contains(power));
 
@@ -122,9 +122,9 @@ public class SuperDAOJDBCImplTest {
         Super s = new Super();
         s.setSuperName("Superman");
         s.setSuperDescription("The greatest hero.");
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
 
-        Super fromDAO = superDAO.getSuperByID(s.getSuperID());
+        Super fromDAO = superDAO.readByID(s.getSuperID());
         assertEquals(fromDAO, s);
     }
 
@@ -138,7 +138,7 @@ public class SuperDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         supermanPowers.add(power);
 
@@ -152,10 +152,10 @@ public class SuperDAOJDBCImplTest {
         s.setSuperPowers(supermanPowers);
         s2.setSuperPowers(wonderWomanPower);
 
-        superDAO.addNewSuper(s);
-        superDAO.addNewSuper(s2);
+        superDAO.create(s);
+        superDAO.create(s2);
 
-        List<Super> fromDAO = superDAO.getAllSupers();
+        List<Super> fromDAO = superDAO.readAll();
         assertEquals(2, fromDAO.size());
         assertTrue(fromDAO.contains(s));
         assertTrue(fromDAO.contains(s2));
@@ -172,28 +172,28 @@ public class SuperDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         supermanPowers.add(power);
         s.setSuperPowers(supermanPowers);
 
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
 
-        Super fromDAO = superDAO.getSuperByID(s.getSuperID());
+        Super fromDAO = superDAO.readByID(s.getSuperID());
         assertEquals(fromDAO, s);
 
         s.setSuperDescription("The most human despite not being one");
         Power power2 = new Power();
         power2.setPowerName("Ice breath");
         power2.setPowerDescription("Able to freeze with breath");
-        powerDAO.addNewPower(power2);
+        powerDAO.create(power2);
 
         supermanPowers.add(power2);
         s.setSuperPowers(supermanPowers);
-        superDAO.updateSuper(s);
+        superDAO.update(s);
         assertNotEquals(fromDAO, s);
 
-        fromDAO = superDAO.getSuperByID(s.getSuperID());
+        fromDAO = superDAO.readByID(s.getSuperID());
         assertEquals(fromDAO, s);
 
     }
@@ -208,11 +208,11 @@ public class SuperDAOJDBCImplTest {
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         supermanPowers.add(power);
         s.setSuperPowers(supermanPowers);
-        superDAO.addNewSuper(s);
+        superDAO.create(s);
 
         Super s2 = new Super();
         s2.setSuperName("Wonder Woman");
@@ -220,22 +220,22 @@ public class SuperDAOJDBCImplTest {
         List<Power> wonderWomanPowers = new ArrayList<>();
         wonderWomanPowers.add(power);
         s2.setSuperPowers(wonderWomanPowers);
-        superDAO.addNewSuper(s2);
+        superDAO.create(s2);
 
-        List<Super> supers = superDAO.getAllSupers();
+        List<Super> supers = superDAO.readAll();
         assertEquals(2, supers.size());
         assertTrue(supers.contains(s));
         assertTrue(supers.contains(s2));
 
-        superDAO.deleteSuper(s.getSuperID());
-        supers = superDAO.getAllSupers();
+        superDAO.delete(s.getSuperID());
+        supers = superDAO.readAll();
         assertEquals(1, supers.size());
         assertTrue(supers.contains(s2));
         assertFalse(supers.contains(s));
     }
 
     /**
-     * Test of getAllSupersByOrganization method, of class SuperDAOJDBCImpl.
+     * Test of readByOrganizationID method, of class SuperDAOJDBCImpl.
      */
     @Test
     public void testGetAllSuperByOrganization() {
@@ -245,14 +245,14 @@ public class SuperDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         List<Power> supermanPowers = new ArrayList<>();
 
         Power power = new Power();
         power.setPowerName("Flight");
         power.setPowerDescription("Able to fly");
-        powerDAO.addNewPower(power);
+        powerDAO.create(power);
 
         supermanPowers.add(power);
 
@@ -269,9 +269,9 @@ public class SuperDAOJDBCImplTest {
         wonderWoman.setSuperName("Wonder Woman");
         wonderWoman.setSuperDescription("The Amazon of Themyscira");
 
-        superDAO.addNewSuper(superman);
-        superDAO.addNewSuper(batman);
-        superDAO.addNewSuper(wonderWoman);
+        superDAO.create(superman);
+        superDAO.create(batman);
+        superDAO.create(wonderWoman);
 
         List<Super> supers = new ArrayList<>();
         supers.add(superman);
@@ -284,9 +284,9 @@ public class SuperDAOJDBCImplTest {
         justiceLeague.setOrganizationContact("jl@dc.com");
         justiceLeague.setSupers(supers);
         justiceLeague.setOrganizationAddress(location);
-        organizationDAO.addNewOrganization(justiceLeague);
+        organizationDAO.create(justiceLeague);
 
-        List<Super> justiceLeagueRoster = superDAO.getAllSupersByOrganization(justiceLeague.getOrganizationID());
+        List<Super> justiceLeagueRoster = superDAO.readByOrganizationID(justiceLeague.getOrganizationID());
         assertEquals(3, justiceLeagueRoster.size());
         assertTrue(justiceLeagueRoster.contains(superman));
         assertTrue(justiceLeagueRoster.contains(batman));
@@ -295,7 +295,7 @@ public class SuperDAOJDBCImplTest {
     }
 
     /**
-     * Test of getSupersByLocation method, of class SuperDAOJDBCImpl.
+     * Test of readByLocationID method, of class SuperDAOJDBCImpl.
      */
     @Test
     public void testGetSightingsByLocation() {
@@ -305,7 +305,7 @@ public class SuperDAOJDBCImplTest {
         location.setLocationDescription("Justice League Headquarters");
         location.setLocationLatitude("00");
         location.setLocationLongitude("00");
-        locationDAO.addNewLocation(location);
+        locationDAO.create(location);
 
         Super superman = new Super();
         superman.setSuperName("Superman");
@@ -319,9 +319,9 @@ public class SuperDAOJDBCImplTest {
         wonderWoman.setSuperName("Wonder Woman");
         wonderWoman.setSuperDescription("The Amazon of Themyscira");
 
-        superDAO.addNewSuper(superman);
-        superDAO.addNewSuper(batman);
-        superDAO.addNewSuper(wonderWoman);
+        superDAO.create(superman);
+        superDAO.create(batman);
+        superDAO.create(wonderWoman);
 
         Sighting supermanSighting = new Sighting();
         supermanSighting.setSightingDate(LocalDate.now());
@@ -338,11 +338,11 @@ public class SuperDAOJDBCImplTest {
         wonderWomanSighting.setSightingSuper(wonderWoman);
         wonderWomanSighting.setSightingLocation(location);
 
-        sightingDAO.addNewSighting(supermanSighting);
-        sightingDAO.addNewSighting(batmanSighting);
-        sightingDAO.addNewSighting(wonderWomanSighting);
+        sightingDAO.create(supermanSighting);
+        sightingDAO.create(batmanSighting);
+        sightingDAO.create(wonderWomanSighting);
 
-        List<Super> superSightings = superDAO.getSupersByLocation(location.getLocationID());
+        List<Super> superSightings = superDAO.readByLocationID(location.getLocationID());
         assertEquals(3, superSightings.size());
         assertTrue(superSightings.contains(superman));
         assertTrue(superSightings.contains(batman));

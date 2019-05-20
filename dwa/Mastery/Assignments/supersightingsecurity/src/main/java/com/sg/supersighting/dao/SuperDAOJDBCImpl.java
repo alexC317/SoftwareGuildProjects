@@ -43,7 +43,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public Super addNewSuper(Super s) {
+    public Super create(Super s) {
         jdbc.update(INSERT_NEW_SUPER, s.getSuperName(), s.getSuperDescription());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         s.setSuperID(newID);
@@ -53,7 +53,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public List<Super> getAllSupers() {
+    public List<Super> readAll() {
         List<Super> supers = jdbc.query(SELECT_ALL_SUPERS, new SuperMapper());
         for (Super s : supers) {
             s.setSuperPowers(getPowersForSuper(s.getSuperID()));
@@ -63,7 +63,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public Super getSuperByID(int superID) {
+    public Super readByID(int superID) {
         Super s = jdbc.queryForObject(SELECT_SUPER_BY_ID, new SuperMapper(), superID);
         s.setSuperPowers(getPowersForSuper(superID));
         return s;
@@ -71,7 +71,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public Boolean updateSuper(Super s) {
+    public Boolean update(Super s) {
         updateSuperpowers(s);
         return jdbc.update(UPDATE_SUPER, s.getSuperName(), s.getSuperDescription(), s.getSuperID()) > 0;
 
@@ -79,7 +79,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public Boolean deleteSuper(int superID) {
+    public Boolean delete(int superID) {
         jdbc.update(DELETE_FROM_SIGHTINGS, superID);
         jdbc.update(DELETE_FROM_SUPERS_ORGANIZATIONS, superID);
         jdbc.update(DELETE_SUPERPOWERS, superID);
@@ -88,7 +88,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public List<Super> getAllSupersByOrganization(int organizationID) {
+    public List<Super> readByOrganizationID(int organizationID) {
         List<Super> supers = jdbc.query(SELECT_SUPERS_BY_ORGANIZATION, new SuperMapper(), organizationID);
         for (Super s : supers) {
             s.setSuperPowers(getPowersForSuper(s.getSuperID()));
@@ -98,7 +98,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     @Override
     @Transactional
-    public List<Super> getSupersByLocation(int locationID) {
+    public List<Super> readByLocationID(int locationID) {
         List<Super> supers = jdbc.query(SELECT_SUPERS_BY_LOCATION, new SuperMapper(), locationID);
         for (Super s : supers) {
             s.setSuperPowers(getPowersForSuper(s.getSuperID()));

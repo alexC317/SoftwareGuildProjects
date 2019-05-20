@@ -32,7 +32,7 @@ public class PowerDAOJDBCImpl implements PowerDAO {
 
     @Override
     @Transactional
-    public Power addNewPower(Power power) {
+    public Power create(Power power) {
         jdbc.update(INSERT_NEW_POWER, power.getPowerName(), power.getPowerDescription());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         power.setPowerID(newID);
@@ -41,13 +41,13 @@ public class PowerDAOJDBCImpl implements PowerDAO {
 
     @Override
     @Transactional
-    public List<Power> getAllPowers() {
+    public List<Power> readAll() {
         return jdbc.query(SELECT_ALL_POWERS, new PowerMapper());
     }
 
     @Override
     @Transactional
-    public Power getPowerByID(int powerID) {
+    public Power readByID(int powerID) {
         try {
             return jdbc.queryForObject(SELECT_POWER_BY_ID, new PowerMapper(), powerID);
         } catch (DataAccessException ex) {
@@ -57,13 +57,13 @@ public class PowerDAOJDBCImpl implements PowerDAO {
 
     @Override
     @Transactional
-    public Boolean updatePower(Power power) {
+    public Boolean update(Power power) {
         return jdbc.update(UPDATE_POWER, power.getPowerName(), power.getPowerDescription(), power.getPowerID()) > 0;
     }
 
     @Override
     @Transactional
-    public Boolean deletePower(int powerID) {
+    public Boolean delete(int powerID) {
         jdbc.update(DELETE_FROM_SUPERPOWERS, powerID);
         return jdbc.update(DELETE_POWER, powerID) > 0;
     }
