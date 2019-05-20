@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Super Sightings</title>
+</head>
+
+<body>
+    <!-- Main Body of Page -->
+    <div class="container">
+        <div class="row m-4">
+            <div class="col text-center border border-dark">
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+            <div class="col text-center m-3">
+                <a href="Powers" class="btn btn-outline-primary btn-lg">Powers</a>
+            </div>
+            <div class="col text-center m-3">
+                <a href="Supers" class="btn btn-outline-primary btn-lg">Supers</a>
+            </div>
+            <div class="col text-center m-3">
+                <a href="Locations" class="btn btn-outline-primary btn-lg">Locations</a>
+            </div>
+            <div class="col text-center m-3">
+                <a href="Organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+            </div>
+            <div class="col text-center m-3">
+                <a href="Sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+            <div class="col-3 text-center m-3">
+                <span class="h3">Edit Location</span>
+            </div>
+            <div class="col-7 text-center m-3">
+                <form action="editLocation" method="POST">
+                    <div class="form-group row">
+                        <label for="locationName" class="col-3 col-form-label">
+                            Location Name</label>
+                        <div class="col-9">
+                            <input type="text" name="locationName" id="locationName" class="form-control"
+                                th:value="${location.locationName}" />
+                            <div th:if="${#fields.hasErrors('location.locationName')}">
+                                <p th:each="error : ${#fields.errors('location.locationName')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad location name </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="locationDescription" class="col-3 col-form-label">
+                            Location Description</label>
+                        <div class="col-9">
+                            <input type="text" name="locationDescription" id="locationDescription" class="form-control"
+                                th:value="${location.locationDescription}" />
+                            <div th:if="${#fields.hasErrors('location.locationDescription')}">
+                                <p th:each="error : ${#fields.errors('location.locationDescription')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad location description </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="locationAddress" class="col-3 col-form-label">
+                            Location Address</label>
+                        <div class="col-9">
+                            <input type="text" name="locationAddress" id="locationAddress" class="form-control"
+                                th:value="${location.locationAddress}" />
+                            <div th:if="${#fields.hasErrors('location.locationAddress')}">
+                                <p th:each="error : ${#fields.errors('location.locationAddress')}" class="alert alert-danger" 
+                                    th:text="${error}"> Bad location address </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="locationLongitude" class="col-3 col-form-label">
+                            Location Longitude</label>
+                        <div class="col-9">
+                            <input type="text" name="locationLatitude" id="locationLatitude" class="form-control"
+                                th:value="${location.locationLatitude}" />
+                            <div th:if="${#fields.hasErrors('location.locationLatitude')}">
+                                <p th:each="error : ${#fields.errors('location.locationLatitude')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad location latitude </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="locationLatitude" class="col-3 col-form-label">
+                            Location Latitude</label>
+                        <div class="col-9">
+                            <input type="text" name="locationLongitude" id="locationLongitude" class="form-control"
+                                th:value="${location.locationLongitude}" />
+                            <div th:if="${#fields.hasErrors('location.locationLongitude')}">
+                                <p th:each="error : ${#fields.errors('location.locationLongitude')}" class="alert alert-danger" 
+                                th:text="${error}"> Bad location longitude </p>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="locationID" th:value="${location.locationID}" />
+                    <button type="submit" class="btn btn-primary form-group">Update Location</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End main body -->
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
