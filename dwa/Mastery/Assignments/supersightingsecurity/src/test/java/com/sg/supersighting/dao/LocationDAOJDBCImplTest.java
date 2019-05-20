@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.supersighting.daos;
+package com.sg.supersighting.dao;
 
 import com.sg.supersighting.dao.LocationDAO;
 import com.sg.supersighting.dao.SightingDAO;
