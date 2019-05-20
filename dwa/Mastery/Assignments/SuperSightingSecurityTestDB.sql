@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS superSightingDBTest;
+DROP DATABASE IF EXISTS superSightingSecurityDBTest;
 CREATE DATABASE superSightingSecurityDBTest;
 USE superSightingSecurityDBTest;
 
@@ -39,6 +39,14 @@ CREATE TABLE Superpowers(
     FOREIGN KEY (powerID) REFERENCES Powers(powerID)
 );
 
+CREATE TABLE Supers_Organizations(
+	superID INT NOT NULL,
+    organizationID INT NOT NULL,
+    FOREIGN KEY (superID) REFERENCES Supers(superID),
+    FOREIGN KEY (organizationID) REFERENCES Organizations(organizationID),
+    CONSTRAINT PK_SuperOrganization PRIMARY KEY (superID, organizationID)
+);
+
 CREATE TABLE Sightings(
 	sightingID INT PRIMARY KEY AUTO_INCREMENT,
     sightingDate DATE NOT NULL,
@@ -48,13 +56,22 @@ CREATE TABLE Sightings(
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
 );
 
-CREATE TABLE Supers_Organizations(
-	superID INT NOT NULL,
-    organizationID INT NOT NULL,
-    FOREIGN KEY (superID) REFERENCES Supers(superID),
-    FOREIGN KEY (organizationID) REFERENCES Organizations(organizationID),
-    CONSTRAINT PK_SuperOrganization PRIMARY KEY (superID, organizationID)
+CREATE TABLE Users(
+	userID INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    userPassword VARCHAR(50) NOT NULL,
+    enabled BOOLEAN NOT NULL
 );
 
+CREATE TABLE Roles(
+	roleID INT PRIMARY KEY AUTO_INCREMENT,
+    userRole VARCHAR(50) NOT NULL
+);
 
-
+CREATE TABLE Users_Roles(
+	userID INT NOT NULL,
+    roleID INT NOT NULL,
+    PRIMARY KEY(userID, roleID),
+    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (roleID) REFERENCES Roles(roleID)
+);
