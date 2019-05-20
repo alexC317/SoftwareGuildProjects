@@ -5,6 +5,8 @@
  */
 package com.sg.supersighting.dao;
 
+import com.sg.supersighting.dto.User;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,59 +25,43 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserDAOJDBCImplTest {
-    
+
+    @Autowired
+    UserDAO userDAO;
+
     public UserDAOJDBCImplTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        List<User> users = userDAO.readAll();
+        for (User user : users) {
+            userDAO.delete(user.getUserID());
+        }
     }
-    
+
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of create method, of class UserDAOJDBCImpl.
-     */
     @Test
     public void testCreate() {
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
+        userDAO.create(user);
+
+        User fromDAO = userDAO.readByID(user.getUserID());
+        assertEquals(fromDAO, user);
+        
     }
 
-    /**
-     * Test of readAll method, of class UserDAOJDBCImpl.
-     */
-    @Test
-    public void testReadAll() {
-    }
-
-    /**
-     * Test of readByID method, of class UserDAOJDBCImpl.
-     */
-    @Test
-    public void testReadByID() {
-    }
-
-    /**
-     * Test of update method, of class UserDAOJDBCImpl.
-     */
-    @Test
-    public void testUpdate() {
-    }
-
-    /**
-     * Test of delete method, of class UserDAOJDBCImpl.
-     */
-    @Test
-    public void testDelete() {
-    }
-    
 }
