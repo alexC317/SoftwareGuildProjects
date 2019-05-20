@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sg</groupId>
-    <artifactId>supersighting</artifactId>
+    <artifactId>supersightingsecurity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>supersighting</name>
+    <name>supersightingsecurity</name>
     <description>Project to track sightings of supers.</description>
 
     <properties>
