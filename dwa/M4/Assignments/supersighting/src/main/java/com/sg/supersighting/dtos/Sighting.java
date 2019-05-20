@@ -19,6 +19,9 @@ public class Sighting {
 
     private int sightingID;
 
+    @PastOrPresent(message = "Date must be valid")
+    @NotNull(message = "Date must be valid")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate sightingDate;
 
     private Super sightingSuper;
@@ -33,9 +36,6 @@ public class Sighting {
         this.sightingID = sightingID;
     }
 
-    @PastOrPresent(message = "Date must be valid")
-    @NotNull(message = "Date must be valid")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public LocalDate getSightingDate() {
         return sightingDate;
     }
