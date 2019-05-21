@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -67,11 +68,14 @@ public class SightingDAOJDBCImpl implements SightingDAO {
     @Override
     @Transactional
     public Sighting readByID(int sightingID) {
-        Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), sightingID);
-        getSuperForSighting(sighting);
-        getLocationForSighting(sighting);
-
-        return sighting;
+        try {
+            Sighting sighting = jdbc.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), sightingID);
+            getSuperForSighting(sighting);
+            getLocationForSighting(sighting);
+            return sighting;
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override

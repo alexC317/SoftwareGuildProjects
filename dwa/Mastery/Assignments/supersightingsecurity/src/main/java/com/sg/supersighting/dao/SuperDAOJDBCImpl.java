@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -64,9 +65,13 @@ public class SuperDAOJDBCImpl implements SuperDAO {
     @Override
     @Transactional
     public Super readByID(int superID) {
-        Super s = jdbc.queryForObject(SELECT_SUPER_BY_ID, new SuperMapper(), superID);
-        s.setSuperPowers(getPowersForSuper(superID));
-        return s;
+        try {
+            Super s = jdbc.queryForObject(SELECT_SUPER_BY_ID, new SuperMapper(), superID);
+            s.setSuperPowers(getPowersForSuper(superID));
+            return s;
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -129,7 +134,7 @@ public class SuperDAOJDBCImpl implements SuperDAO {
         addSuperpowers(s);
     }
 
-    public final static class SuperMapper implements RowMapper<Super> {
+    public static final class SuperMapper implements RowMapper<Super> {
 
         @Override
         public Super mapRow(ResultSet rs, int i) throws SQLException {
