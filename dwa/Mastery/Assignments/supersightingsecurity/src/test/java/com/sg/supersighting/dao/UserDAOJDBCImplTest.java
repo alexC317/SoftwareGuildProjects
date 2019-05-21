@@ -92,6 +92,29 @@ public class UserDAOJDBCImplTest {
         assertEquals(2, users.size());
         assertTrue(users.contains(user1));
         assertTrue(users.contains(user2));
+
+    }
+
+    @Test
+    public void testUpdate() {
+        Set<Role> roles = new HashSet();
+        User user = new User();
+        user.setUsername("username");
+        user.setPassword("password");
+        user.setRoles(roles);
+        user.setEnabled(true);
+        userDAO.create(user);
+
+        User fromDAO = userDAO.readByID(user.getUserID());
+        assertEquals(fromDAO, user);
+
+        user.setUsername("test name");
+        user.setEnabled(false);
+        assertNotEquals(fromDAO, user);
+        userDAO.update(user);
+
+        fromDAO = userDAO.readByID(user.getUserID());
+        assertEquals(fromDAO, user);
         
     }
 

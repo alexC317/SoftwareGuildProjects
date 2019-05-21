@@ -29,6 +29,8 @@ public class UserDAOJDBCImpl implements UserDAO {
     private final String SELECT_ALL_USERS = "SELECT userID, username, userPassword, enabled FROM users";
     private final String SELECT_USER_BY_ID = "SELECT userID, username, userPassword, enabled FROM users "
             + "WHERE userID = ?";
+    private final String UPDATE_USER = "UPDATE users SET username = ?, userPassword = ?, enabled = ? "
+            + "WHERE userID = ?";
     private final String DELETE_USER = "DELETE from users WHERE userID = ?";
 
     private final String INSERT_USER_ROLE = "INSERT INTO users_roles(userID, roleID) VALUES(?, ?)";
@@ -41,10 +43,7 @@ public class UserDAOJDBCImpl implements UserDAO {
         jdbc.update(INSERT_NEW_USER, user.getUsername(), user.getPassword(), user.isEnabled());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         user.setUserID(newID);
-        for (Role role : user.getRoles()) {
-
-            jdbc.update(INSERT_USER_ROLE, user.getUserID(), role.getRoleID());
-        }
+        addUserRoles(user);
         return user;
     }
 
@@ -52,7 +51,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     public List<User> readAll() {
         List<User> users = jdbc.query(SELECT_ALL_USERS, new UserMapper());
         for (User user : users) {
-            user.setRoles(getRolesForUser(user.getUserID()));
+            user.setRoles(getUserRoles(user.getUserID()));
         }
         return users;
     }
@@ -61,7 +60,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     public User readByID(int userID) {
         try {
             User user = jdbc.queryForObject(SELECT_USER_BY_ID, new UserMapper(), userID);
-            user.setRoles(getRolesForUser(user.getUserID()));
+            user.setRoles(getUserRoles(user.getUserID()));
             return user;
         } catch (DataAccessException ex) {
             return null;
@@ -70,7 +69,8 @@ public class UserDAOJDBCImpl implements UserDAO {
 
     @Override
     public boolean update(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        updateUserRoles(user);
+        return jdbc.update(UPDATE_USER, user.getUsername(), user.getPassword(), user.isEnabled(), user.getUserID()) > 0;
     }
 
     @Override
@@ -79,9 +79,20 @@ public class UserDAOJDBCImpl implements UserDAO {
         return jdbc.update(DELETE_USER, userID) > 0;
     }
 
-    private Set<Role> getRolesForUser(int userID) {
+    private void addUserRoles(User user) {
+        for (Role role : user.getRoles()) {
+            jdbc.update(INSERT_USER_ROLE, user.getUserID(), role.getRoleID());
+        }
+    }
+
+    private Set<Role> getUserRoles(int userID) {
         Set<Role> roles = new HashSet(jdbc.query(SELECT_ROLES_FOR_USER, new RoleMapper(), userID));
         return roles;
+    }
+
+    private void updateUserRoles(User user) {
+        jdbc.update(DELETE_USER_ROLES, user.getUserID());
+        addUserRoles(user);
     }
 
     public static final class UserMapper implements RowMapper<User> {
