@@ -24,11 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobalInMemory(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER")
+                .withUser("sidekick").password("{noop}password").roles("SIDEKICK")
                 .and()
-                .withUser("sidekick").password("{noop}password").roles("SIDEKICK", "USER")
-                .and()
-                .withUser("admin").password("{noop}password").roles("ADMIN", "USER");
+                .withUser("admin").password("{noop}password").roles("ADMIN", "SIDEKICK");
     }
 
     @Override
@@ -39,9 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/css/**", "/js/**", "/fonts/**").permitAll()
-                .antMatchers("/Powers", "/Supers", "/Locations", "/Organizations", "/Sightings").hasRole("ADMIN")
-                .antMatchers("/Powers", "/Supers", "/Locations", "/Organizations", "/Sightings").hasRole("SIDEKICK")
-                .antMatchers("/Sightings").hasRole("USER")
+                .anyRequest().hasRole("SIDEKICK")
                 
                 .and()
                 .formLogin()
