@@ -5,8 +5,11 @@
  */
 package com.sg.supersighting.dao;
 
+import com.sg.supersighting.dto.Role;
 import com.sg.supersighting.dto.User;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,14 +57,16 @@ public class UserDAOJDBCImplTest {
 
     @Test
     public void testCreate() {
+        Set<Role> roles = new HashSet();
         User user = new User();
         user.setUsername("username");
         user.setPassword("password");
+        user.setRoles(roles);
         userDAO.create(user);
 
         User fromDAO = userDAO.readByID(user.getUserID());
         assertEquals(fromDAO, user);
-        
+
     }
 
 }
