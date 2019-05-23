@@ -5,10 +5,18 @@
  */
 package com.sg.supersighting.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
 /**
  *
  * @author Alex
  */
+@Controller
 public class AdminController {
-    
+
+    @GetMapping("/admin")
+    public String displayAdminPage() {
+        return "admin";
+    }
 }
