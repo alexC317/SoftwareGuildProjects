@@ -82,9 +82,9 @@ INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (2, "sidekick"
 INSERT INTO Roles(roleID, userRole) VALUES (1, "ROLE_ADMIN");
 INSERT INTO Roles(roleID, userRole) VALUES (2, "ROLE_SIDEKICK");
 
-INSERT INTO Users(userID, roleID) VALUES (1, 1);
-INSERT INTO Users(userID, roleID) VALUES (1, 2);
-INSERT INTO Users(userID, roleID) VALUES (2, 2);
+INSERT INTO Users_Roles(userID, roleID) VALUES (1, 1);
+INSERT INTO Users_Roles(userID, roleID) VALUES (1, 2);
+INSERT INTO Users_Roles(userID, roleID) VALUES (2, 2);
 
-UPDATE users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 1;
-UPDATE users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 2;
+UPDATE Users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 1;
+UPDATE Users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 2;
