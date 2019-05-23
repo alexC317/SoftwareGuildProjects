@@ -29,6 +29,8 @@ public class UserDAOJDBCImpl implements UserDAO {
     private final String SELECT_ALL_USERS = "SELECT userID, username, userPassword, enabled FROM users";
     private final String SELECT_USER_BY_ID = "SELECT userID, username, userPassword, enabled FROM users "
             + "WHERE userID = ?";
+    private final String SELECT_USER_BY_USERNAME = "SELECT userID, username, userPassword, enabled FROM users "
+            + "WHERE username = ?";
     private final String UPDATE_USER = "UPDATE users SET username = ?, userPassword = ?, enabled = ? "
             + "WHERE userID = ?";
     private final String DELETE_USER = "DELETE from users WHERE userID = ?";
@@ -61,6 +63,17 @@ public class UserDAOJDBCImpl implements UserDAO {
         try {
             User user = jdbc.queryForObject(SELECT_USER_BY_ID, new UserMapper(), userID);
             user.setRoles(getUserRoles(user.getUserID()));
+            return user;
+        } catch (DataAccessException ex) {
+            return null;
+        }
+    }
+
+    @Override
+    public User readByUsername(String username) {
+        try {
+            User user = jdbc.queryForObject(SELECT_USER_BY_USERNAME, new UserMapper(), username);
+            user.setRoles((getUserRoles(user.getUserID())));
             return user;
         } catch (DataAccessException ex) {
             return null;

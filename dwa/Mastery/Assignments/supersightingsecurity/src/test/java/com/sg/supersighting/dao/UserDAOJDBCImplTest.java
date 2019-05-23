@@ -32,6 +32,9 @@ public class UserDAOJDBCImplTest {
     @Autowired
     UserDAO userDAO;
 
+    @Autowired
+    RoleDAO roleDAO;
+
     public UserDAOJDBCImplTest() {
     }
 
@@ -48,6 +51,11 @@ public class UserDAOJDBCImplTest {
         List<User> users = userDAO.readAll();
         for (User user : users) {
             userDAO.delete(user.getUserID());
+        }
+
+        List<Role> roles = roleDAO.readAll();
+        for (Role role : roles) {
+            roleDAO.delete(role.getRoleID());
         }
     }
 
@@ -96,6 +104,26 @@ public class UserDAOJDBCImplTest {
     }
 
     @Test
+    public void testReadByUsername() {
+        Role role = new Role();
+        role.setRole("test role");
+        roleDAO.create(role);
+        Set<Role> roles1 = new HashSet();
+        roles1.add(role);
+
+        User user1 = new User();
+        user1.setUsername("test 1");
+        user1.setPassword("password");
+        user1.setRoles(roles1);
+        user1.setEnabled(true);
+        userDAO.create(user1);
+
+        User fromDAO = userDAO.readByUsername(user1.getUsername());
+        assertEquals(fromDAO, user1);
+
+    }
+
+    @Test
     public void testUpdate() {
         Set<Role> roles = new HashSet();
         User user = new User();
@@ -140,13 +168,13 @@ public class UserDAOJDBCImplTest {
         assertEquals(2, fromDAO.size());
         assertTrue(fromDAO.contains(user1));
         assertTrue(fromDAO.contains(user2));
-        
+
         userDAO.delete(user1.getUserID());
         fromDAO = userDAO.readAll();
         assertEquals(1, fromDAO.size());
         assertFalse(fromDAO.contains(user1));
         assertTrue(fromDAO.contains(user2));
-        
+
     }
 
 }

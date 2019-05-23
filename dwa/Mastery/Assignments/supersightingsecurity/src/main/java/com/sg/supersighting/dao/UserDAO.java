@@ -22,6 +22,9 @@ public interface UserDAO {
 
     //Read By ID
     public User readByID(int userID);
+    
+    //Read By Username
+    public User readByUsername(String username);
 
     //Update
     public boolean update(User user);
