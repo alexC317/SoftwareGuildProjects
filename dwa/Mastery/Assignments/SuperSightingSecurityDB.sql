@@ -75,3 +75,13 @@ CREATE TABLE Users_Roles(
     FOREIGN KEY (userID) REFERENCES Users(userID),
     FOREIGN KEY (roleID) REFERENCES Roles(roleID)
 );
+
+INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "admin", "password", true);
+INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "sidekick", "password", true);
+
+INSERT INTO Users(roleID, userRole) VALUES (1, "ROLE_ADMIN");
+INSERT INTO Users(roleID, userRole) VALUES (2, "ROLE_SIDEKICK");
+
+INSERT INTO Users(userID, roleID) VALUES (1, 1);
+INSERT INTO Users(userID, roleID) VALUES (1, 2);
+INSERT INTO Users(userID, roleID) VALUES (2, 2);
