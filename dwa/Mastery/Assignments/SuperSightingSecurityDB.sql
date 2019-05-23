@@ -59,7 +59,7 @@ CREATE TABLE Sightings(
 CREATE TABLE Users(
 	userID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
-    userPassword VARCHAR(50) NOT NULL,
+    userPassword VARCHAR(60) NOT NULL,
     enabled BOOLEAN NOT NULL
 );
 
@@ -77,11 +77,14 @@ CREATE TABLE Users_Roles(
 );
 
 INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "admin", "password", true);
-INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "sidekick", "password", true);
+INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (2, "sidekick", "password", true);
 
-INSERT INTO Users(roleID, userRole) VALUES (1, "ROLE_ADMIN");
-INSERT INTO Users(roleID, userRole) VALUES (2, "ROLE_SIDEKICK");
+INSERT INTO Roles(roleID, userRole) VALUES (1, "ROLE_ADMIN");
+INSERT INTO Roles(roleID, userRole) VALUES (2, "ROLE_SIDEKICK");
 
 INSERT INTO Users(userID, roleID) VALUES (1, 1);
 INSERT INTO Users(userID, roleID) VALUES (1, 2);
 INSERT INTO Users(userID, roleID) VALUES (2, 2);
+
+UPDATE users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 1;
+UPDATE users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 2;
