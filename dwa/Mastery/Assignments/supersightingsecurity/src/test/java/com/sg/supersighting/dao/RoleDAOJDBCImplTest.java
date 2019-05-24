@@ -81,6 +81,16 @@ public class RoleDAOJDBCImplTest {
     }
 
     @Test
+    public void testReadByRole() {
+        Role role = new Role();
+        role.setRole("test");
+        roleDAO.create(role);
+
+        Role fromDAO = roleDAO.readByRole("test");
+        assertEquals(fromDAO, role);
+    }
+
+    @Test
     public void testUpdate() {
         Role role = new Role();
         role.setRole("test");

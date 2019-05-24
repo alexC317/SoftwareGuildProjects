@@ -23,9 +23,12 @@ public class RoleDAOJDBCImpl implements RoleDAO {
 
     private final String INSERT_NEW_ROLE = "INSERT INTO roles(userRole) VALUES (?)";
     private final String SELECT_ALL_ROLES = "SELECT roleID, userRole FROM roles";
-    private final String SELECT_ROLE_BY_ID = "SELECT roleID, userRole from roles WHERE roleID = ?";
+    private final String SELECT_ROLE_BY_ID = "SELECT roleID, userRole FROM roles WHERE roleID = ?";
+    private final String SELECT_ROLE_BY_ROLE = "SELECT roleID, userRole FROM roles WHERE userRole = ?";
     private final String UPDATE_ROLE = "UPDATE roles SET userRole = ? WHERE roleID = ?";
     private final String DELETE_ROLE = "DELETE FROM roles WHERE roleID = ?";
+
+    private final String DELETE_FROM_USERS_ROLES = "DELETE FROM users_roles WHERE roleID = ?";
 
     @Override
     public Role create(Role role) {
@@ -50,12 +53,22 @@ public class RoleDAOJDBCImpl implements RoleDAO {
     }
 
     @Override
+    public Role readByRole(String role) {
+        try {
+            return jdbc.queryForObject(SELECT_ROLE_BY_ROLE, new RoleMapper(), role);
+        } catch (DataAccessException ex) {
+            return null;
+        }
+    }
+
+    @Override
     public boolean update(Role role) {
         return jdbc.update(UPDATE_ROLE, role.getRole(), role.getRoleID()) > 0;
     }
 
     @Override
     public boolean delete(int roleID) {
+        jdbc.update(DELETE_FROM_USERS_ROLES, roleID);
         return jdbc.update(DELETE_ROLE, roleID) > 0;
     }
 

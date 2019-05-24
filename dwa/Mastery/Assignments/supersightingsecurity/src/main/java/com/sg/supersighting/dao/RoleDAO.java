@@ -23,6 +23,9 @@ public interface RoleDAO {
     //Read By ID
     public Role readByID(int roleID);
 
+    //Read By Role
+    public Role readByRole(String role);
+
     //Update
     public boolean update(Role role);
 
