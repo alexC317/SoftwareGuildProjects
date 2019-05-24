@@ -27,7 +27,7 @@ and open the template in the editor.
                 <h1><a href="/" class="text-dark">Super Sightings</a></h1>
             </div>
         </div>
-        <div class="row m-4 border border-dark">
+        <div class="row m-4 border border-dark" sec:authorize="isAuthenticated()">
             <div class="col text-center m-3">
                 <a href="Powers" class="btn btn-outline-primary btn-lg">Powers</a>
             </div>
