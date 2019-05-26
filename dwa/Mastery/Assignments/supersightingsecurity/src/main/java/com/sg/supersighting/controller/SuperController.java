@@ -101,6 +101,9 @@ public class SuperController {
         List<Power> powers = powerService.readAll();
         model.addAttribute("super", s);
         model.addAttribute("powers", powers);
+        if (s.getSuperPowers() == null) {
+            s.setSuperPowers(new ArrayList<>());
+        }
         model.addAttribute("existingPowers", s.getSuperPowers());
         return "editSuper";
     }

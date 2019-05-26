@@ -122,11 +122,11 @@ public class SuperDAOJDBCImpl implements SuperDAO {
 
     private List<Power> getPowersForSuper(int superID) {
         List<Power> powers = jdbc.query(SELECT_POWERS_FOR_SUPER, new PowerMapper(), superID);
-//        if (powers.isEmpty()) {
-//            return null;
-//        } else {
+        if (powers.isEmpty()) {
+            return null;
+        } else {
             return powers;
-//        }
+        }
     }
 
     private void updateSuperpowers(Super s) {
