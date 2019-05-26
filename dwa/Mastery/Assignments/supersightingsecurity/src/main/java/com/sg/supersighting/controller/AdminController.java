@@ -10,6 +10,7 @@ import com.sg.supersighting.dao.UserDAO;
 import com.sg.supersighting.dto.Role;
 import com.sg.supersighting.dto.User;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,56 @@ public class AdminController {
         users.create(user);
 
         return "redirect:/admin";
+    }
+
+    @GetMapping("/editUser")
+    public String editUserDisplay(Model model, Integer userID, Integer error) {
+        User user = users.readByID(userID);
+        List roleList = roles.readAll();
+
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleList);
+
+        if (error != null) {
+            if (error == 1) {
+                model.addAttribute("error", "Passwords did not match, password was not updated.");
+            }
+        }
+
+        return "editUser";
+    }
+
+    @PostMapping(value = "/editUser")
+    public String editUserAction(String[] roleIdList, Boolean enabled, Integer userID) {
+        User user = users.readByID(userID);
+        if (enabled != null) {
+            user.setEnabled(enabled);
+        } else {
+            user.setEnabled(false);
+        }
+
+        Set<Role> roleList = new HashSet<>();
+        for (String roleId : roleIdList) {
+            Role role = roles.readByID(Integer.parseInt(roleId));
+            roleList.add(role);
+        }
+        user.setRoles(roleList);
+        users.update(user);
+
+        return "redirect:/admin";
+    }
+
+    @PostMapping("editPassword")
+    public String editPassword(Integer userID, String password, String confirmPassword) {
+        User user = users.readByID(userID);
+
+        if (password.equals(confirmPassword)) {
+            user.setPassword(encoder.encode(password));
+            users.update(user);
+            return "redirect:/admin";
+        } else {
+            return "redirect:/editUser?userID=" + userID + "&error=1";
+        }
     }
 
     @PostMapping("/deleteUser")

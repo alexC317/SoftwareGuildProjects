@@ -18,6 +18,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserDAOJDBCImpl implements UserDAO {
@@ -41,6 +42,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     private final String DELETE_USER_ROLES = "DELETE FROM users_roles WHERE userID = ?";
 
     @Override
+    @Transactional
     public User create(User user) {
         jdbc.update(INSERT_NEW_USER, user.getUsername(), user.getPassword(), user.isEnabled());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -50,6 +52,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public List<User> readAll() {
         List<User> users = jdbc.query(SELECT_ALL_USERS, new UserMapper());
         for (User user : users) {
@@ -59,6 +62,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public User readByID(int userID) {
         try {
             User user = jdbc.queryForObject(SELECT_USER_BY_ID, new UserMapper(), userID);
@@ -70,6 +74,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public User readByUsername(String username) {
         try {
             User user = jdbc.queryForObject(SELECT_USER_BY_USERNAME, new UserMapper(), username);
@@ -81,12 +86,14 @@ public class UserDAOJDBCImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public boolean update(User user) {
         updateUserRoles(user);
         return jdbc.update(UPDATE_USER, user.getUsername(), user.getPassword(), user.isEnabled(), user.getUserID()) > 0;
     }
 
     @Override
+    @Transactional
     public boolean delete(int userID) {
         jdbc.update(DELETE_USER_ROLES, userID);
         return jdbc.update(DELETE_USER, userID) > 0;

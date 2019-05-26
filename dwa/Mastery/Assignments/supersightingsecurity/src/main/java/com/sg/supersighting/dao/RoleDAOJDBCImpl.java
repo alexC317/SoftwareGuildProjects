@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class RoleDAOJDBCImpl implements RoleDAO {
@@ -31,6 +32,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
     private final String DELETE_FROM_USERS_ROLES = "DELETE FROM users_roles WHERE roleID = ?";
 
     @Override
+    @Transactional
     public Role create(Role role) {
         jdbc.update(INSERT_NEW_ROLE, role.getRole());
         int newID = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
@@ -39,11 +41,13 @@ public class RoleDAOJDBCImpl implements RoleDAO {
     }
 
     @Override
+    @Transactional
     public List<Role> readAll() {
         return jdbc.query(SELECT_ALL_ROLES, new RoleMapper());
     }
 
     @Override
+    @Transactional
     public Role readByID(int roleID) {
         try {
             return jdbc.queryForObject(SELECT_ROLE_BY_ID, new RoleMapper(), roleID);
@@ -53,6 +57,7 @@ public class RoleDAOJDBCImpl implements RoleDAO {
     }
 
     @Override
+    @Transactional
     public Role readByRole(String role) {
         try {
             return jdbc.queryForObject(SELECT_ROLE_BY_ROLE, new RoleMapper(), role);
@@ -62,11 +67,13 @@ public class RoleDAOJDBCImpl implements RoleDAO {
     }
 
     @Override
+    @Transactional
     public boolean update(Role role) {
         return jdbc.update(UPDATE_ROLE, role.getRole(), role.getRoleID()) > 0;
     }
 
     @Override
+    @Transactional
     public boolean delete(int roleID) {
         jdbc.update(DELETE_FROM_USERS_ROLES, roleID);
         return jdbc.update(DELETE_ROLE, roleID) > 0;
