@@ -22,10 +22,22 @@ and open the template in the editor.
 <body>
     <!-- Main Body of Page -->
     <div class="container">
-        <h1>Something went wrong!</h1>
-        <h2 th:text="${errorCode}">AAAAAAAA</h2>
-        <h2 th:text="${errorMessage}">AAAAAAAA</h2>
-        <a href="/">Return home</a>
+        <div class="row m-4">
+            <div class="col text-center border border-dark">
+                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+            </div>
+        </div>
+        <div class="row m-4">
+            <div class="col text-center border border-dark">
+                <h1 class="col-12">Something went wrong!</h1>
+                <h2 class="col-12" th:text="${errorCode}">AAAAAAAA</h2>
+                <h2 class="col-12" th:text="${errorMessage}">AAAAAAAA</h2>
+                <a class="col-12" href="/">
+                    <h3>Return home</h3>
+                </a>
+            </div>
+
+        </div>
     </div>
     <!-- End main body -->
 
