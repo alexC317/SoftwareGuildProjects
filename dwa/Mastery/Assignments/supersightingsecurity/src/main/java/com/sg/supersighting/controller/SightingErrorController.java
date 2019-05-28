@@ -28,6 +28,8 @@ public class SightingErrorController implements ErrorController {
             model.addAttribute("errorCode", "Error code: " + status.toString());
             if (status.toString().equals("404")) {
                 message = "Page not found";
+            } else if (status.toString().equals("500")) {
+                message = "Internal Server Error";
             }
             model.addAttribute("errorMessage", "Error message: " + message.toString() + ".");
         }
