@@ -1,0 +1,9 @@
+head, body {
+    background-color: #21201f;
+    color: #ccb820;
+    font-family: 'Roboto', sans-serif;
+}
+
+a:visited {
+    color: #ccb820;
+}
