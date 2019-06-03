@@ -75,3 +75,10 @@ CREATE TABLE Users_Roles(
     FOREIGN KEY (userID) REFERENCES Users(userID),
     FOREIGN KEY (roleID) REFERENCES Roles(roleID)
 );
+
+CREATE TABLE Files(
+	fileID INT PRIMARY KEY AUTO_INCREMENT,
+    fileName VARCHAR(50) NOT NULL,
+    superID INT NOT NULL UNIQUE,
+    FOREIGN KEY (superID) REFERENCES Supers(superID)
+);

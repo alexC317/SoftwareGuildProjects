@@ -29,6 +29,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -55,7 +57,8 @@ public class SuperController {
     LocationService locationService;
 
     @PostMapping("addSuper")
-    public String addSuper(Super s, HttpServletRequest request) {
+    public String addSuper(Super s, HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        s.setFile(file);
         String[] powerIDs = request.getParameterValues("powerID");
         if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();

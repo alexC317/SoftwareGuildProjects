@@ -5,11 +5,17 @@
  */
 package com.sg.supersighting.service;
 
+import com.sg.supersighting.dao.FileDAO;
 import com.sg.supersighting.dao.SuperDAO;
 import com.sg.supersighting.dto.Super;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SuperServiceImpl implements SuperService {
@@ -17,8 +23,26 @@ public class SuperServiceImpl implements SuperService {
     @Autowired
     SuperDAO superDAO;
 
+    @Autowired
+    FileDAO fileDAO;
+
+    private static final String UPLOAD_FOLDER = "src/main/resources/uploads/";
+
     @Override
     public Super create(Super s) {
+        MultipartFile file = s.getFile();
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
+                Files.write(path, bytes);
+                fileDAO.create(file, s.getSuperID());
+            } catch (IOException e) {
+            }
+
+        }
+
         return superDAO.create(s);
     }
 
