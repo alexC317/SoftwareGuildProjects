@@ -27,7 +27,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1><a href="/">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -63,7 +63,7 @@ and open the template in the editor.
                             <input type="text" name="locationName" id="locationName" class="form-control"
                                 th:value="${location.locationName}" />
                             <div th:if="${#fields.hasErrors('location.locationName')}">
-                                <p th:each="error : ${#fields.errors('location.locationName')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('location.locationName')}" class="alert alert-danger"
                                 th:text="${error}"> Bad location name </p>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ and open the template in the editor.
                             <input type="text" name="locationDescription" id="locationDescription" class="form-control"
                                 th:value="${location.locationDescription}" />
                             <div th:if="${#fields.hasErrors('location.locationDescription')}">
-                                <p th:each="error : ${#fields.errors('location.locationDescription')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('location.locationDescription')}" class="alert alert-danger"
                                 th:text="${error}"> Bad location description </p>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ and open the template in the editor.
                             <input type="text" name="locationAddress" id="locationAddress" class="form-control"
                                 th:value="${location.locationAddress}" />
                             <div th:if="${#fields.hasErrors('location.locationAddress')}">
-                                <p th:each="error : ${#fields.errors('location.locationAddress')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('location.locationAddress')}" class="alert alert-danger"
                                     th:text="${error}"> Bad location address </p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ and open the template in the editor.
                             <input type="text" name="locationLatitude" id="locationLatitude" class="form-control"
                                 th:value="${location.locationLatitude}" />
                             <div th:if="${#fields.hasErrors('location.locationLatitude')}">
-                                <p th:each="error : ${#fields.errors('location.locationLatitude')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('location.locationLatitude')}" class="alert alert-danger"
                                 th:text="${error}"> Bad location latitude </p>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ and open the template in the editor.
                             <input type="text" name="locationLongitude" id="locationLongitude" class="form-control"
                                 th:value="${location.locationLongitude}" />
                             <div th:if="${#fields.hasErrors('location.locationLongitude')}">
-                                <p th:each="error : ${#fields.errors('location.locationLongitude')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('location.locationLongitude')}" class="alert alert-danger"
                                 th:text="${error}"> Bad location longitude </p>
                             </div>
                         </div>

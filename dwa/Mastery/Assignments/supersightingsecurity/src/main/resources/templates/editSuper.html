@@ -27,7 +27,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1><a href="/">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -63,7 +63,7 @@ and open the template in the editor.
                             <input type="text" name="superName" id="superName" class="form-control"
                                 th:value="${super.superName}" />
                             <div th:if="${#fields.hasErrors('super.superName')}">
-                                <p th:each="error : ${#fields.errors('super.superName')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('super.superName')}" class="alert alert-danger"
                                 th:text="${error}"> Bad super name</p>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ and open the template in the editor.
                             <input type="text" name="superDescription" id="superDescription" class="form-control"
                                 th:value="${super.superDescription}" />
                             <div th:if="${#fields.hasErrors('super.superDescription')}">
-                                <p th:each="error : ${#fields.errors('super.superDescription')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('super.superDescription')}" class="alert alert-danger"
                                 th:text="${error}"> Bad super description </p>
                             </div>
                         </div>

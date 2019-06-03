@@ -27,7 +27,7 @@ and open the template in the editor.
     <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1><a href="/">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -63,7 +63,7 @@ and open the template in the editor.
                             <input type="date" name="sightingDate" id="sightingDate" class="form-control"
                                 th:value="${sighting.sightingDate}">
                             <div th:if="${#fields.hasErrors('sighting.sightingDate')}">
-                                <p th:each="error : ${#fields.errors('sighting.sightingDate')}" class="alert alert-danger" 
+                                <p th:each="error : ${#fields.errors('sighting.sightingDate')}" class="alert alert-danger"
                                 th:text="${error}"> Bad organization contact </p>
                             </div>
                         </div>

@@ -27,7 +27,7 @@ and open the template in the editor.
     <div class="container" sec:authorize="isAuthenticated()">
         <div class="row m-4">
             <div class="col text-center border border-dark">
-                <h1><a href="/" class="text-dark">Super Sightings</a></h1>
+                <h1><a href="/">Super Sightings</a></h1>
             </div>
         </div>
         <div class="row m-4 justify-content-end" sec:authorize="isAuthenticated()">
@@ -37,8 +37,8 @@ and open the template in the editor.
                     Hello : <span th:text="${#authentication.name}">
                         </span>&nbsp;&nbsp;&nbsp;|
                 </label>
-                <button class="btn btn-link" 
-                        id="submit" 
+                <button class="btn btn-link"
+                        id="submit"
                         type="submit">Logout</button>
             </form>
         </div>
