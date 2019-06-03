@@ -79,8 +79,7 @@ CREATE TABLE Users_Roles(
 CREATE TABLE Files(
 	fileID INT PRIMARY KEY AUTO_INCREMENT,
     fileName VARCHAR(50) NOT NULL,
-    superID INT NOT NULL UNIQUE,
-    FOREIGN KEY (superID) REFERENCES Supers(superID)
+    superID INT NOT NULL UNIQUE
 );
 
 INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "admin", "password", true);

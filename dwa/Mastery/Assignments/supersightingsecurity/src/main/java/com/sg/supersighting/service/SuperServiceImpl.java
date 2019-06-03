@@ -40,7 +40,6 @@ public class SuperServiceImpl implements SuperService {
                 fileDAO.create(file, s.getSuperID());
             } catch (IOException e) {
             }
-
         }
 
         return superDAO.create(s);
@@ -48,12 +47,20 @@ public class SuperServiceImpl implements SuperService {
 
     @Override
     public List<Super> readAll() {
-        return superDAO.readAll();
+        List<Super> supers = superDAO.readAll();
+//        for (Super s : supers) {
+//            MultipartFile file = fileDAO.readBySuperID(s.getSuperID());
+//            s.setFile(file);
+//        }
+        return supers;
     }
 
     @Override
     public Super readByID(int superID) {
-        return superDAO.readByID(superID);
+        Super s = superDAO.readByID(superID);
+        MultipartFile file = fileDAO.readBySuperID(superID);
+        s.setFile(file);
+        return s;
     }
 
     @Override

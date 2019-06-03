@@ -5,6 +5,8 @@
  */
 package com.sg.supersighting.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +21,7 @@ public class FileDAOJDBCImpl implements FileDAO {
     private JdbcTemplate jdbc;
 
     private final String INSERT_NEW_FILE = "INSERT INTO files(fileName, superID) VALUES (?, ?)";
-    private final String SELECT_BY_SUPER_ID = "SELECT fileName, superID FROM files WHERE superID = ?";
+    private final String SELECT_BY_SUPER_ID = "SELECT fileName FROM files WHERE superID = ?";
 
     @Override
     @Transactional
@@ -35,12 +37,14 @@ public class FileDAOJDBCImpl implements FileDAO {
 
     @Override
     public MultipartFile readByID(int fileID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public MultipartFile readBySuperID(int superID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String filename = jdbc.queryForObject(SELECT_BY_SUPER_ID, String.class, superID);
+        MultipartFile file = (MultipartFile) new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
+        return file;
     }
 
     @Override
