@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -25,6 +26,8 @@ public class Super {
     @NotBlank(message = "Super description must not be empty.")
     @Size(max = 50, message = "Cannot not be more than 50 characters")
     private String superDescription;
+
+    private MultipartFile file;
 
     private List<Power> superPowers;
 
@@ -50,6 +53,14 @@ public class Super {
 
     public void setSuperDescription(String superDescription) {
         this.superDescription = superDescription;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
     public List<Power> getSuperPowers() {
