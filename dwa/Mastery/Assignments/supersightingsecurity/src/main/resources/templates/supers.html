@@ -93,13 +93,13 @@ and open the template in the editor.
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                         <label for="file" class="col-3 col-form-label">
                             Select a file to upload</label>
                         <div class="col-9">
                             <input type="file" name="file" id="file" class="form-control"/>
                         </div>
-                    </div>
+                    </div> -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <button type="submit" class="btn btn-primary">Add Super</button>
                 </form>

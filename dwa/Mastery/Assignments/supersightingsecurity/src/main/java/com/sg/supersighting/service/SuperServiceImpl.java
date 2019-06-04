@@ -30,17 +30,17 @@ public class SuperServiceImpl implements SuperService {
 
     @Override
     public Super create(Super s) {
-        MultipartFile file = s.getFile();
-
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
-                Files.write(path, bytes);
-                fileDAO.create(file, s.getSuperID());
-            } catch (IOException e) {
-            }
-        }
+//        MultipartFile file = s.getFile();
+//
+//        if (!file.isEmpty()) {
+//            try {
+//                byte[] bytes = file.getBytes();
+//                Path path = Paths.get(UPLOAD_FOLDER + file.getOriginalFilename());
+//                Files.write(path, bytes);
+//                fileDAO.create(file, s.getSuperID());
+//            } catch (IOException e) {
+//            }
+//        }
 
         return superDAO.create(s);
     }
@@ -58,8 +58,8 @@ public class SuperServiceImpl implements SuperService {
     @Override
     public Super readByID(int superID) {
         Super s = superDAO.readByID(superID);
-        MultipartFile file = fileDAO.readBySuperID(superID);
-        s.setFile(file);
+//        MultipartFile file = fileDAO.readBySuperID(superID);
+//        s.setFile(file);
         return s;
     }
 

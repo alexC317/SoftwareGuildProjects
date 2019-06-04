@@ -7,9 +7,12 @@ package com.sg.supersighting.dao;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,9 +45,13 @@ public class FileDAOJDBCImpl implements FileDAO {
 
     @Override
     public MultipartFile readBySuperID(int superID) {
-        String filename = jdbc.queryForObject(SELECT_BY_SUPER_ID, String.class, superID);
-        MultipartFile file = (MultipartFile) new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
-        return file;
+        try {
+            String filename = jdbc.queryForObject(SELECT_BY_SUPER_ID, new FileMapper(), superID);
+            MultipartFile file = (MultipartFile) new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
+            return file;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
@@ -57,4 +64,12 @@ public class FileDAOJDBCImpl implements FileDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    private static final class FileMapper implements RowMapper<String> {
+
+        @Override
+        public String mapRow(ResultSet rs, int i) throws SQLException {
+            return rs.getString("fileName");
+        }
+
+    }
 }

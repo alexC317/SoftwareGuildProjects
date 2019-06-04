@@ -57,8 +57,8 @@ public class SuperController {
     LocationService locationService;
 
     @PostMapping("addSuper")
-    public String addSuper(Super s, HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-        s.setFile(file);
+    public String addSuper(Super s, HttpServletRequest request) {
+//        s.setFile(file);
         String[] powerIDs = request.getParameterValues("powerID");
         if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();
