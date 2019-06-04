@@ -35,7 +35,7 @@ and open the template in the editor.
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <label for="submit">
                     Hello : <span th:text="${#authentication.name}">
-                            </span>&nbsp;&nbsp;&nbsp;|
+                        </span>&nbsp;&nbsp;&nbsp;|
                 </label>
                 <button class="btn btn-link"
                         id="submit"
@@ -62,41 +62,59 @@ and open the template in the editor.
                 <a href="admin" class="btn btn-outline-primary btn-lg">Admin</a>
             </div>
         </div>
-        <div class="row m-4 border border-dark">
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="row m-4 border border-dark">
             <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
                 <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">Error message</p>
             </div>
             <div class="col-3 text-center m-3">
-                <span class="h3">Add Super</span>
+                <span class="h3">Add Organization</span>
             </div>
             <div class="col-7 text-center m-3">
-                <form action="addSuper" method="POST" enctype="multipart/form-data">
+                <form action="addOrganization" method="POST">
                     <div class="form-group row">
-                        <label for="superName" class="col-3 col-form-label">
-                            Super Name</label>
+                        <label for="organizationName" class="col-3 col-form-label">
+                            Organization Name</label>
                         <div class="col-9">
-                            <input type="text" name="superName" id="superName" class="form-control" />
+                            <input type="text" name="organizationName" id="organizationName" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superDescription" class="col-3 col-form-label">
-                            Super Description</label>
+                        <label for="organizationDescription" class="col-3 col-form-label">
+                            Organization Description</label>
                         <div class="col-9">
-                            <input type="text" name="superDescription" id="superDescription" class="form-control" />
+                            <input type="text" name="organizationDescription" id="organizationDescription"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superPowers" class="col-3 col-form-label">
-                            Superpowers</label>
+                        <label for="organizationContact" class="col-3 col-form-label">
+                            Organization Contact</label>
                         <div class="col-9">
-                            <select multiple name="powerID" id="superPowers" class="form-control">
-                                <option th:each="power : ${powers}" th:value="${power.powerID}"
-                                    th:text="${power.powerName}">Power</option>
+                            <input type="text" name="organizationContact" id="organizationContact" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="organizationAddress" class="col-3 col-form-label">
+                            Organization Location</label>
+                        <div class="col-9">
+                            <select id="organizationAddress" name="locationID" class="form-control">
+                                <option th:each="location : ${locations}" th:value="${location.locationID}"
+                                    th:text="${location.locationName}">organizationAddress</option>
                             </select>
                         </div>
                     </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-primary">Add Super</button>
+                    <div class="form-group row">
+                        <label for="supers" class="col-3 col-form-label">
+                            Supers</label>
+                        <div class="col-9">
+                            <select multiple id="supers" name="superID" class="form-control">
+                                <option th:each="super : ${supers}" th:value="${super.superID}"
+                                    th:text="${super.superName}">Supers</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-primary">Add Organization</button>
                 </form>
             </div>
         </div>
@@ -114,13 +132,18 @@ and open the template in the editor.
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="super : ${supers}">
-                            <td th:text="${super.superID}">ID</td>
-                            <td th:text="${super.superName}">Name</td>
-                            <td th:text="${super.superDescription}">Description</td>
-                            <td><a href="#" th:href="@{/detailSuper(superID=${super.superID})}">Details</a></td>
-                            <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
+                        <tr th:each="organization : ${organizations}">
+                            <td th:text="${organization.organizationID}">ID</td>
+                            <td th:text="${organization.organizationName}">Name</td>
+                            <td th:text="${organization.organizationDescription}">Description</td>
+                            <td><a href="#"
+                                    th:href="@{/detailOrganization(organizationID=${organization.organizationID})}">Details</a>
+                            </td>
+                            <td><a href="#"
+                                    th:href="@{/editOrganization(organizationID=${organization.organizationID})}">Edit</a>
+                            </td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"
+                                    th:href="@{/deleteOrganization(organizationID=${organization.organizationID})}">Delete</a>
                             </td>
                         </tr>
                     </tbody>

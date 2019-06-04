@@ -24,23 +24,11 @@ and open the template in the editor.
 
 <body>
     <!-- Main Body of Page -->
-    <div class="container" sec:authorize="isAuthenticated()">
+    <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
                 <h1><a href="/">Super Sightings</a></h1>
             </div>
-        </div>
-        <div class="row m-4 justify-content-end" sec:authorize="isAuthenticated()">
-            <form class="form-inline" method="POST" action="/logout">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <label for="submit">
-                    Hello : <span th:text="${#authentication.name}">
-                            </span>&nbsp;&nbsp;&nbsp;|
-                </label>
-                <button class="btn btn-link"
-                        id="submit"
-                        type="submit">Logout</button>
-            </form>
         </div>
         <div class="row m-4 border border-dark">
             <div class="col text-center m-3">
@@ -59,72 +47,53 @@ and open the template in the editor.
                 <a href="Sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
             </div>
             <div sec:authorize="hasRole('ROLE_ADMIN')" class="col text-center m-3">
-                <a href="admin" class="btn btn-outline-primary btn-lg">Admin</a>
+                <a href="Admin" class="btn btn-outline-primary btn-lg">Admin</a>
             </div>
         </div>
         <div class="row m-4 border border-dark">
-            <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
-                <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">Error message</p>
-            </div>
             <div class="col-3 text-center m-3">
-                <span class="h3">Add Super</span>
+                <span class="h3">Edit Sighting</span>
             </div>
             <div class="col-7 text-center m-3">
-                <form action="addSuper" method="POST" enctype="multipart/form-data">
+                <form action="editSighting" method="POST">
                     <div class="form-group row">
-                        <label for="superName" class="col-3 col-form-label">
-                            Super Name</label>
+                        <label for="sightingDate" class="col-3 col-form-label">
+                            Sighting Date</label>
                         <div class="col-9">
-                            <input type="text" name="superName" id="superName" class="form-control" />
+                            <input type="date" name="sightingDate" id="sightingDate" class="form-control"
+                                th:value="${sighting.sightingDate}">
+                            <div th:if="${#fields.hasErrors('sighting.sightingDate')}">
+                                <p th:each="error : ${#fields.errors('sighting.sightingDate')}" class="alert alert-danger"
+                                th:text="${error}"> Bad organization contact </p>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superDescription" class="col-3 col-form-label">
-                            Super Description</label>
+                        <label for="supers" class="col-3 col-form-label">
+                            Supers</label>
                         <div class="col-9">
-                            <input type="text" name="superDescription" id="superDescription" class="form-control" />
+                            <select id="supers" name="superID" class="form-control">
+                                <option th:each="super : ${supers}" th:value="${super.superID}"
+                                    th:selected="${super.equals(existingSuper)}" th:text="${super.superName}">
+                                    Supers</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superPowers" class="col-3 col-form-label">
-                            Superpowers</label>
+                        <label for="sightingLocation" class="col-3 col-form-label">
+                            Sighting Location</label>
                         <div class="col-9">
-                            <select multiple name="powerID" id="superPowers" class="form-control">
-                                <option th:each="power : ${powers}" th:value="${power.powerID}"
-                                    th:text="${power.powerName}">Power</option>
+                            <select id="sightingLocation" name="locationID" class="form-control">
+                                <option th:each="location : ${locations}" th:value="${location.locationID}"
+                                    th:selected="${location.equals(existingLocation)}"
+                                    th:text="${location.locationName}">Sighting Location</option>
                             </select>
                         </div>
                     </div>
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-primary">Add Super</button>
+                    <input type="hidden" name="sightingID" th:value="${sighting.sightingID}">
+                    <button type="submit" class="btn btn-primary">Edit Sighting</button>
                 </form>
-            </div>
-        </div>
-        <div class="row m-4 border border-dark">
-            <div class="col text-center m-3">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Details</th>
-                            <th>Edit</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="super : ${supers}">
-                            <td th:text="${super.superID}">ID</td>
-                            <td th:text="${super.superName}">Name</td>
-                            <td th:text="${super.superDescription}">Description</td>
-                            <td><a href="#" th:href="@{/detailSuper(superID=${super.superID})}">Details</a></td>
-                            <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

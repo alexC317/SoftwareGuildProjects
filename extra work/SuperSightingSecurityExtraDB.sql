@@ -76,6 +76,11 @@ CREATE TABLE Users_Roles(
     FOREIGN KEY (roleID) REFERENCES Roles(roleID)
 );
 
+CREATE TABLE Files(
+    fileName VARCHAR(255) NOT NULL,
+    superID INT NOT NULL UNIQUE
+);
+
 INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "admin", "password", true);
 INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (2, "sidekick", "password", true);
 

@@ -28,9 +28,8 @@ public class FileDAOJDBCImpl implements FileDAO {
 
     @Override
     @Transactional
-    public MultipartFile create(MultipartFile file, int superID) {
-        jdbc.update(INSERT_NEW_FILE, file.getOriginalFilename(), superID);
-        return file;
+    public void create(String file, int superID) {
+        jdbc.update(INSERT_NEW_FILE, file, superID);
     }
 
     @Override

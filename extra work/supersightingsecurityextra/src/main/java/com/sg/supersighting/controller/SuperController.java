@@ -9,6 +9,7 @@ import com.sg.supersighting.dto.Location;
 import com.sg.supersighting.dto.Organization;
 import com.sg.supersighting.dto.Power;
 import com.sg.supersighting.dto.Super;
+import com.sg.supersighting.service.FileService;
 import com.sg.supersighting.service.LocationService;
 import com.sg.supersighting.service.OrganizationService;
 import com.sg.supersighting.service.PowerService;
@@ -29,6 +30,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -54,8 +57,12 @@ public class SuperController {
     @Autowired
     LocationService locationService;
 
+    @Autowired
+    FileService fileService;
+
     @PostMapping("addSuper")
     public String addSuper(Super s, HttpServletRequest request) {
+//        s.setFile(file);
         String[] powerIDs = request.getParameterValues("powerID");
         if (powerIDs != null) {
             List<Power> powers = new ArrayList<>();
@@ -69,6 +76,7 @@ public class SuperController {
         if (violations.isEmpty()) {
             superService.create(s);
         }
+        fileService.create(request.getServletContext().getRealPath("/"), s.getFile(), s.getSuperID());
         return "redirect:/Supers";
     }
 
@@ -85,13 +93,15 @@ public class SuperController {
     }
 
     @GetMapping("detailSuper")
-    public String detailSuper(Integer superID, Model model) {
+    public String detailSuper(Integer superID, Model model, HttpServletRequest request) {
         Super s = superService.readByID(superID);
+        MultipartFile file = fileService.readBySuperID(request.getServletContext().getRealPath("/"), s.getSuperID());
         List<Organization> organizations = organizationService.readAllBySuper(superID);
         List<Location> locations = locationService.readLocationsBySuper(superID);
         model.addAttribute("super", s);
         model.addAttribute("organizations", organizations);
         model.addAttribute("locations", locations);
+        model.addAttribute("file", file);
         return "detailSuper";
     }
 

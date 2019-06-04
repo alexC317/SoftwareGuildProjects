@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS superSightingSecurityDB;
-CREATE DATABASE superSightingSecurityDB;
-USE superSightingSecurityDB;
+DROP DATABASE IF EXISTS superSightingSecurityDBTest;
+CREATE DATABASE superSightingSecurityDBTest;
+USE superSightingSecurityDBTest;
 
 CREATE TABLE Supers(
 	superID INT PRIMARY KEY AUTO_INCREMENT,
@@ -15,7 +15,7 @@ CREATE TABLE Powers(
 );
 CREATE TABLE Locations(
 	locationID INT PRIMARY KEY AUTO_INCREMENT,
-    locationName VARCHAR(50) NOT NULL,
+    locationName VARCHAR(60) NOT NULL,
     locationDescription VARCHAR(60) NOT NULL,
     locationAddress VARCHAR(60) NOT NULL,
     locationLongitude VARCHAR(50), 
@@ -59,7 +59,7 @@ CREATE TABLE Sightings(
 CREATE TABLE Users(
 	userID INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
-    userPassword VARCHAR(60) NOT NULL,
+    userPassword VARCHAR(50) NOT NULL,
     enabled BOOLEAN NOT NULL
 );
 
@@ -76,15 +76,7 @@ CREATE TABLE Users_Roles(
     FOREIGN KEY (roleID) REFERENCES Roles(roleID)
 );
 
-INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (1, "admin", "password", true);
-INSERT INTO Users(userID, userName, userPassword, enabled) VALUES (2, "sidekick", "password", true);
-
-INSERT INTO Roles(roleID, userRole) VALUES (1, "ROLE_ADMIN");
-INSERT INTO Roles(roleID, userRole) VALUES (2, "ROLE_SIDEKICK");
-
-INSERT INTO Users_Roles(userID, roleID) VALUES (1, 1);
-INSERT INTO Users_Roles(userID, roleID) VALUES (1, 2);
-INSERT INTO Users_Roles(userID, roleID) VALUES (2, 2);
-
-UPDATE Users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 1;
-UPDATE Users SET userPassword = '$2a$10$FZoRcPPwDCE0HSRoEVnTBuZcPOuWkyi.jjar2cwH.c0cVy4oqQpAS' WHERE userID = 2;
+CREATE TABLE Files(
+    fileName VARCHAR(255) NOT NULL,
+    superID INT NOT NULL UNIQUE
+);
