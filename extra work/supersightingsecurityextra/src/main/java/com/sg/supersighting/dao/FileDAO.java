@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface FileDAO {
 
     //Create
-    public MultipartFile create(MultipartFile file, int superID);
+    public void create(String file, int superID);
 
     //ReadAll
     public List<MultipartFile> readAll();

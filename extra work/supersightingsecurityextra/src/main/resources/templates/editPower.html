@@ -51,35 +51,39 @@ and open the template in the editor.
             </div>
         </div>
         <div class="row m-4 border border-dark">
-            <div class="col-6 text-right"><strong>ID</strong></div>
-            <div class="col-6 text-left">
-                <span th:text="${super.superID}">display id</span>
+            <div class="col-3 text-center m-3">
+                <span class="h3">Edit Power</span>
             </div>
-            <div class="col-6 text-right"><strong>Name</strong></div>
-            <div class="col-6 text-left">
-                <span th:text="${super.superName}">displayName</span>
-            </div>
-            <div class="col-6 text-right"><strong>Description</strong></div>
-            <div class="col-6 text-left">
-                <span th:text="${super.superDescription}">displayDescription</span>
-            </div>
-            <div class="col-6 text-right"><strong>Powers</strong></div>
-            <div class="col-6 text-left">
-                <span th:each="power : ${super.superPowers}">
-                    <span th:text="${power.powerName}">displayPowers</span><br />
-                </span>
-            </div>
-            <div class="col-6 text-right"><strong>Organizations</strong></div>
-            <div class="col-6 text-left">
-                <span th:each="organization : ${organizations}">
-                    <span th:text="${organization.OrganizationName}">displayOrganizations</span><br />
-                </span>
-            </div>
-            <div class="col-6 text-right"><strong>Sightings</strong></div>
-            <div class="col-6 text-left">
-                <span th:each="location : ${locations}">
-                    <span th:text="${location.locationName}">displayLocations</span><br />
-                </span>
+            <div class="col-7 text-center m-3">
+                <form action="editPower" method="POST">
+                    <div class="form-group row">
+                        <label for="powerName" class="col-3 col-form-label">
+                            Power Name</label>
+                        <div class="col-9">
+                            <input type="text" name="powerName" id="powerName" class="form-control"
+                                th:value="${power.powerName}" />
+                            <div th:if="${#fields.hasErrors('power.powerName')}">
+                                <p th:each="error : ${#fields.errors('power.powerName')}" class="alert alert-danger"
+                                th:text="${error}">Bad power name</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="powerDescription" class="col-3 col-form-label">
+                            Power Description</label>
+                        <div class="col-9">
+                            <input type="text" name="powerDescription" id="powerDescription" class="form-control"
+                                th:value="${power.powerDescription}" />
+                            <div th:if="${#fields.hasErrors('power.powerDescription')}">
+                                <p th:each="error : ${#fields.errors('power.powerDescription')}" class="alert alert-danger"
+                                th:text="${error}">Bad power description</p>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input type="hidden" name="powerID" th:value="${power.powerID}" />
+                    <button type="submit" class="btn btn-primary form-group">Update Power</button>
+                </form>
             </div>
         </div>
     </div>

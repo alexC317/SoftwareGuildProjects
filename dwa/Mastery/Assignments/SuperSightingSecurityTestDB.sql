@@ -75,8 +75,3 @@ CREATE TABLE Users_Roles(
     FOREIGN KEY (userID) REFERENCES Users(userID),
     FOREIGN KEY (roleID) REFERENCES Roles(roleID)
 );
-
-CREATE TABLE Files(
-    fileName VARCHAR(50) NOT NULL,
-    superID INT NOT NULL UNIQUE
-);

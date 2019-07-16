@@ -24,7 +24,7 @@ and open the template in the editor.
 
 <body>
     <!-- Main Body of Page -->
-    <div class="container" sec:authorize="isAuthenticated()">
+    <div class="container">
         <div class="row m-4">
             <div class="col text-center border border-dark">
                 <h1><a href="/">Super Sightings</a></h1>
@@ -35,14 +35,14 @@ and open the template in the editor.
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <label for="submit">
                     Hello : <span th:text="${#authentication.name}">
-                            </span>&nbsp;&nbsp;&nbsp;|
+                              </span>&nbsp;&nbsp;&nbsp;|
                 </label>
-                <button class="btn btn-link"
-                        id="submit"
-                        type="submit">Logout</button>
+                <button class="btn btn-link" 
+                    id="submit" 
+                    type="submit">Logout</button>
             </form>
         </div>
-        <div class="row m-4 border border-dark">
+        <div class="row m-4 border border-dark" sec:authorize="isAuthenticated()">
             <div class="col text-center m-3">
                 <a href="Powers" class="btn btn-outline-primary btn-lg">Powers</a>
             </div>
@@ -62,42 +62,19 @@ and open the template in the editor.
                 <a href="admin" class="btn btn-outline-primary btn-lg">Admin</a>
             </div>
         </div>
-        <div class="row m-4 border border-dark">
-            <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
-                <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">Error message</p>
+        <div class="row m-4 border border-dark text-center">
+            <div class="col-12 text-center">
+                <h3 class="text-center">Welcome to the Super Sighting app!</h3>
             </div>
-            <div class="col-3 text-center m-3">
-                <span class="h3">Add Super</span>
-            </div>
-            <div class="col-7 text-center m-3">
-                <form action="addSuper" method="POST" enctype="multipart/form-data">
-                    <div class="form-group row">
-                        <label for="superName" class="col-3 col-form-label">
-                            Super Name</label>
-                        <div class="col-9">
-                            <input type="text" name="superName" id="superName" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="superDescription" class="col-3 col-form-label">
-                            Super Description</label>
-                        <div class="col-9">
-                            <input type="text" name="superDescription" id="superDescription" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="superPowers" class="col-3 col-form-label">
-                            Superpowers</label>
-                        <div class="col-9">
-                            <select multiple name="powerID" id="superPowers" class="form-control">
-                                <option th:each="power : ${powers}" th:value="${power.powerID}"
-                                    th:text="${power.powerName}">Power</option>
-                            </select>
-                        </div>
-                    </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-primary">Add Super</button>
-                </form>
+            <div class="col-12 text-center">
+                <p class="text-center">This app helps keep track of the various heroes and villains in our city!</p>
+                <p class="text-center">The different tabs will take you to pages where you can edit information about
+                    powers, supers, locations and organizations.</p>
+                <p class="text-center">You'll also be able to set sightings if you've seen a super at a particular
+                    location!
+                </p>
+                <p class="text-center">The 10 latest sightings will be highlighted below!</p>
+                <p class="text-center"></p>
             </div>
         </div>
         <div class="row m-4 border border-dark">
@@ -106,31 +83,30 @@ and open the template in the editor.
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Details</th>
-                            <th>Edit</th>
-                            <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
+                            <th>Date</th>
+                            <th>Super</th>
+                            <th>Location</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="super : ${supers}">
-                            <td th:text="${super.superID}">ID</td>
-                            <td th:text="${super.superName}">Name</td>
-                            <td th:text="${super.superDescription}">Description</td>
-                            <td><a href="#" th:href="@{/detailSuper(superID=${super.superID})}">Details</a></td>
-                            <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
-                            </td>
+                        <tr th:each="sighting : ${sightings}">
+                            <td th:text="${sighting.sightingID}">ID</td>
+                            <td th:text="${sighting.sightingDate}">Date</td>
+                            <td th:text="${sighting.sightingSuper.superName}">Super</td>
+                            <td th:text="${sighting.sightingLocation.locationName}">Location</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="row m-4 justify-content-center" sec:authorize="isAnonymous()">
+            <form class="form-inline" method="POST" action="/login">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button class="btn btn-primary">Login</button>
+            </form>
+        </div>
     </div>
     <!-- End main body -->
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

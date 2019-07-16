@@ -5,17 +5,29 @@
  */
 package com.sg.supersighting.service;
 
+import com.sg.supersighting.dao.FileDAO;
 import com.sg.supersighting.dao.SuperDAO;
 import com.sg.supersighting.dto.Super;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SuperServiceImpl implements SuperService {
 
     @Autowired
     SuperDAO superDAO;
+
+    @Autowired
+    FileDAO fileDAO;
+    
+    @Autowired
+    FileService fileService;
 
     @Override
     public Super create(Super s) {
@@ -24,7 +36,12 @@ public class SuperServiceImpl implements SuperService {
 
     @Override
     public List<Super> readAll() {
-        return superDAO.readAll();
+        List<Super> supers = superDAO.readAll();
+//        for (Super s : supers) {
+//            MultipartFile file = fileDAO.readBySuperID(s.getSuperID());
+//            s.setFile(file);
+//        }
+        return supers;
     }
 
     @Override

@@ -62,41 +62,54 @@ and open the template in the editor.
                 <a href="admin" class="btn btn-outline-primary btn-lg">Admin</a>
             </div>
         </div>
+
         <div class="row m-4 border border-dark">
             <div class="col-12 m-1 text-center" th:if="${!errors.isEmpty()}">
                 <p class="alert alert-danger" th:each="error : ${errors}" th:text="${error.message}">Error message</p>
             </div>
             <div class="col-3 text-center m-3">
-                <span class="h3">Add Super</span>
+                <span class="h3">Add Location</span>
             </div>
             <div class="col-7 text-center m-3">
-                <form action="addSuper" method="POST" enctype="multipart/form-data">
+                <form action="addLocation" method="POST">
                     <div class="form-group row">
-                        <label for="superName" class="col-3 col-form-label">
-                            Super Name</label>
+                        <label for="locationName" class="col-3 col-form-label">
+                            Location Name</label>
                         <div class="col-9">
-                            <input type="text" name="superName" id="superName" class="form-control" />
+                            <input type="text" name="locationName" id="locationName" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superDescription" class="col-3 col-form-label">
-                            Super Description</label>
+                        <label for="locationDescription" class="col-3 col-form-label">
+                            Location Description</label>
                         <div class="col-9">
-                            <input type="text" name="superDescription" id="superDescription" class="form-control" />
+                            <input type="text" name="locationDescription" id="locationDescription"
+                                class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="superPowers" class="col-3 col-form-label">
-                            Superpowers</label>
+                        <label for="locationAddress" class="col-3 col-form-label">
+                            Location Address</label>
                         <div class="col-9">
-                            <select multiple name="powerID" id="superPowers" class="form-control">
-                                <option th:each="power : ${powers}" th:value="${power.powerID}"
-                                    th:text="${power.powerName}">Power</option>
-                            </select>
+                            <input type="text" name="locationAddress" id="locationAddress" class="form-control">
                         </div>
                     </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-primary">Add Super</button>
+                    <div class="form-group row">
+                        <label for="locationLatitude" class="col-3 col-form-label">
+                            Location Latitude</label>
+                        <div class="col-9">
+                            <input type="text" name="locationLatitude" id="locationLatitude" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-3 col-form-label">
+                            Location Longitude</label>
+                        <div class="col-9"><input type="text" name="locationLongitude" id="locationLongitude"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="btn btn-primary">Add Location</button>
                 </form>
             </div>
         </div>
@@ -108,19 +121,24 @@ and open the template in the editor.
                             <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
-                            <th>Details</th>
+                            <th>Address</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
                             <th>Edit</th>
                             <th sec:authorize="hasRole('ROLE_ADMIN')">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="super : ${supers}">
-                            <td th:text="${super.superID}">ID</td>
-                            <td th:text="${super.superName}">Name</td>
-                            <td th:text="${super.superDescription}">Description</td>
-                            <td><a href="#" th:href="@{/detailSuper(superID=${super.superID})}">Details</a></td>
-                            <td><a href="#" th:href="@{/editSuper(superID=${super.superID})}">Edit</a></td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#" th:href="@{/deleteSuper(superID=${super.superID})}">Delete</a>
+                        <tr th:each="location: ${locations}">
+                            <td th:text="${location.locationID}">ID</td>
+                            <td th:text="${location.locationName}">Power</td>
+                            <td th:text="${location.locationDescription}">Description</td>
+                            <td th:text="${location.locationAddress}">Address</td>
+                            <td th:text="${location.locationLatitude}">Latitude</td>
+                            <td th:text="${location.locationLongitude}">Longitude</td>
+                            <td><a href="#" th:href="@{/editLocation(locationID=${location.locationID})}">Edit</a></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"
+                                    th:href="@{/deleteLocation(locationID=${location.locationID})}">Delete</a>
                             </td>
                         </tr>
                     </tbody>

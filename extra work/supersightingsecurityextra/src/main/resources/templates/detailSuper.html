@@ -81,6 +81,12 @@ and open the template in the editor.
                     <span th:text="${location.locationName}">displayLocations</span><br />
                 </span>
             </div>
+            <div class="col-6 text-right"><strong>File</strong></div>
+            <div class="col-6 text-left">
+                <span th:each="${file}">
+                    <span th:text="${file.contentType}">File image</span><br />
+                </span>
+            </div>
         </div>
     </div>
     <!-- End main body -->
